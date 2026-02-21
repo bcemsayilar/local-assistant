@@ -32,6 +32,10 @@ WATCHED_DIRS = [
 ]
 WATCHED_EXTENSIONS = {".pdf", ".md", ".txt", ".docx", ".html"}
 
+# Obsidian / GraphThulhu MCP
+OBSIDIAN_VAULT = os.getenv("OBSIDIAN_VAULT", "~/ObsidianVault")
+GRAPHTHULHU_URL = os.getenv("GRAPHTHULHU_URL", "http://localhost:8585")
+
 # Agent
 MAX_AGENT_ITERATIONS = 5
 CONTEXT_WINDOW_MESSAGES = 20
