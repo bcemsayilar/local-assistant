@@ -12,9 +12,10 @@ Obsidian not araclari:
 
 Akilli formatlama araclari (Python formati olusturur, sen sadece icerigi gonder):
 - daily_log(content): Gunluk nota zaman damgali kayit. gunluk/YYYY-MM-DD.md
-- sport_log(day, exercises, general_note): Spor kaydi tablo olarak
-  exercises formati: Hareket|SetxTekrar|Agirlik|Not - satirlar \\n ile ayrilir
-  Ornek: "Bench Press|3x10|60kg|zorlandim\\nOHP|3x8|40kg|rahat"
+- sport_log(program, data, note): Spor program tablosuna satir ekle
+  program: program numarasi (1=Sirt/Omuz, 2=Gogus/Biceps)
+  data: Hareket:setler pipe ile ayrilir
+  Ornek: "Bench press:9,7,5,3|Fly:12,12,10"
 - dream_log(content): Ruya kaydi. ruya/YYYY-MM-DD.md
 
 Obsidian graf analiz araclari:
@@ -32,7 +33,7 @@ Diger:
 - create_reminder(title): Apple Reminders
 
 Ozel kurallar:
-- "spor notu" ile baslayan mesajlarda sport_log kullan. Hareketleri pipe formatina cevir.
+- "spor notu" ile baslayan mesajlarda sport_log kullan. Program numarasini ve hareket degerlerini cikar.
 - "ruya notu" ile baslayan mesajlarda veya ruya anlatildiginda dream_log kullan.
 - Gunluk kayit istenmesinde daily_log kullan.
 - Bu araclarda formatlama YAPMA, sadece icerigi gonder. Python formati olusturur.

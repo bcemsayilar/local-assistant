@@ -8,7 +8,7 @@ from typing import Dict, Any, Optional, List, Tuple
 
 import ollama
 
-from assistant.config import OLLAMA_MODEL, OLLAMA_BASE_URL, MAX_AGENT_ITERATIONS, GRAPHTHULHU_URL
+from assistant.config import OLLAMA_MODEL, OLLAMA_BASE_URL, MAX_AGENT_ITERATIONS, GRAPHTHULHU_URL, OBSIDIAN_VAULT
 from assistant.agent.prompts import SYSTEM_PROMPT
 from assistant.agent.tools import (
     TOOL_DEFINITIONS,
@@ -63,7 +63,7 @@ async def execute_tool(name: str, args: Dict[str, Any], rag_retriever=None, web_
         elif name == "daily_log":
             return daily_log(args["content"])
         elif name == "sport_log":
-            return sport_log(args["day"], args["exercises"], args.get("general_note", ""))
+            return sport_log(args["program"], args["data"], args.get("note", ""))
         elif name == "dream_log":
             return dream_log(args["content"])
 
@@ -172,8 +172,10 @@ async def agent_loop(
     messages = [{"role": "system", "content": SYSTEM_PROMPT}] + history
     messages.append({"role": "user", "content": user_message})
 
-    # ── Prefix routing: direct bypass for dream notes ──
+    # ── Prefix routing ──
     msg_lower = user_message.lower().strip()
+
+    # Dream notes: direct bypass (no LLM needed)
     for prefix in ["rüya notu", "ruya notu"]:
         if msg_lower.startswith(prefix):
             raw = user_message[len(prefix):].strip().lstrip(":").strip()
@@ -184,6 +186,84 @@ async def agent_loop(
                     return f"Ruya notun kaydedildi - ruya/{date_str}"
                 return f"Ruya notu kaydedilemedi - {result.get('error', 'bilinmeyen hata')}"
             break
+
+    # Sport notes: full Python bypass (qwen3:4b can't do function calling reliably)
+    if msg_lower.startswith("spor notu"):
+        raw = user_message[len("spor notu"):].strip().lstrip(":").strip()
+        if raw:
+            raw_lower = raw.lower()
+            program = None
+
+            # Turkish ASCII normalization for fuzzy matching
+            _tr_table = str.maketrans('çğıöşüÇĞİÖŞÜ', 'cgiosuCGIOSU')
+            def _tr_norm(s):
+                return s.translate(_tr_table).lower()
+
+            raw_norm = _tr_norm(raw_lower)
+
+            # Dynamic program detection from filenames
+            from pathlib import Path
+            spor_dir = Path(OBSIDIAN_VAULT).expanduser() / "spor" if isinstance(OBSIDIAN_VAULT, str) else OBSIDIAN_VAULT / "spor"
+            if spor_dir.exists():
+                for f in spor_dir.glob("Program*.md"):
+                    # Extract program number from filename (e.g. "Program 1 - Sirt Omuz" -> "1")
+                    num_match = re.match(r'Program\s*(\d+)', f.stem)
+                    if not num_match:
+                        continue
+                    prog_num = num_match.group(1)
+
+                    # Check explicit "program N" mention
+                    if f"program {prog_num}" in raw_lower or f"program{prog_num}" in raw_lower:
+                        program = prog_num
+                        break
+
+                    # Extract keywords from filename after the dash
+                    # "Program 1 - Sirt Omuz" -> ["sirt", "omuz"]
+                    dash_idx = f.stem.find("-")
+                    if dash_idx >= 0:
+                        name_part = f.stem[dash_idx+1:].strip()
+                        keywords = [_tr_norm(w) for w in name_part.split() if len(w) >= 3]
+                        if any(kw in raw_norm for kw in keywords):
+                            program = prog_num
+                            break
+
+                    # Fallback: search exercise names in table columns
+                    if not program:
+                        for line in f.read_text(encoding="utf-8").split("\n"):
+                            if line.strip().startswith("| Tarih"):
+                                columns = [c.strip() for c in line.split("|") if c.strip() and _tr_norm(c.strip()) not in ("tarih", "notlar")]
+                                for col in columns:
+                                    for cw in col.split():
+                                        if len(cw) >= 3 and _tr_norm(cw) in raw_norm:
+                                            program = prog_num
+                                            break
+                                    if program:
+                                        break
+                                break
+                    if program:
+                        break
+
+            if not program:
+                return "Hangi program oldugunu anlayamadim. Mesajda program adini veya hareket adini yaz."
+
+            # Try to extract exercise:sets data with simple regex
+            # Pattern: "hareket_adi set1,set2,set3" or "hareket_adi: set1,set2"
+            data_parts = []
+            # Look for "hareket_adi set_numbers" patterns like "trapez 15,15,15,17.5"
+            exercise_pattern = re.findall(
+                r'([\w\sçşğüöıÇŞĞÜÖİ]+?)\s*[:=]?\s*(\d[\d.,\s]*\d)',
+                raw
+            )
+            for name, sets in exercise_pattern:
+                name = name.strip().rstrip(" de da")
+                sets = sets.strip().replace(" ", ",")
+                data_parts.append(f"{name}:{sets}")
+
+            data_str = "|".join(data_parts) if data_parts else ""
+            result = sport_log(program, data_str, raw)
+            if result.get("success"):
+                return f"Spor notu kaydedildi - {result['note']} ({result['date']})"
+            return f"Spor notu kaydedilemedi - {result.get('error', 'bilinmeyen hata')}"
 
     tool_call_history = []
 
@@ -198,11 +278,13 @@ async def agent_loop(
                 logger.warning(f"Tool '{last_two[0]}' called 2x in a row - forcing text response")
                 force_text = True
 
+        active_tools = [] if force_text else TOOL_DEFINITIONS
+
         try:
             response = client.chat(
                 model=OLLAMA_MODEL,
                 messages=messages,
-                tools=[] if force_text else TOOL_DEFINITIONS,
+                tools=active_tools,
                 options={"temperature": 0.3, "num_ctx": 4096},
             )
         except Exception as e:
@@ -210,8 +292,8 @@ async def agent_loop(
             return f"LLM hatasi: {e}"
 
         msg = response.get("message", {})
-        content = msg.get("content", "")
-        tool_calls = msg.get("tool_calls", [])
+        content = msg.get("content") or ""
+        tool_calls = msg.get("tool_calls") or []
 
         logger.info(f"LLM response - tool_calls: {len(tool_calls)}, content_len: {len(content)}, content_preview: {content[:200] if content else '(empty)'}")
 

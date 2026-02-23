@@ -118,15 +118,15 @@ TOOL_DEFINITIONS = [
         "type": "function",
         "function": {
             "name": "sport_log",
-            "description": "Spor antrenman kaydi. spor/{day}.md dosyasina tablo olarak yazar.",
+            "description": "Spor program tablosuna antrenman kaydi ekle. Mevcut programa yeni tarih satiri ekler.",
             "parameters": {
                 "type": "object",
                 "properties": {
-                    "day": {"type": "string", "description": "Antrenman turu (push-day, pull-day, leg-day vb)"},
-                    "exercises": {"type": "string", "description": "Hareketler pipe ile ayrilmis: Hareket|SetxTekrar|Agirlik|Not - satirlar \\n ile ayrilir"},
-                    "general_note": {"type": "string", "description": "Genel antrenman notu (opsiyonel)"},
+                    "program": {"type": "string", "description": "Program numarasi veya adi (1, 2, sirt, gogus vb)"},
+                    "data": {"type": "string", "description": "Hareket degerleri - Hareket:setler pipe ile ayrilir. Ornek: Bench press:9,7,5,3|Fly:12,12,10"},
+                    "note": {"type": "string", "description": "Genel antrenman notu (opsiyonel)"},
                 },
-                "required": ["day", "exercises"],
+                "required": ["program", "data"],
             },
         },
     },
@@ -391,61 +391,152 @@ def daily_log(content: str) -> Dict[str, Any]:
         return {"error": str(e)}
 
 
-def sport_log(day: str, exercises: str, general_note: str = "") -> Dict[str, Any]:
-    """Spor antrenman kaydi - pipe formatindan markdown tablo uretir."""
+def sport_log(program: str, data: str, note: str = "") -> Dict[str, Any]:
+    """Spor program tablosuna antrenman satiri ekler.
+
+    Mevcut program notunu okur, tablo basligindaki hareket sutunlarini bulur,
+    data'daki degerleri eslestirir ve yeni tarih satiri ekler.
+
+    program: program numarasi veya adi (1, 2, sirt, gogus vb)
+    data: "Hareket:setler|Hareket:setler" formati (ornek: "Bench press:9,7,5,3|Fly:12,12,10")
+    note: genel antrenman notu
+    """
     try:
         date_str = datetime.now().strftime("%Y-%m-%d")
-        name = f"spor/{day}"
 
-        lines = []
-        lines.append(f"## {date_str}")
-        lines.append("")
-        lines.append("| Hareket | Set x Tekrar | Agirlik | Not |")
-        lines.append("|---------|-------------|---------|-----|")
+        # Find program file in spor/ folder
+        spor_dir = OBSIDIAN_VAULT / "spor"
+        if not spor_dir.exists():
+            return {"error": "spor/ klasoru bulunamadi"}
 
-        # Handle both real newlines and literal \n
-        rows = exercises.split("\n")
-        if len(rows) <= 1:
-            rows = exercises.split("\\n")
-        rows = [r.strip() for r in rows if r.strip()]
+        target = None
+        for f in spor_dir.glob("Program*.md"):
+            # Extract number from filename and compare
+            import re as _re
+            num_match = _re.match(r'Program\s*(\d+)', f.stem)
+            if num_match and num_match.group(1) == program:
+                target = f
+                break
 
-        for row in rows:
-            parts = [p.strip() for p in row.split("|")]
-            while len(parts) < 4:
-                parts.append("")
-            parts = parts[:4]
-            lines.append(f"| {parts[0]} | {parts[1]} | {parts[2]} | {parts[3]} |")
+        if not target or not target.exists():
+            return {"error": f"Program bulunamadi: {program}"}
 
-        if general_note:
-            lines.append("")
-            lines.append(f"> Genel: {general_note}")
+        content = target.read_text(encoding="utf-8")
+        lines = content.split("\n")
 
-        formatted = "\n".join(lines)
+        # Find table structure
+        header_idx = None
+        separator_idx = None
+        last_table_idx = None
 
-        p = _vault_path(name)
-        if p.exists():
-            return note_append(name, formatted)
-        else:
-            return note_write(name, formatted)
+        for i, line in enumerate(lines):
+            stripped = line.strip()
+            if stripped.startswith("| Tarih"):
+                header_idx = i
+            elif header_idx is not None and separator_idx is None and stripped.startswith("|") and set(stripped.replace("|", "").strip()) <= {"-", " "}:
+                # Separator: |---|---| or | --- | --- | or | ----- | etc.
+                separator_idx = i
+            elif separator_idx is not None and stripped.startswith("|") and not (set(stripped.replace("|", "").strip()) <= {"-", " "}):
+                # Data row (not empty - skip rows that are only whitespace/pipes)
+                row_content = stripped.replace("|", "").strip()
+                if row_content:
+                    last_table_idx = i
+            elif separator_idx is not None and not stripped.startswith("|"):
+                break
+
+        if header_idx is None:
+            return {"error": "Tablo baslik satiri bulunamadi (| Tarih ile baslamali)"}
+        if separator_idx is None:
+            return {"error": "Tablo separator satiri bulunamadi (|---|---| formatinda olmali)"}
+
+        # Parse header columns
+        headers = [h.strip() for h in lines[header_idx].split("|")]
+        headers = [h for h in headers if h]  # Remove empty from split
+
+        # Parse exercise data: "Bench press:9,7,5,3|Fly:12,12,10"
+        exercise_map = {}
+        for pair in data.split("|"):
+            pair = pair.strip()
+            if ":" in pair:
+                name, values = pair.split(":", 1)
+                exercise_map[name.strip().lower()] = values.strip()
+
+        # Match exercise keys to columns (each key matches at most one column)
+        column_values = {}
+        for ex_key, ex_val in exercise_map.items():
+            best_col = None
+            best_score = 0
+            for header in headers:
+                h_lower = header.lower().strip()
+                if h_lower in ("tarih", "notlar") or h_lower in column_values:
+                    continue
+                score = 0
+                if ex_key == h_lower:
+                    score = 1000  # exact
+                elif ex_key in h_lower:
+                    score = len(ex_key) * 10  # key substring of column
+                elif h_lower in ex_key:
+                    score = len(h_lower)  # column substring of key
+                else:
+                    for word in ex_key.split():
+                        if len(word) >= 3 and word in h_lower:
+                            score = max(score, len(word))
+                # Tiebreaker: prefer shorter column name (closer match)
+                if score > best_score or (score == best_score and score > 0 and best_col and len(h_lower) < len(best_col)):
+                    best_score = score
+                    best_col = h_lower
+            if best_col:
+                column_values[best_col] = ex_val
+
+        # Build row
+        row_cells = []
+        for header in headers:
+            h_lower = header.lower().strip()
+            if h_lower == "tarih":
+                row_cells.append(date_str)
+            elif h_lower == "notlar":
+                row_cells.append(note if note else "")
+            else:
+                row_cells.append(column_values.get(h_lower, "-"))
+
+        new_row = "| " + " | ".join(row_cells) + " |"
+
+        # Insert after last data row, or after separator if table is empty
+        insert_idx = (last_table_idx if last_table_idx is not None else separator_idx) + 1
+        lines.insert(insert_idx, new_row)
+
+        target.write_text("\n".join(lines), encoding="utf-8")
+        return {"success": True, "note": target.stem, "date": date_str}
+
     except Exception as e:
         return {"error": str(e)}
 
 
 def dream_log(content: str) -> Dict[str, Any]:
-    """Ruya kaydi - callout toggle formatinda."""
+    """Ruya kaydi - tek dosyaya tarihli callout toggle ekler."""
     try:
         date_str = datetime.now().strftime("%Y-%m-%d")
-        name = f"ruya/{date_str}"
 
         content_lines = content.split("\n")
         callout_content = "\n> ".join(content_lines)
         formatted = f"> [!note]- Ruya - {date_str}\n> {callout_content}"
 
-        p = _vault_path(name)
-        if p.exists():
-            return note_append(name, formatted)
+        # Find the single dream file in ruya/ folder
+        ruya_dir = OBSIDIAN_VAULT / "ruya"
+        ruya_file = None
+        if ruya_dir.exists():
+            md_files = list(ruya_dir.glob("*.md"))
+            if md_files:
+                ruya_file = md_files[0]  # Use the first (and only) md file
+
+        if ruya_file and ruya_file.exists():
+            # Append to existing file
+            existing = ruya_file.read_text(encoding="utf-8")
+            ruya_file.write_text(existing.rstrip() + "\n\n" + formatted, encoding="utf-8")
+            return {"success": True, "note": f"ruya/{ruya_file.stem}", "action": "appended"}
         else:
-            return note_write(name, formatted)
+            # Fallback: create ruya/Ruya.md
+            return note_write("ruya/Rüya", formatted)
     except Exception as e:
         return {"error": str(e)}
 

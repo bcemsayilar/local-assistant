@@ -91,6 +91,20 @@ async def cmd_index(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await update.message.reply_text(f"Indexleme hatasi: {e}")
 
 
+async def _delete_message(context: ContextTypes.DEFAULT_TYPE):
+    """Scheduled callback to delete a message."""
+    data = context.job.data
+    try:
+        await context.bot.delete_message(chat_id=data["chat_id"], message_id=data["message_id"])
+    except Exception as e:
+        logger.warning(f"Mesaj silinemedi: {e}")
+
+
+# Messages starting with these prefixes will be auto-deleted after sending
+AUTO_DELETE_PREFIXES = ["rüya notu", "ruya notu"]
+AUTO_DELETE_DELAY = 300  # 5 minutes
+
+
 async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """Handle regular text messages."""
     if not is_allowed(update.effective_user.id):
@@ -129,11 +143,30 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
     memory.add_message(user_id, "assistant", response)
 
     # Send response (split if too long)
+    bot_messages = []
     if len(response) > 4096:
         for i in range(0, len(response), 4096):
-            await update.message.reply_text(response[i:i + 4096])
+            bot_msg = await update.message.reply_text(response[i:i + 4096])
+            bot_messages.append(bot_msg)
     else:
-        await update.message.reply_text(response)
+        bot_msg = await update.message.reply_text(response)
+        bot_messages.append(bot_msg)
+
+    # Schedule auto-deletion for sensitive messages (dream notes etc.)
+    msg_lower = user_text.lower().strip()
+    if any(msg_lower.startswith(p) for p in AUTO_DELETE_PREFIXES):
+        chat_id = update.message.chat_id
+        # Delete user's original message
+        context.job_queue.run_once(
+            _delete_message, AUTO_DELETE_DELAY,
+            data={"chat_id": chat_id, "message_id": update.message.message_id},
+        )
+        # Delete bot's reply message(s)
+        for bm in bot_messages:
+            context.job_queue.run_once(
+                _delete_message, AUTO_DELETE_DELAY,
+                data={"chat_id": chat_id, "message_id": bm.message_id},
+            )
 
     # Periodically extract facts (every 10 messages)
     msg_count = len(memory.get_history(user_id))
