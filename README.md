@@ -50,6 +50,10 @@ ollama pull nomic-embed-text
 cp .env.example .env
 # Edit .env with your Telegram bot token and settings
 
+# Set your git identity for commits
+git config user.name "Your Name"
+git config user.email "your-email@example.com"
+
 # Run
 python -m assistant.main
 ```
