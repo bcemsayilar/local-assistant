@@ -175,17 +175,41 @@ async def agent_loop(
     # ── Prefix routing ──
     msg_lower = user_message.lower().strip()
 
-    # Dream notes: direct bypass (no LLM needed)
-    for prefix in ["rüya notu", "ruya notu"]:
-        if msg_lower.startswith(prefix):
-            raw = user_message[len(prefix):].strip().lstrip(":").strip()
-            if raw:
-                result = dream_log(raw)
-                if result.get("success"):
-                    date_str = datetime.now().strftime("%Y-%m-%d")
-                    return f"Ruya notun kaydedildi - ruya/{date_str}"
-                return f"Ruya notu kaydedilemedi - {result.get('error', 'bilinmeyen hata')}"
-            break
+    # Dream notes: direct bypass (no LLM needed - prevents hallucination)
+    # Catch various phrasings: "rüya notu", "rüya:", "rüyamı kaydet", "rüya gördüm" etc.
+    dream_prefixes = ["rüya notu", "ruya notu", "rüya:", "ruya:"]
+    dream_keywords = ["rüya gördüm", "ruya gordum", "rüyamı kaydet", "ruyami kaydet",
+                       "rüyamı not", "ruyami not", "rüyamı yaz", "ruyami yaz"]
+    is_dream = any(msg_lower.startswith(p) for p in dream_prefixes)
+    if not is_dream:
+        is_dream = any(kw in msg_lower for kw in dream_keywords)
+    # Also catch messages that start with dream-like content (short "rüya" mention at start)
+    if not is_dream and len(msg_lower) > 20:
+        first_30 = msg_lower[:30]
+        is_dream = ("rüya" in first_30 or "ruya" in first_30) and any(
+            w in msg_lower for w in ["gördüm", "gordum", "gördüğüm", "gordugum",
+                                      "kaydet", "not al", "yaz", "anlat"])
+
+    if is_dream:
+        # Strip known prefixes to get raw content
+        raw = user_message
+        for prefix in dream_prefixes:
+            if msg_lower.startswith(prefix):
+                raw = user_message[len(prefix):].strip().lstrip(":").strip()
+                break
+        if raw and raw != user_message:
+            result = dream_log(raw)
+            if result.get("success"):
+                date_str = datetime.now().strftime("%Y-%m-%d")
+                return f"Ruya notun kaydedildi - ruya/{date_str}"
+            return f"Ruya notu kaydedilemedi - {result.get('error', 'bilinmeyen hata')}"
+        elif raw:
+            # No clean prefix found - use full message as dream content
+            result = dream_log(raw)
+            if result.get("success"):
+                date_str = datetime.now().strftime("%Y-%m-%d")
+                return f"Ruya notun kaydedildi - ruya/{date_str}"
+            return f"Ruya notu kaydedilemedi - {result.get('error', 'bilinmeyen hata')}"
 
     # Sport notes: full Python bypass (qwen3:4b can't do function calling reliably)
     if msg_lower.startswith("spor notu"):

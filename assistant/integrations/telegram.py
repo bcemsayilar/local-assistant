@@ -100,8 +100,8 @@ async def _delete_message(context: ContextTypes.DEFAULT_TYPE):
         logger.warning(f"Mesaj silinemedi: {e}")
 
 
-# Messages starting with these prefixes will be auto-deleted after sending
-AUTO_DELETE_PREFIXES = ["rüya notu", "ruya notu"]
+# Messages containing dream-related content will be auto-deleted after sending
+AUTO_DELETE_KEYWORDS = ["rüya", "ruya"]
 AUTO_DELETE_DELAY = 300  # 5 minutes
 
 
@@ -154,7 +154,7 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     # Schedule auto-deletion for sensitive messages (dream notes etc.)
     msg_lower = user_text.lower().strip()
-    if any(msg_lower.startswith(p) for p in AUTO_DELETE_PREFIXES):
+    if any(kw in msg_lower for kw in AUTO_DELETE_KEYWORDS):
         chat_id = update.message.chat_id
         # Delete user's original message
         context.job_queue.run_once(
