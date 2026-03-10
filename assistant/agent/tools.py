@@ -123,7 +123,7 @@ TOOL_DEFINITIONS = [
                 "type": "object",
                 "properties": {
                     "program": {"type": "string", "description": "Program numarasi veya adi (1, 2, sirt, gogus vb)"},
-                    "data": {"type": "string", "description": "Hareket degerleri - Hareket:setler pipe ile ayrilir. Ornek: Bench press:9,7,5,3|Fly:12,12,10"},
+                    "data": {"type": "string", "description": "Hareket degerleri - Hareket:agirliklar pipe ile ayrilir, agirliklar virgul ile. TUM hareketleri yaz, bahsedilmeyenler icin varsayilan program degerlerini kullan. Ornek: Bench press:25,25,30,35|Makine butterfly:39,34,39,44|Dumble fly:12,12,15,17.5"},
                     "note": {"type": "string", "description": "Genel antrenman notu (opsiyonel)"},
                 },
                 "required": ["program", "data"],
@@ -495,7 +495,9 @@ def sport_log(program: str, data: str, note: str = "") -> Dict[str, Any]:
             if h_lower == "tarih":
                 row_cells.append(date_str)
             elif h_lower == "notlar":
-                row_cells.append(note if note else "")
+                # Newlines break markdown tables - replace with <br>
+                clean_note = note.replace("\n", "<br>") if note else ""
+                row_cells.append(clean_note)
             else:
                 row_cells.append(column_values.get(h_lower, "-"))
 
