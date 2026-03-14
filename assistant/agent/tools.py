@@ -391,11 +391,41 @@ def daily_log(content: str) -> Dict[str, Any]:
         return {"error": str(e)}
 
 
+PROGRAM_DEFAULTS = {
+    "1": {
+        "pull down": "29,34,39,44",
+        "enseye cekis": "29,34,39,44",
+        "dar tutus goguse cekis": "29,34,39,44",
+        "omuz trapez": "10,12.5,12.5,15",
+        "sikistirma trapez": "10,10,12.5,12.5",
+        "dumble yana acis": "10,10,10,10",
+        "on omuz": "7.5,7.5,7.5,7.5",
+        "alna indiris": "5,5,10,10",
+        "push down": "15,15,15,17",
+        "ip yana acis": "12.5,12.5,12.5,15",
+        "mekik": "150",
+        "kosu": "300m yuruyus + 700-800m kosu + 300m yuruyus",
+    },
+    "2": {
+        "bench press": "25,25,30,35",
+        "fly": "39,34,39,44",
+        "dumble fly": "12,12,15,17.5",
+        "flower": "10,10,10,10",
+        "ayakta dumble biceps": "10,10,10,12.5",
+        "ayakta z bar": "10,10,15,15",
+        "oturarak z bar": "10,10,12.5,12.5",
+        "mekik": "150",
+        "kosu": "300m yuruyus + 700-800m kosu + 300m yuruyus",
+    },
+}
+
+
 def sport_log(program: str, data: str, note: str = "") -> Dict[str, Any]:
     """Spor program tablosuna antrenman satiri ekler.
 
     Mevcut program notunu okur, tablo basligindaki hareket sutunlarini bulur,
     data'daki degerleri eslestirir ve yeni tarih satiri ekler.
+    Model gondermediginde varsayilan program degerleri otomatik doldurulur.
 
     program: program numarasi veya adi (1, 2, sirt, gogus vb)
     data: "Hareket:setler|Hareket:setler" formati (ornek: "Bench press:9,7,5,3|Fly:12,12,10")
@@ -488,7 +518,10 @@ def sport_log(program: str, data: str, note: str = "") -> Dict[str, Any]:
             if best_col:
                 column_values[best_col] = ex_val
 
-        # Build row
+        # Get defaults for this program
+        defaults = PROGRAM_DEFAULTS.get(program, {})
+
+        # Build row - use model data > defaults > "-"
         row_cells = []
         for header in headers:
             h_lower = header.lower().strip()
@@ -499,7 +532,11 @@ def sport_log(program: str, data: str, note: str = "") -> Dict[str, Any]:
                 clean_note = note.replace("\n", "<br>") if note else ""
                 row_cells.append(clean_note)
             else:
-                row_cells.append(column_values.get(h_lower, "-"))
+                val = column_values.get(h_lower)
+                if val:
+                    row_cells.append(val)
+                else:
+                    row_cells.append(defaults.get(h_lower, "-"))
 
         new_row = "| " + " | ".join(row_cells) + " |"
 

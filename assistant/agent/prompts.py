@@ -27,7 +27,7 @@ Program 1 - Sirt/Omuz:
   Mekik: 150 | Kosu: 300m yuruyus + 700-800m kosu + 300m yuruyus
 
 Program 2 - Gogus/Biceps:
-  Bench press: 25,25,30,35 | Makine butterfly: 39,34,39,44 | Dumble fly: 12,12,15,17.5
+  Bench press: 25,25,30,35 | Fly (Makine butterfly): 39,34,39,44 | Dumble fly: 12,12,15,17.5
   Flower (plaka): 10,10,10,10 | Ayakta dumble biceps: 10,10,10,12.5
   Ayakta z bar: 10,10,15,15 | Oturarak z bar: 10,10,12.5,12.5
   Mekik: 150 | Kosu: 300m yuruyus + 700-800m kosu + 300m yuruyus
