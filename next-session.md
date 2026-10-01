@@ -63,7 +63,7 @@ Test adimlari:
 ## 5. GUVENLIK VE KARARLAR (kullanicida)
 
 - **FileVault kapali.** Air'de plaintext dotenv'ler, ASA imza key'i, pillowtale TTS_API_KEY. Oneri: FileVault ac + kucuk UPS. Detay home-server.md.
-- **Pillowtale server.py fail-open:** `~/Projects/pillowtale-tts/server.py` satir 61, `TTS_API_KEY` bos gelirse auth tamamen kapaniyor. Oneri: anahtar bossa sunucu baslamasin. Canli urun, kullanici onayi olmadan dokunulmadi. Pillowtale oturumu kendi TODO'suna ekledi; kimin yapacagi soruldu, cevap yok.
+- **Pillowtale server.py fail-open:** Air'de `~/Projects/pillowtale-tts/server.py` satir 61, `TTS_API_KEY` bos gelirse auth tamamen kapaniyor. Oneri: anahtar bossa sunucu baslamasin (fail-closed). Isin sahibi Pillowtale, madde pillowtale TODO'sunda (pillowtale oturumu commit 0c53bcf, dal `revenuecat-integration`). Ama degisiklik Air'de yapilacak ve server.py pillowtale deposunda degil, Air'de duruyor, yani **koordineli yurutulecek:** pillowtale oturumuyla (SendMessage, ListAgents'ta `pillowtale-*`) kimin dosyayi duzenleyecegini netlestir, degisiklikten once server.py'nin yedegini al, `launchctl stop com.parallax.pillowtale-tts` ile yeniden baslat, sonra yan etkisiz testi tekrarla (anahtarsiz `DELETE http://127.0.0.1:8790/voice/yok-test-123` 401 donmeli; govdesiz POST /tts 422 doner ve yaniltir), sonucu pillowtale'e bildir ki TODO'yu kapatsin. Ayrica server.py'nin hicbir depoda versiyonlanmamis olmasi ayri bir eksik, pillowtale'e sor.
 - Port 8000 (finance-agent) ve 8790 (pillowtale-tts) tum arayuzlerde dinliyor, firewall stealth dis erisimi kesiyor (olculdu). localhost'a cekmek acik is.
 - `local-assistant/TODO.md` "Mac Air Hardening" listesinin tamami acik.
 
