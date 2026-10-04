@@ -18,7 +18,7 @@ class FactMemory:
 
     def __init__(self, db_path: Path = MEMORY_DB_PATH):
         self.db_path = db_path
-        self.client = ollama.Client(host=OLLAMA_BASE_URL)
+        self.client = ollama.Client(host=OLLAMA_BASE_URL, timeout=120)
 
     def extract_facts(self, conversation_text: str) -> List[str]:
         """Use LLM to extract memorable facts from conversation."""

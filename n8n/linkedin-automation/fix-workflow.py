@@ -1,3 +1,5 @@
+# ONEMLI: Bu script Mac Air uzerinde calistirilmali (SSH ile baglan) veya SSH tunnel kullan
+# SSH tunnel: ssh -L 5678:localhost:5678 elifberraksayilar@100.108.136.36
 """
 LinkedIn Workflow guncelleme scripti.
 
@@ -9,14 +11,15 @@ Kullanim:
 Ornek:
     python fix-workflow.py
 
-Not: Bu script Mac Pro'dan calistirilir, n8n Mac Air'de calisir.
+Not: n8n sadece localhost'a bagli. Bu scripti Mac Air uzerinde calistir
+     veya SSH tunnel ile baglan.
 """
 
 import json
 import subprocess
 import sys
 
-N8N_HOST = "http://100.108.136.36:5678"
+N8N_HOST = "http://localhost:5678"
 WORKFLOW_ID = "S0RDiop6EVTj33AX"
 SSH_CMD = "ssh -o IdentitiesOnly=yes -i ~/.ssh/id_ed25519 elifberraksayilar@100.108.136.36"
 

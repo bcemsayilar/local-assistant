@@ -9,4 +9,6 @@ data/
 *.log
 .DS_Store
 .claude/
-özet.txt
+
+# kisisel finans bilgisi (kart ve hesap numaralari), public repoya girmez
+docs/finance-tracker-akisi.md

@@ -6,7 +6,7 @@ Accessible via Telegram, powered by Ollama. Supports document search (RAG), shel
 
 ## Features
 
-- **ReAct Agent Loop** - qwen3:4b with function calling, text-based tool call parsing fallback
+- **ReAct Agent Loop** - Ollama model set by `OLLAMA_MODEL` (default `qwen3.5:4b` in `config.py`) with function calling, text-based tool call parsing fallback
 - **Obsidian Integration** - Hybrid read/write: filesystem for writes, GraphThulhu MCP for graph analysis
 - **RAG** - LlamaIndex + LanceDB vector search over local documents
 - **Smart Formatting** - `daily_log`, `sport_log`, `dream_log` tools handle markdown formatting in Python (no LLM formatting needed)
@@ -18,7 +18,7 @@ Accessible via Telegram, powered by Ollama. Supports document search (RAG), shel
 ## Architecture
 
 ```
-Telegram -> Bot Handler -> ReAct Agent Loop -> Ollama (qwen3:4b)
+Telegram -> Bot Handler -> ReAct Agent Loop -> Ollama (OLLAMA_MODEL)
                                 |
                     +-----------+-----------+
                     |           |           |
@@ -29,7 +29,7 @@ Telegram -> Bot Handler -> ReAct Agent Loop -> Ollama (qwen3:4b)
 ## Requirements
 
 - Python 3.9+
-- [Ollama](https://ollama.ai) with `qwen3:4b` and `nomic-embed-text`
+- [Ollama](https://ollama.ai) with a chat model (default `qwen3.5:4b`) and `nomic-embed-text`
 - Telegram Bot Token (from [@BotFather](https://t.me/BotFather))
 - Optional: SearxNG (Docker), GraphThulhu MCP, Syncthing
 
@@ -43,7 +43,7 @@ source venv/bin/activate
 pip install -r requirements.txt
 
 # Pull models
-ollama pull qwen3:4b
+ollama pull qwen3.5:4b
 ollama pull nomic-embed-text
 
 # Configure
@@ -89,7 +89,7 @@ The agent uses a ReAct (Reason + Act) loop. On each user message:
 
 ### Text Tool Call Parser
 
-qwen3:4b sometimes writes tool calls as plain text instead of using Ollama's native mechanism. The parser catches three patterns:
+Small qwen models sometimes write tool calls as plain text instead of using Ollama's native mechanism. The parser catches three patterns:
 - `note_write(name="x", content="y")` - function style
 - `{"name": "note_write", "arguments": {...}}` - JSON style
 - `<tool_call>{...}</tool_call>` - XML style

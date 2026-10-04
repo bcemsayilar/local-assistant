@@ -1,5 +1,6 @@
 """ReAct agent loop - the brain of the assistant."""
 
+import asyncio
 import json
 import logging
 import re
@@ -25,13 +26,15 @@ from assistant.agent.tools import (
     daily_log,
     sport_log,
     dream_log,
+    finance_add,
+    finance_query,
 )
 from assistant.mcp.client import GraphThulhuClient
 
 logger = logging.getLogger(__name__)
 
 # Ollama client
-client = ollama.Client(host=OLLAMA_BASE_URL)
+client = ollama.Client(host=OLLAMA_BASE_URL, timeout=120)
 
 # GraphThulhu MCP client (lazy init)
 _mcp_client = None
@@ -93,6 +96,24 @@ async def execute_tool(name: str, args: Dict[str, Any], rag_retriever=None, web_
         elif name == "create_reminder":
             return create_apple_reminder(args["title"])
 
+        # Finance tools
+        elif name == "finance_add":
+            return finance_add(
+                amount=float(args["amount"]),
+                description=args["description"],
+                category=args.get("category", "diger"),
+                entity_type=args.get("entity_type", "personal"),
+                date=args.get("date", ""),
+            )
+        elif name == "finance_query":
+            return finance_query(
+                query_type=args["query_type"],
+                month=args.get("month", ""),
+                category=args.get("category", ""),
+                entity_type=args.get("entity_type", ""),
+                term=args.get("term", ""),
+            )
+
         else:
             return {"error": f"Bilinmeyen arac: {name}"}
     except Exception as e:
@@ -106,6 +127,7 @@ KNOWN_TOOLS = {
     "vault_search", "vault_links", "vault_overview", "vault_tags",
     "vault_gaps", "vault_clusters", "search_documents", "web_search",
     "shell_command", "create_reminder",
+    "finance_add", "finance_query",
 }
 
 
@@ -167,28 +189,25 @@ async def agent_loop(
     history: list,
     rag_retriever=None,
     web_searcher=None,
+    images: list = None,
 ) -> str:
     """Run the ReAct agent loop. Returns the final text response."""
-    messages = [{"role": "system", "content": SYSTEM_PROMPT}] + history
-    messages.append({"role": "user", "content": user_message})
+    today = datetime.now().strftime("%Y-%m-%d")
+    system_prompt = SYSTEM_PROMPT.replace("{today}", today)
+    messages = [{"role": "system", "content": system_prompt}] + history
+    user_msg = {"role": "user", "content": user_message}
+    if images:
+        user_msg["images"] = images
+    messages.append(user_msg)
 
     # ── Prefix routing ──
     msg_lower = user_message.lower().strip()
 
     # Dream notes: direct bypass (no LLM needed - prevents hallucination)
-    # Catch various phrasings: "rüya notu", "rüya:", "rüyamı kaydet", "rüya gördüm" etc.
+    # ONLY trigger on explicit prefix - "rüya notu" or "rüya:"
+    # If no prefix, let the agent decide (user might be asking about dreams, not logging one)
     dream_prefixes = ["rüya notu", "ruya notu", "rüya:", "ruya:"]
-    dream_keywords = ["rüya gördüm", "ruya gordum", "rüyamı kaydet", "ruyami kaydet",
-                       "rüyamı not", "ruyami not", "rüyamı yaz", "ruyami yaz"]
     is_dream = any(msg_lower.startswith(p) for p in dream_prefixes)
-    if not is_dream:
-        is_dream = any(kw in msg_lower for kw in dream_keywords)
-    # Also catch messages that start with dream-like content (short "rüya" mention at start)
-    if not is_dream and len(msg_lower) > 20:
-        first_30 = msg_lower[:30]
-        is_dream = ("rüya" in first_30 or "ruya" in first_30) and any(
-            w in msg_lower for w in ["gördüm", "gordum", "gördüğüm", "gordugum",
-                                      "kaydet", "not al", "yaz", "anlat"])
 
     if is_dream:
         # Strip known prefixes to get raw content
@@ -305,7 +324,8 @@ async def agent_loop(
         active_tools = [] if force_text else TOOL_DEFINITIONS
 
         try:
-            response = client.chat(
+            response = await asyncio.to_thread(
+                client.chat,
                 model=OLLAMA_MODEL,
                 messages=messages,
                 tools=active_tools,
@@ -337,7 +357,8 @@ async def agent_loop(
                     messages.append({"role": "user", "content": f"Arac sonucu: {result_str}\n\nKullaniciya kisa ve anlasilir bir ozet ver."})
                 # Get summary from model
                 try:
-                    summary_resp = client.chat(
+                    summary_resp = await asyncio.to_thread(
+                        client.chat,
                         model=OLLAMA_MODEL,
                         messages=messages,
                         tools=[],
@@ -380,7 +401,8 @@ async def agent_loop(
             "role": "user",
             "content": "[Sistem: Arac cagrilari tamamlandi. Lutfen kullaniciya kisa bir ozet ver.]",
         })
-        response = client.chat(
+        response = await asyncio.to_thread(
+            client.chat,
             model=OLLAMA_MODEL,
             messages=messages,
             tools=[],

@@ -14,7 +14,7 @@ MEMORY_DB_PATH = DATA_DIR / "memory.db"
 
 # Ollama
 OLLAMA_BASE_URL = os.getenv("OLLAMA_BASE_URL", "http://localhost:11434")
-OLLAMA_MODEL = os.getenv("OLLAMA_MODEL", "qwen3:4b")
+OLLAMA_MODEL = os.getenv("OLLAMA_MODEL", "qwen3.5:4b")
 OLLAMA_EMBED_MODEL = os.getenv("OLLAMA_EMBED_MODEL", "nomic-embed-text")
 
 # Telegram
@@ -35,6 +35,12 @@ WATCHED_EXTENSIONS = {".pdf", ".md", ".txt", ".docx", ".html"}
 # Obsidian / GraphThulhu MCP
 OBSIDIAN_VAULT = os.getenv("OBSIDIAN_VAULT", "~/ObsidianVault")
 GRAPHTHULHU_URL = os.getenv("GRAPHTHULHU_URL", "http://localhost:8585")
+
+# Media (multimodal)
+MEDIA_CACHE_DIR = DATA_DIR / "media_cache"
+MAX_IMAGE_SIZE = 1024          # px (uzun kenar)
+MAX_VIDEO_DURATION = 10        # saniye
+MAX_VIDEO_FRAMES = 3           # video'dan alinacak frame sayisi
 
 # Agent
 MAX_AGENT_ITERATIONS = 5

@@ -1,6 +1,6 @@
 # LinkedIn AI Post Automation (n8n)
 
-Haftalik AI newsletter'larini ozetleyip LinkedIn postu hazirlayan n8n workflow'u.
+Haftalik AI newsletter'larini ceken ve ozetleyen n8n workflow'u. Ilk tasarimda LinkedIn postunu da yazip mail atiyordu; 2026-10-02 itibariyla `LLM - Write LinkedIn Post`, `Format Email HTML` ve `Gmail - Send Post` node'lari DISABLED, yani workflow sadece veri + ozet uretir. Post uretimi `~/Desktop/newsletter-project`'te, yazim kurallari `docs/linkedin-yazim-kurallari.md`.
 
 ## Workflow ID
 `S0RDiop6EVTj33AX` - "Weekly LinkedIn AI Post"
@@ -16,19 +16,21 @@ Trigger (Schedule/Webhook/Manual)
   -> Fetch Full - AI News (HTTP Request + Gmail OAuth2, format=full)
   -> Merge Newsletters
   -> Parse HTML & Extract (base64 decode + HTML strip + gorsel cikarma)
-  -> LLM - Summarize (fallback chain, gemini-2.5-flash)
-  -> LLM - Write LinkedIn Post (fallback chain, gemini-2.5-pro)
-  -> Format Email HTML
-  -> Gmail - Send Post (me@cemsayilar.com)
+  -> LLM - Summarize (fallback chain)
+  -> LLM - Write LinkedIn Post   [DISABLED]
+  -> Format Email HTML           [DISABLED]
+  -> Gmail - Send Post (me@cemsayilar.com)   [DISABLED]
 ```
 
 ## Trigger'lar
 - **Schedule**: Her Pazartesi 09:00 Istanbul
-- **Webhook**: `GET http://100.108.136.36:5678/webhook/linkedin-trigger`
+- **Webhook**: `GET http://localhost:5678/webhook/linkedin-trigger`, Air'in icinden. Mac Pro'dan: `ssh elifberraksayilar@100.108.136.36 "curl -s http://localhost:5678/webhook/linkedin-trigger"`
 - **Manual**: n8n UI'dan test
 
+n8n localhost'a bagli; SSH tuneli, tam SSH komutu ve API key alma yontemi: `~/Desktop/Parallax Technologies LLC/General App Guidlines/home-server.md`.
+
 ## LLM Fallback Chain
-Her iki LLM node'unda ayni sira: OpenAI -> Gemini -> Groq -> Mistral.
+`LLM - Summarize` node'unda sira (2026-10-02 workflow'dan okundu): OpenAI `gpt-4o` -> Gemini `gemini-3.1-pro-preview` -> Groq `llama-3.3-70b-versatile` -> Mistral `mistral-large-latest`. Disabled `Write LinkedIn Post` node'u da ayni zinciri kullanir.
 Ilk basarili provider kullanilir. Key yoksa veya hata verirse sonrakine gecer.
 
 ## Onemli Teknik Detaylar
@@ -82,17 +84,17 @@ Workflow guncellemelerini n8n REST API (`PUT /api/v1/workflows/{id}`) ile yapmak
 N8N_KEY=$(sqlite3 ~/.n8n/database.sqlite "SELECT apiKey FROM user_api_keys LIMIT 1")
 
 # Workflow oku
-curl -s "http://100.108.136.36:5678/api/v1/workflows/S0RDiop6EVTj33AX" \
+curl -s "http://localhost:5678/api/v1/workflows/S0RDiop6EVTj33AX" \
   -H "X-N8N-API-KEY: $N8N_KEY"
 
 # Workflow guncelle (name, nodes, connections, settings zorunlu)
-curl -s -X PUT "http://100.108.136.36:5678/api/v1/workflows/S0RDiop6EVTj33AX" \
+curl -s -X PUT "http://localhost:5678/api/v1/workflows/S0RDiop6EVTj33AX" \
   -H "X-N8N-API-KEY: $N8N_KEY" \
   -H "Content-Type: application/json" \
   -d @workflow-update.json
 
 # Aktive et
-curl -s -X POST "http://100.108.136.36:5678/api/v1/workflows/S0RDiop6EVTj33AX/activate" \
+curl -s -X POST "http://localhost:5678/api/v1/workflows/S0RDiop6EVTj33AX/activate" \
   -H "X-N8N-API-KEY: $N8N_KEY"
 ```
 
@@ -120,6 +122,8 @@ console.log(Object.keys(run)); // node isimleri
 ## Dosya Yapisi
 ```
 n8n/linkedin-automation/
-├── README.md          # Bu dosya
-└── fix-workflow.py    # Workflow guncelleme scripti (ornek)
+├── README.md                       # Bu dosya
+├── fix-workflow.py                 # Workflow guncelleme scripti (ornek)
+├── ornek-postlar.txt               # Stil referansi olarak gercek postlar
+└── docs/linkedin-yazim-kurallari.md  # Post yazim kurallari (tek kaynak)
 ```

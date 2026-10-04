@@ -1,0 +1,148 @@
+ORNEK POST 1 - DeepSeek R1 Hafta (Ocak 2025)
+===============================================
+Yapay zekada son günlerde öne çıkanlar:
+
+• MIT lisansı ile open source olarak yayınlanan DeepSeek-R1, kısa bir süre önce büyük ses getiren bir önceki modeli V3'ü, OpenAI o1'i geride bıraktı. Açık kaynaklı olmasının yanı sıra, o1'e kıyasla maliyet %90 daha düşük. 2025 çok hızlı başladı.
+"Pricing (per million tokens): 14 cents input (cache hit), 55 cents input (cache miss), and 219 cents output. This compares to o1 at 750 cents input (cache hit), 1500 cents input (cache miss), 6000 cents output. That's 27x-50x cheaper than o1."
+
+• Daha küçük cihazlarda ağa bağlanmadan çalışabilen büyük modeller beni gerçekten çok heyecanlandırıyor. Bu hafta karşıma çıkan birkaç proje, ayrıca DeepSeek-R1'ın localde nasıl çalıştırılacağına dair rehber:
+
+AGI at home
+Build a RAG app using DeepSeek-R1 (100% local)
+DeepSeek-R1 running locally full guide
+
+• CAG (Cached Augmented Generation) adı verilen yeni bir yaklaşım göze çarpıyor. Buradaki fikir şu: Modelin çıktılarının bir kısmını "cache" gibi saklayıp, sonraki adımlarda tekrar kullanmak. Böylece her seferinde baştan hesaplama yapmak yerine, belirli bölümleri hatırlayıp hız ve tutarlılık sağlamak mümkün.
+
+• Öte yandan, dünyayı sarsan bir haber, OpenAI ve SoftBank tarafından yönetilen Project Stargate'in duyurulmasıdır. Ölçek açısından, gerçek Manhattan projesi 35 milyar dolara mal oldu (inflation adjusted...).
+
+
+ORNEK POST 2 - DeepSeek R1 Local RAG Demo
+==========================================
+DeepSeek R1 ile Local, Internetsiz RAG!
+
+Geçtiğimiz hafta açık kaynak olarak yayınlanan DeepSeek AI R1'in 1.5B parametreli distil reasoning modelini localde tamamen internetsiz çalıştırarak Retrieval-Augmented Generation (RAG) denemesi yaptım.
+
+Kullandığım Sistem:
+- Mac M1 - 8 çekirdekli GPU
+- 8 GB RAM
+- 256 GB SSD Depolama
+
+Reasoning Model Nedir?
+Reasoning Modeller: Mantıksal çıkarımlar yaparak, kurallara ve açık bilgi tabanlarına dayalı kararlar alır.
+Chat Completion Modelleri: Kullanıcı ile doğal bir sohbet deneyimi oluşturmak için tasarlanır.
+
+Farklı Boyutlardaki DeepseekR1 Modelleri:
+1.5B Model: Mac M1 + 8GB RAM yeterliydi.
+70B Model: 128 GB RAM + yüksek bellek bant genişliği. AWS x2idn.32xlarge ile ~13$/saat.
+600B+ Model: ~768 GB RAM ve 1TB/sn bellek bant genişliği gerektirebilir. ~100.000$ sistem.
+
+
+ORNEK POST 3 - DeepSeek US App Store #1
+========================================
+Yapay zekada geçtiğimiz hafta öne çıkanlar:
+
+• DeepSeek ABD App Store'da #1. Yeni MoE model düşük maliyet ve yüksek "reasoning" performansı sunuyor.
+
+• Chain-of-thought yapısını anlamak için güzel bir örnek
+
+• Ai2 (Allen Institute for AI), Llama 3.1 (405B) tabanlı yeni Tülu modelini tanıttı
+
+• NVIDIA hisselerindeki %17'lik dalgalanma - bir günde en çok değer kaybeden şirket, tam $600 milyar...
+
+• Benim bu hafta en çok ilgimi çeken araştırma: Yapay zekanın tarihi metinlere uygulanması. LLM'lerle Tarihsel İnceleme.
+
+• Yaratıcılık Meselesi - Karpathy'nin dediği gibi, "hallucination bug değil, feature olabilir" — fakat bunu gerektiğinde kapatıp gerektiğinde açabilmek koca bir "trilyon dolarlık soru."
+
+
+ORNEK POST 4 - Anthropic Claude Distillation Suçlaması
+======================================================
+Yapay zekada bu hafta öne çıkanlar:
+
+• Anthropic'ten endüstriyi sarsan "Claude Hırsızlığı" suçlaması
+> Anthropic; DeepSeek, Moonshot AI ve Minimax şirketlerinin 24.000'den fazla sahte hesapla Claude'u kullanarak kendi modellerini gizlice eğittiğini söylüyor.
+
+• Bu hafta en dikkatimi çeken konu:
+> AI altyapısının kritik ihtiyaçları, hiç beklemediğimiz şirketlerin elinde.
+> Palliser Capital, Japon tuvalet üreticisi TOTO'yu "AI memory tarafının en göz ardı edilen kazananı" olarak tanımladı.
+> Toto'nun seramik uzmanlığı, çip üretiminde kullanılan electrostatic chuck'larda kritik rol oynuyor.
+> Benzer şekilde Ajinomoto (MSG üreticisi), yüksek performanslı GPU'larda kullanılan özel yalıtım filmlerinde küresel ölçekte dominant konumda.
+
+• Benchmark'lar ne kadar güvenilir?
+> OpenAI, SWE-bench'i artık raporlamayacağını duyurdu.
+> Qwen ekibi, GPQA gibi popüler test setlerinde ciddi veri kalitesi sorunları olduğunu doğruladı.
+
+• "Agentic Engineering" kavramının yükselişi.
+
+
+ORNEK POST 5 - OpenAI 110B$ Tur, Anthropic Etik
+=================================================
+Yapay zekada bu hafta öne çıkanlar:
+
+• OpenAI, 110 milyar dolarlık tarihi bir yatırım turunu tamamladı. Amazon (50B$), NVIDIA (30B$) ve SoftBank (50B$)'ın destekledi.
+
+• Haftanın etik tartışması: Anthropic, modellerinin ABD Savunma Bakanlığı'nın kitlesel gözetim ve otonom silah geliştirmede kullanılmasına dair taleplerini açıkça reddetti.
+> Aynı gün 200M$ anlaşmayı bağlayan OpenAI CEO'su Sam Altman; "Biz de GPT Modelleri ile otonom silah ve gözetlemede kullandırmayacağız" açıklaması yapsa da, Pentagonun açıklaması bu ifade ile çelişiyor.
+
+• Anthropic, Claude Code'a otomatik hafıza ekledi.
+> Kısa döngülerde gerçekten hayat kurtarıyor.
+
+• Google, yeni görüntü modeli Nano Banana 2'yi duyurdu.
+> Pro kalitesini yarı maliyetle sunuyor.
+
+• Perplexity, tek prompt yerine komple iş akışları yürüten Perplexity Computer'ı başlattı.
+
+• Alibaba, Qwen 3.5 Medium serisini tanıttı.
+> 35B parametreli MoE modeli, benchmarklarda 235B'lik bir önceki modelden daha iyi performans gösterdi.
+
+
+
+
+
+ORNEK POST 6
+🏮Yapay zekada bu hafta öne çıkanlar:
+
+🔬 Haftanın en çarpıcı araştırması: Anthropic "AI Exposure Index" yayınladı.
+> Claude'un gerçek kullanım verilerini temel alarak, hangi mesleklerin AI'a en çok "maruz kaldığı" ölçülmüş.
+> Sonuçlar sert: Bilgisayar programcıları %74.5, müşteri hizmetleri %70.1, veri giriş %67.1, finansal analistler %57.2, yazılım test mühendisleri %51.9.
+
+> Asıl ilginç olan: Teorik AI kapasitesi ile gerçek kullanım arasında devasa bir uçurum var. 
+> Radar grafiklerinde mavi alan (teorik) neredeyse her sektörü kaplıyor, kırmızı (gerçek kullanım) ise çok daha küçük.
+> Yani AI her şeyi yapabilir gibi görünüyor ama henüz yapmıyoruz.
+
+> Güvenli bölge: İnşaat, tarım, bakım-onarım, sağlık. Fiziksel dünya hâlâ insanın.
+> https://www.anthropic.com/research/labor-market-impacts
+
+
+🧠 Bu haftanın en "sci-fi" haberi: Cortical Labs, $11M yatırımla silikon çip üzerinde 200.000 insan nöronu yetiştirdi ve Doom (bir zamanların efsane oyunu) oynamayı öğretti.
+> Bir önceki oyun Pong'u öğrenmesi 18 ay sürmüştü. 
+> Sistem Doom'u 1 haftada öğrendi.
+> Yatırımcı listesi düşündürücü: Horizons Ventures, Blackbird ve INQTEL Pty Ltd (CIA'in yatırım kolu).
+> In-Q-Tel geçmişte bilim projelerinden ziyade, istihbarat projelerini finansa etmekle biliniyor.
+> "Wetware-as-a-Service" olarak Cortical Cloud üzerinden geliştiricilere açıldı. Gerçek insan nöronlarına uzaktan kod deploy edebiliyorsunuz. 
+> Fiyat bir yazılım aboneliği seviyesinde.
+> Beynimiz 20 watt harcıyor. Tek bir GPU cluster megawatt'lar çekiyor. Biyolojik compute'un enerji verimliliği silikondan kat kat iyi ve bu fark büyüyor.
+
+> https://x.com/MAstronomers/status/2030294901695361444?s=20
+
+
+
+🌍 Dünyanın dört bir yanından AI haberleri:
+🇸🇦 Suudi Arabistan, "The Line" mega projesini iptal edip yerine AI data center inşa edeceğini duyurdu.
+> Dünyanın en iddialı inşaat projelerinden biri, sessizce dünyanın en büyük AI altyapı yatırımlarından birine dönüşüyor.
+
+🇨🇳 Çin, dünyanın ilk açık kaynaklı kuantum işletim sistemini yayınladı.
+> Herkes ücretsiz indirebiliyor. Kuantum bilişimde demokratikleşme adımı.
+
+🇺🇸 OpenAI, native computer-use destekli GPT-5.4'ü duyurdu.
+> 1M token context window. OSWorld testinde %75 başarıyla insan baseline'ını geçti. AI ajanları artık masaüstünde fare ve klavyeyi bizden iyi kullanıyor.
+
+🔷 Microsoft Azure AI Foundry'de yoğun bir şubat ayı:
+Benim en ilgimi çeken:
+> Foundry Local ile büyük multimodal modeller tamamen bağlantısız çalışabiliyor (sovereign cloud).
+> Microsoft Agent Framework Release Candidate'e ulaştı, API surface kilitlendi, GA yaklaştı.
+> Durable Agent Orchestration: Agent'lar artık insan onayını bekleyip restart'lardan kurtulabiliyor.
+> Claude Opus 4.6 & Sonnet 4.6 — Anthropic's frontier modelleri 1M-token context window Microsoft Azure ile erişilebilir.
+
+
+Bu haftalık bu kadar, keyifli bir hafta dilerim!
+#AI #YapayZeka #MachineLearning #LLM #AzureAI #AgenticEngineering #CyberSecurity #QuantumComputing #BioComputing #Tech

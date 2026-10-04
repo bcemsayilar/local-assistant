@@ -211,6 +211,43 @@ TOOL_DEFINITIONS = [
             "parameters": {"type": "object", "properties": {}, "required": []},
         },
     },
+    # --- Finance tools ---
+    {
+        "type": "function",
+        "function": {
+            "name": "finance_add",
+            "description": "Harcama veya gelir kaydi ekle. Tutar, aciklama, kategori ve tarih belirt.",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "amount": {"type": "number", "description": "Tutar (pozitif yaz, otomatik negatif olur)"},
+                    "description": {"type": "string", "description": "Harcama aciklamasi (nereye, ne icin)"},
+                    "category": {"type": "string", "description": "Kategori: market, restoran, kafe, ulasim, giyim, saglik, subscription, parallax-infra, parallax-tools, spor, eglence, tekel, nakit, oto, otel, aile, arkadas, diger"},
+                    "entity_type": {"type": "string", "description": "personal veya parallax (varsayilan: personal)"},
+                    "date": {"type": "string", "description": "Tarih YYYY-MM-DD (bos = bugun)"},
+                },
+                "required": ["amount", "description"],
+            },
+        },
+    },
+    {
+        "type": "function",
+        "function": {
+            "name": "finance_query",
+            "description": "Finans verilerini sorgula. Harcama ozeti, kategori detayi, aylik trend, arama yap.",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "query_type": {"type": "string", "description": "Sorgu tipi: summary (harcama ozeti), monthly (aylik trend), category (kategori detay), search (arama), totals (genel toplamlar)"},
+                    "month": {"type": "string", "description": "Ay filtresi YYYY-MM (opsiyonel)"},
+                    "category": {"type": "string", "description": "Kategori filtresi (opsiyonel)"},
+                    "entity_type": {"type": "string", "description": "personal veya parallax (opsiyonel)"},
+                    "term": {"type": "string", "description": "Arama terimi (search tipi icin)"},
+                },
+                "required": ["query_type"],
+            },
+        },
+    },
     # --- Non-Obsidian tools ---
     {
         "type": "function",
@@ -614,5 +651,108 @@ def create_apple_reminder(title: str) -> Dict[str, Any]:
         if result.returncode == 0:
             return {"success": True, "title": title}
         return {"error": result.stderr}
+    except Exception as e:
+        return {"error": str(e)}
+
+
+# ── Finance tools ──
+
+FINANCE_DB = Path.home() / "Projects" / "finance-tracker" / "finance.db"
+
+
+def finance_add(amount: float, description: str, category: str = "diger",
+                entity_type: str = "personal", date: str = "") -> Dict[str, Any]:
+    """Add a finance transaction."""
+    import sqlite3
+    try:
+        if not date:
+            date = datetime.now().strftime("%Y-%m-%d")
+        if amount > 0:
+            amount = -amount
+
+        conn = sqlite3.connect(str(FINANCE_DB))
+        conn.execute(
+            """INSERT INTO transactions
+               (date, description, amount, currency, category, entity_type, source)
+               VALUES (?, ?, ?, 'TRY', ?, ?, 'telegram')""",
+            (date, description, amount, category, entity_type)
+        )
+        conn.commit()
+        conn.close()
+        return {"success": True, "date": date, "amount": amount,
+                "description": description, "category": category}
+    except Exception as e:
+        return {"error": str(e)}
+
+
+def finance_query(query_type: str, **kwargs) -> Dict[str, Any]:
+    """Query finance data."""
+    import sqlite3
+    try:
+        conn = sqlite3.connect(str(FINANCE_DB))
+        conn.row_factory = sqlite3.Row
+
+        if query_type == "summary":
+            month = kwargs.get("month", "")
+            entity = kwargs.get("entity_type", "")
+            sql = """SELECT category, SUM(amount) as total, COUNT(*) as cnt
+                     FROM transactions WHERE amount < 0 AND entity_type != 'internal'"""
+            params = []
+            if month:
+                sql += " AND strftime('%Y-%m', date) = ?"
+                params.append(month)
+            if entity:
+                sql += " AND entity_type = ?"
+                params.append(entity)
+            sql += " GROUP BY category ORDER BY total ASC"
+            rows = conn.execute(sql, params).fetchall()
+            result = [{"category": r["category"], "total": round(r["total"], 2), "count": r["cnt"]} for r in rows]
+            grand_total = sum(r["total"] for r in result)
+            conn.close()
+            return {"breakdown": result, "total": round(grand_total, 2)}
+
+        elif query_type == "monthly":
+            sql = """SELECT strftime('%Y-%m', date) as month,
+                     SUM(CASE WHEN amount < 0 AND category != 'yatirim' THEN amount ELSE 0 END) as spending,
+                     SUM(CASE WHEN amount > 0 THEN amount ELSE 0 END) as income
+                     FROM transactions WHERE entity_type != 'internal'
+                     GROUP BY month ORDER BY month DESC LIMIT 6"""
+            rows = conn.execute(sql).fetchall()
+            conn.close()
+            return {"months": [{"month": r["month"], "spending": round(r["spending"], 2),
+                               "income": round(r["income"], 2)} for r in rows]}
+
+        elif query_type == "category":
+            cat = kwargs.get("category", "")
+            month = kwargs.get("month", "")
+            sql = "SELECT date, description, amount FROM transactions WHERE category = ?"
+            params = [cat]
+            if month:
+                sql += " AND strftime('%Y-%m', date) = ?"
+                params.append(month)
+            sql += " ORDER BY date DESC LIMIT 20"
+            rows = conn.execute(sql, params).fetchall()
+            total = sum(r["amount"] for r in rows)
+            conn.close()
+            return {"transactions": [dict(r) for r in rows], "total": round(total, 2)}
+
+        elif query_type == "search":
+            term = kwargs.get("term", "")
+            sql = "SELECT date, description, amount, category FROM transactions WHERE description LIKE ? ORDER BY date DESC LIMIT 20"
+            rows = conn.execute(sql, (f"%{term}%",)).fetchall()
+            conn.close()
+            return {"results": [dict(r) for r in rows]}
+
+        elif query_type == "totals":
+            stats = {}
+            stats["personal"] = conn.execute("SELECT COALESCE(SUM(amount),0) FROM transactions WHERE entity_type='personal' AND amount < 0").fetchone()[0]
+            stats["parallax"] = conn.execute("SELECT COALESCE(SUM(amount),0) FROM transactions WHERE entity_type='parallax' AND amount < 0").fetchone()[0]
+            stats["count"] = conn.execute("SELECT COUNT(*) FROM transactions").fetchone()[0]
+            conn.close()
+            return {k: round(v, 2) if isinstance(v, float) else v for k, v in stats.items()}
+
+        else:
+            conn.close()
+            return {"error": f"Bilinmeyen sorgu tipi: {query_type}"}
     except Exception as e:
         return {"error": str(e)}

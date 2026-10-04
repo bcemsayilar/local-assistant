@@ -12,6 +12,8 @@ logging.basicConfig(
     format="%(asctime)s [%(name)s] %(levelname)s: %(message)s",
     datefmt="%H:%M:%S",
 )
+# httpx logs every Telegram poll URL at INFO, which contains the bot token
+logging.getLogger("httpx").setLevel(logging.WARNING)
 logger = logging.getLogger("assistant")
 
 

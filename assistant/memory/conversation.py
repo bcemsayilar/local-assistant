@@ -22,12 +22,17 @@ class ConversationMemory:
         schema_path = Path(__file__).parent.parent / "db" / "schema.sql"
         with sqlite3.connect(self.db_path) as conn:
             conn.executescript(schema_path.read_text())
+            # Migration: add media_type column if not exists
+            try:
+                conn.execute("ALTER TABLE conversations ADD COLUMN media_type TEXT")
+            except sqlite3.OperationalError:
+                pass  # column already exists
 
-    def add_message(self, user_id: int, role: str, content: str):
+    def add_message(self, user_id: int, role: str, content: str, media_type: str = None):
         with sqlite3.connect(self.db_path) as conn:
             conn.execute(
-                "INSERT INTO conversations (user_id, role, content) VALUES (?, ?, ?)",
-                (user_id, role, content),
+                "INSERT INTO conversations (user_id, role, content, media_type) VALUES (?, ?, ?, ?)",
+                (user_id, role, content, media_type),
             )
 
     def get_history(self, user_id: int, limit: int = CONTEXT_WINDOW_MESSAGES) -> List[Dict[str, str]]:
