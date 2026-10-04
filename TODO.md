@@ -15,7 +15,6 @@ Mac Air sunucusunun genel bilgisi (erişim, servisler, güvenlik): `~/Desktop/Pa
 
 Denetimde olculen durum: FileVault kapali, auto-login acik (elifberraksayilar), firewall acik, ekran kilidi okunamadi (macOS 26, System Settings'ten bakilacak). Tum arayuzlerde dinleyen portlar: 22 (ssh), 8000 (finance-agent), 22000 (syncthing), 3031, 8790. 2026-10-02 tekrar olcum: 3031 artik dinlemiyor; 8000 ve 8790 hala `*`, 8686 (finance-tracker) sadece Tailscale IP'sinde. Sadece localhost (dogru): 5678 (n8n), 11434 (ollama), 8585 (graphthulhu). Not: ASA spend guard bu denetimde kuruldu, calisiyor (launchd net.parallaxtechnologies.clearwave.spendguard, 4 saatte bir, ~/Projects/watercleaner).
 
-- [ ] Ekran kilidini System Settings'ten dogrula, kapaliysa ac: uyku/ekran koruyucu sonrasi sifre hemen ya da 1 dakika icinde istensin. Auto-login ile uyumlu, cunku auto-login sadece boot'ta gecerli, bu da "biri kapagi acti" durumunu kapatir.
 - [x] FileVault: kullanici karari 2026-10-04, ACILMAYACAK (auto-login ve 7/24 otonom reboot oncelikli).
 - [ ] Air icin Tailscale ACL + tag, ve Tailscale SSH'i ac (bugun kapali, advertised SSH host key yok). Erisim kontrolu tek yerde merkezi olarak iptal edilebilir hale gelir, makinelere dagilmis authorized_keys'e bagli kalmaz.
 - [ ] Deco mesh'te ayri misafir WiFi, ziyaretciler LAN'a acik servislere ulasamasin.
