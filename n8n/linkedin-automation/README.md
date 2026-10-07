@@ -1,6 +1,6 @@
 # LinkedIn AI Post Automation (n8n)
 
-Haftalik AI newsletter'larini ceken ve ozetleyen n8n workflow'u. Ilk tasarimda LinkedIn postunu da yazip mail atiyordu; 2026-10-02 itibariyla `LLM - Write LinkedIn Post`, `Format Email HTML` ve `Gmail - Send Post` node'lari DISABLED, yani workflow sadece veri + ozet uretir. Post uretimi `~/Desktop/newsletter-project`'te, yazim kurallari `docs/linkedin-yazim-kurallari.md`.
+Haftalik AI newsletter'larini ceken ve ozetleyen n8n workflow'u. Ilk tasarimda LinkedIn postunu da yazip mail atiyordu; 2026-10-02 itibariyla `LLM - Write LinkedIn Post`, `Format Email HTML` ve `Gmail - Send Post` node'lari DISABLED, yani workflow sadece veri + ozet uretir. Post uretimi `~/Mac-Projects/newsletter-project`'te, yazim kurallari `docs/linkedin-yazim-kurallari.md`.
 
 ## Workflow ID
 `S0RDiop6EVTj33AX` - "Weekly LinkedIn AI Post"

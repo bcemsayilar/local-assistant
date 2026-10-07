@@ -3,7 +3,7 @@
 Cem Sayilar'in haftalik AI bulten postlari icin tek kaynak yazim rehberi. Ornek postlar ayni workflow klasorunde: `../ornek-postlar.txt`.
 
 ## Dosya Akisi
-- Uretim: 2026-08'den beri `~/Desktop/newsletter-project` (LinkedIn teaser, metni OpenAI yazar, cikti `output/linkedin/<tarih>/`). Eski calisma taslagi `~/Desktop/linkedin-post.md` artik yok
+- Uretim: 2026-08'den beri `~/Mac-Projects/newsletter-project` (LinkedIn teaser, metni OpenAI yazar, cikti `output/linkedin/<tarih>/`). Eski calisma taslagi `~/Desktop/linkedin-post.md` artik yok
 - Arsiv + stil referansi: `~/Desktop/Self Branding/LinkedIn/linkedin-postlari.txt`
 - Yeni post icin ayri md acilmaz.
 
