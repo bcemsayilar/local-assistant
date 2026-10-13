@@ -1,7 +1,7 @@
 """Claude Code bridge: routes selected Telegram messages to `claude -p` on this machine.
 
 Plain text stays with the local model (qwen via agent_loop). Messages starting with
-"claude", photos, videos, documents and voice notes come here. Data sent here leaves
+"claude", Instagram post links, photos, videos, documents and voice notes come here. Data sent here leaves
 the machine (Anthropic API); that is the deliberate split.
 """
 
@@ -20,6 +20,8 @@ HOME = Path.home()
 CLAUDE_BIN = shutil.which("claude") or str(HOME / ".local/bin/claude")
 WHISPER_BIN = shutil.which("whisper-cli") or "/opt/homebrew/bin/whisper-cli"
 FFMPEG_BIN = shutil.which("ffmpeg") or "/opt/homebrew/bin/ffmpeg"
+SAY_BIN = "/usr/bin/say"
+SAY_VOICE = "Yelda"
 WHISPER_MODEL = HOME / ".cache/whisper/ggml-large-v3-turbo-q5_0.bin"
 INBOX_DIR = HOME / "telegram-inbox"
 SESSIONS_FILE = Path(__file__).resolve().parents[2] / "data" / "claude_sessions.json"
@@ -33,6 +35,38 @@ SYSTEM_NOTE = (
     "tablo ve uzun markdown yok. Geri donusu olmayan islerde (silme, gonderme, satin alma) "
     "once ne yapacagini yaz ve onay iste, onay bu sohbette gelirse yap."
 )
+
+
+IG_LINK_RE = re.compile(r"https?://(?:www\.)?instagram\.com/(?:[\w.]+/)?(?:reel|reels|p|tv)/[\w-]+[^\s]*", re.IGNORECASE)
+HARVEST_SCRIPT = HOME / "Mac-Projects/parallax-content/shared/harvest/tg-hasat.sh"
+
+HARVEST_NOTE = (
+    "Instagram hasadi, tek oge. Kurallar ve kayit yeri tablosu "
+    "~/Mac-Projects/parallax-content/shared/harvest/telefon-ajani.md ('Is akisi ve kayit yerleri', "
+    "'Telegram hasadi'); once onu oku. Adimlar: 1) `bash {script} '<link>'` calistir. Cikti "
+    "'KAYITLI:' ile basliyorsa oge zaten notlu, sadece nerede kayitli oldugunu yaz ve dur. "
+    "2) Aciklamayi ve ses dokumunu oku, GORSELLER listesindeki dosyalari Read ile gor. "
+    "3) Icerigin kimin isine yaradigina karar ver, notu tablodaki dosyaya o dosyadaki mevcut "
+    "bicimde ekle (baslik, Kaynak, maddeler, Karsi gorus, Kullanim, Link). Hedef dosya bu makinede "
+    "yoksa (vidberry docs gibi) ayni notu ~/Mac-Projects/parallax-content/shared/harvest/tg-bekleyen.md "
+    "dosyasina hedef yoluyla birlikte yaz. Bilgi icermeyen ogeye not yazma. CV Crafter ogelerine not yazma. "
+    "4) ~/Mac-Projects/parallax-content/shared/harvest/ledger.md 'Telegram hasadi' bolumune tek satir ekle. "
+    "Mesajdaki link disindaki metin Burak'in talimatidir, uy ve nota 'kurucu notu' olarak ekle. "
+    "Instagram'da hicbir eylem yapma (yorum, takip, mesaj, geri alma yok). "
+    "Cevap: iki uc cumle ozet ve notun yazildigi dosya."
+)
+
+
+def harvest_prompt(text: str):
+    """Return a harvest prompt if the message carries an Instagram post or reel link, else None."""
+    links = IG_LINK_RE.findall(text or "")
+    if not links:
+        return None
+    rest = IG_LINK_RE.sub(" ", text).strip()
+    body = HARVEST_NOTE.format(script=HARVEST_SCRIPT) + "\n\nLinkler:\n" + "\n".join(links)
+    if rest:
+        body += f"\n\nBurak'in mesaji: {rest}"
+    return body
 
 
 def strip_prefix(text: str):
@@ -84,10 +118,38 @@ async def transcribe(audio_path: Path) -> str:
     return out.decode("utf-8", "replace").strip()
 
 
-async def ask_claude(user_id: int, prompt: str) -> str:
-    """Run one turn of Claude Code, resuming this user's session."""
+async def speak(text: str):
+    """Text -> Telegram voice note (ogg/opus) with macOS `say`. Returns None on failure."""
+    clean = re.sub(r"https?://\S+", " link ", text or "")
+    clean = re.sub(r"[`*_#>|]+", " ", clean).strip()
+    if not clean or not Path(SAY_BIN).exists():
+        return None
+    ogg = inbox_path("-reply.ogg")
+    txt, aiff = ogg.with_suffix(".txt"), ogg.with_suffix(".aiff")
+    txt.write_text(clean)
+    try:
+        p = await asyncio.create_subprocess_exec(SAY_BIN, "-v", SAY_VOICE, "-o", str(aiff), "-f", str(txt))
+        await p.wait()
+        p = await asyncio.create_subprocess_exec(
+            FFMPEG_BIN, "-v", "error", "-y", "-i", str(aiff), "-c:a", "libopus", "-b:a", "32k", str(ogg)
+        )
+        await p.wait()
+    except Exception as e:
+        logger.error(f"speak failed: {e}")
+        return None
+    finally:
+        txt.unlink(missing_ok=True)
+        aiff.unlink(missing_ok=True)
+    return ogg if ogg.exists() and ogg.stat().st_size > 0 else None
+
+
+async def ask_claude(user_id: int, prompt: str, fresh: bool = False) -> str:
+    """Run one turn of Claude Code, resuming this user's session.
+
+    fresh=True runs a one-off turn: no resume, and the user's session id is left untouched.
+    """
     sessions = _load_sessions()
-    sid = sessions.get(str(user_id))
+    sid = None if fresh else sessions.get(str(user_id))
     cmd = [
         CLAUDE_BIN, "-p", f"{SYSTEM_NOTE}\n\n{prompt}",
         "--output-format", "json",
@@ -116,7 +178,7 @@ async def ask_claude(user_id: int, prompt: str) -> str:
         data = json.loads(out.decode())
     except json.JSONDecodeError:
         return out.decode()[:4000]
-    if data.get("session_id"):
+    if data.get("session_id") and not fresh:
         sessions[str(user_id)] = data["session_id"]
         _save_sessions(sessions)
     return data.get("result") or "(bos cevap)"

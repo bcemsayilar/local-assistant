@@ -103,18 +103,30 @@ async def send_long(update: Update, text: str):
     return sent
 
 
-async def run_claude(update: Update, prompt: str):
-    """Send one turn to Claude Code, keep the typing indicator alive while it works."""
+async def run_claude(update: Update, prompt: str, voice: bool = False, fresh: bool = False):
+    """Send one turn to Claude Code, keep the typing indicator alive while it works.
+
+    voice=True also sends the answer as a voice note (the text still follows, for links and paths).
+    """
     import asyncio
     user_id = update.effective_user.id
-    task = asyncio.create_task(cb.ask_claude(user_id, prompt))
+    task = asyncio.create_task(cb.ask_claude(user_id, prompt, fresh=fresh))
     while not task.done():
         try:
             await update.message.chat.send_action("typing")
         except Exception:
             pass
         await asyncio.wait({task}, timeout=4.5)
-    await send_long(update, task.result())
+    answer = task.result()
+    if voice:
+        ogg = await cb.speak(answer)
+        if ogg:
+            try:
+                with open(ogg, "rb") as f:
+                    await update.message.reply_voice(f)
+            except Exception as e:
+                logger.error(f"voice reply failed: {e}")
+    await send_long(update, answer)
 
 
 async def cmd_yeni(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -153,6 +165,12 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
     claude_prompt = cb.strip_prefix(user_text)
     if claude_prompt is not None:
         await run_claude(update, claude_prompt)
+        return
+
+    # Instagram post or reel link -> one-off Claude harvest turn (note written, nothing sent back to Instagram)
+    harvest = cb.harvest_prompt(user_text)
+    if harvest is not None:
+        await run_claude(update, harvest, fresh=True)
         return
 
     # Save user message
@@ -271,7 +289,10 @@ async def handle_voice(update: Update, context: ContextTypes.DEFAULT_TYPE):
         prompt = f"Sesli not (whisper dokumu, hatali kelime olabilir):\n{text}\n\nSes dosyasi: {local_path}"
     else:
         prompt = f"Sesli not geldi ama yaziya dokulemedi (whisper yok). Dosya: {local_path}"
-    await run_claude(update, prompt)
+    # Voice in, voice out: only for voice notes, not for audio files sent for analysis
+    if msg.voice:
+        prompt += "\n\nCevabin sesli okunacak: kisa, konusma diliyle, liste ve kod yok."
+    await run_claude(update, prompt, voice=bool(msg.voice))
 
 
 def create_bot(

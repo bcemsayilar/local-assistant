@@ -1,7 +1,6 @@
 # Local Assistant - TODO
 
 ## Aktif
-- [ ] Log rotation - bot-stdout.log ve bot-stderr.log icin newsyslog.d conf olustur. 2026-10-02 olcum: Air'de `logs/bot-stderr.log` 238 MB, `/etc/newsyslog.d/` altinda bu proje icin conf yok
 - [ ] Model tutarsizligi: Air `.env` `qwen3.5:9b` (6.6 GB, 8 GB RAM'de agir), `config.py` varsayilani `qwen3.5:4b` (Air'de yuklu degil), Mac Pro `.env` ve `.env.example` `qwen3:4b`. Birini sec, hepsini esitle
 - [ ] SearxNG Air'de calismiyor (2026-10-02: localhost:4000 dinlemiyor, colima/docker kapali), `web_search` araci olu. Ya kaldir ya LaunchAgent ile kalici kur
 - [ ] n8n Twitter Bookmarks workflow'u `qwen3:4b` kullaniyor, model Air'de yok; bookmarks.json 2026-02-28'den beri guncellenmedi. Ya modeli guncelle ve beslemeyi kur ya workflow'u kapat
@@ -10,7 +9,8 @@
 - [ ] **cemsayilar.com kisisel/proje sitesi** - projelerin + deneyim oldugu guzel bir sayfa (demirbulbuloglu.com tarzi: tek sayfa, koyu tema, isim+meslek hero, kisa bio, proje/deneyim listesi). Kok domain = cemsayilar.com (blog alt alanda: blog.cemsayilar.com). Cloudflare Pages ile static deploy; DNS'i Squarespace'ten Cloudflare'e tasi (o zaman blog CNAME + site kayitlari CLI'dan yonetilir). Template: Astro temasi (astro.build/themes) ya da hazir portfolio.
 - [ ] **lifeOS projesi**: 2026-06-05 pivot, Cognee Mac Air'de surdurulebilir bulunmadi, yeni aday PewDiePie Odysseus. Detay: `projects/lifeOS/README.md` "STRATEJI PIVOT".
 
-## Mac Air Hardening (watercleaner-7a denetimi, 2026-09-09)
+## PARKED: Mac Air Hardening (watercleaner-7a denetimi, 2026-09-09)
+PARKED 2026-10-09 (kurucu karari): kalan iki is uzaktan yapilamiyor, Tailscale ACL ve SSH admin konsolu oturumu, misafir WiFi Deco uygulamasi istiyor. Log rotation 2026-10-04'te kuruldu (`/etc/newsyslog.d/local-assistant.conf`).
 Mac Air sunucusunun genel bilgisi (erişim, servisler, güvenlik): `~/Desktop/Parallax Technologies LLC/General App Guidlines/home-server.md`
 
 Denetimde olculen durum: FileVault kapali, auto-login acik (elifberraksayilar), firewall acik, ekran kilidi okunamadi (macOS 26, System Settings'ten bakilacak). Tum arayuzlerde dinleyen portlar: 22 (ssh), 8000 (finance-agent), 22000 (syncthing), 3031, 8790. 2026-10-02 tekrar olcum: 3031 artik dinlemiyor; 8000 ve 8790 hala `*`, 8686 (finance-tracker) sadece Tailscale IP'sinde. Sadece localhost (dogru): 5678 (n8n), 11434 (ollama), 8585 (graphthulhu). Not: ASA spend guard bu denetimde kuruldu, calisiyor (launchd net.parallaxtechnologies.clearwave.spendguard, 4 saatte bir, ~/Projects/watercleaner).
@@ -23,7 +23,6 @@ Denetimde olculen durum: FileVault kapali, auto-login acik (elifberraksayilar), 
 
 ## Claude kopru (Telegram)
 - [ ] Bugunku bot degisiklikleri (`claude_bridge.py`, `telegram.py`, `main.py`) ve git'te takip edilmeyen `media.py`, `docs/` dosyalari commit bekliyor (main, kullanici onayi gerekir)
-- [ ] Sesli cevap (5. adim): macOS `say` ile Turkce ses, Telegram'a voice olarak gonder
 - [ ] `relay.py` (Air'de, Mac Pro'dan Air'deki Claude oturumuna mesaj gecip cevabi Telegram'a yollar) repoya alinmadi
 
 ## Arastirilacak
