@@ -1,7 +1,6 @@
 # Local Assistant - TODO
 
 ## Aktif
-- [ ] n8n Twitter Bookmarks workflow'u `qwen3:4b` kullaniyor, model Air'de yok; bookmarks.json 2026-02-28'den beri guncellenmedi. Ya modeli guncelle ve beslemeyi kur ya workflow'u kapat
 - [ ] **cemsayilar.com kisisel/proje sitesi** - projelerin + deneyim oldugu guzel bir sayfa (demirbulbuloglu.com tarzi: tek sayfa, koyu tema, isim+meslek hero, kisa bio, proje/deneyim listesi). Kok domain = cemsayilar.com (blog alt alanda: blog.cemsayilar.com). Cloudflare Pages ile static deploy; DNS'i Squarespace'ten Cloudflare'e tasi (o zaman blog CNAME + site kayitlari CLI'dan yonetilir). Template: Astro temasi (astro.build/themes) ya da hazir portfolio.
 - [ ] **Ay sonu finans guncellemesi (Ekim 2026):** kurucu kart ekstrelerini ve guncel yatirim detaylarini verecek, finance-tracker'a (Air) islenecek. Portfoyde artik hisse var: ~2026-10-15 para piyasasi fonundan 100k bozuldu (kurucu beyani: ~6k kesinti, buyuk ihtimalle getiri uzerinden stopaj, dekontla dogrulanacak), Gen Ilac (GENIL) 4.88 TL'den ~96k alindi, yani yaklasik 19.670 lot. Ekstre gelince alis dekontu, lot, maliyet ve fon bozma kesintisinin kalemi teyit edilsin; `baseline-analiz.md` fon bakiyesi (340k) bu cikisla guncellenmeli. Kurucu ortalama dusurme icin +50k dusunuyor, karar verilmedi
 - [ ] **Merkezi kontrolör ajanı (kurucu fikri 2026-10-23, acele yok):** spend guard (Clear Wave ASA), Supabase keep-alive ve benzeri koruma ve ping işlerini tek merkezden yöneten, Remote Control ile uzaktan müdahale edilebilen statik bir kontrolör. Her yeni app için kaynak limitlerini (reklam bütçesi, Fal, OpenAI, Supabase, AWS) okuyup eşikte durduran tek kayıt ve tek zamanlayıcı. Bugünkü parçalar: `watercleaner/asa/spend_guard.py` (Air), `aws/supabase-keepalive` (Lambda), Air `air-orkestrator` (istek kutusu ve Remote Control oturumu `air-rc`). Kalıp `General App Guidlines/day-one-decisions.md` bölüm 7 "Spend guards are a standard component"
@@ -20,7 +19,6 @@ Denetimde olculen durum: FileVault kapali, auto-login acik (elifberraksayilar), 
 - [x] Plaintext secret'lar ve ajan zincirinin duz dosyadaki kilit anahtari (`~/.config/ajan/kc`): FileVault kapali kaldigi icin KABUL EDILMIS RISK (kurucu 2026-10-23).
 
 ## Claude kopru (Telegram)
-- [ ] `relay.py` yalniz Air'de duruyor (Mac Pro'dan Air'deki Claude oturumuna mesaj gecip cevabi Telegram'a yollar); kullaniliyorsa repoya al, kullanilmiyorsa sil
 
 ## Arastirilacak
 - [ ] Yazilimcilar icin "20B" vergi muafiyetini arastir (Turkiye, yazilimci/gelistirici gelir vergisi istisnasi, sartlar ve basvuru)
