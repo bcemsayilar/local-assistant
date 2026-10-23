@@ -12,3 +12,4 @@ data/
 
 # kisisel finans bilgisi (kart ve hesap numaralari), public repoya girmez
 docs/finance-tracker-akisi.md
+aws/supabase-keepalive/projects.json
