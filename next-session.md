@@ -1,6 +1,14 @@
-# Next Session - Devir Notu (guncel: 2026-10-09)
+# Next Session - Devir Notu (guncel: 2026-10-22)
 
 Once `~/.claude/CLAUDE.md` (global kurallar, iki makine senkronu, tasima kurali, portfoy haritasi), sonra `~/Desktop/Parallax Technologies LLC/General App Guidlines/home-server.md` (Mac Air: servisler, izinler, iPhone, Syncthing) ve `app-registry.md` (hangi app hangi backend). Instagram islerinin kanonik dokumani `~/Mac-Projects/parallax-content/shared/harvest/telefon-ajani.md`, islem kaydi ayni klasorde `ledger.md`. Bu dosya sadece acik isleri tutar; yapilanlarin ayrintisi o dokumanlarda. Onceki surum (2026-10-02 dogrulama listesi) tamamlandi ve kaldirildi.
+
+## Açık işler (2026-10-22 gece, local-assistant oturumu)
+
+1. **Clear Wave TikTok hesabı aç:** e-posta contact@parallaxtechnologies.net, kullanıcı adı appclearwave, doğum tarihi 5 Şubat 1999 (kurucu kararı). Şifre üretildi ve ajan zincirinde (`tiktok:appclearwave`); `python3 ~/android-agent/sifre/sifre-yaz.py tiktok:appclearwave --cdp <sekme>` ile yazılır, asla ekrana basılmaz. Kod kurucuya gelir, sorulur. Web'den yapılacak; iPhone'da TikTok akışı WDA'yı kilitliyor (aşağı bak).
+2. **Air kapandıktan sonra açılmayanlar:** Pro DM temizlik turu yarıda kaldı (`run.py --force` ile yeniden), iki iPhone'un WDA'sı (`ios-on.sh pro`, `ios-on.sh 13`). Air 2026-10-22'de pili bitip kapandı; otomatik giriş `/etc/kcpassword` kayıptı, kurucu Ayarlar'dan yeniden açtı (22:06). Bir yeniden başlatmayla şifresiz açıldığı doğrulanmadı.
+3. **TikTok ve WDA:** TikTok For You akışında WDA dokunuşları ve ekran görüntüleri zaman aşımına düşüyor, telefonu da donduruyor. Profil gibi videosuz ekranlarda çalışıyor. TikTok işleri (izleme yt-dlp ile, mesajlar web) Air Chrome'dan; telefon yalnız gerektiğinde. telefon-ajani.md'ye yazılmadı.
+4. **Dokümanlar:** iki iPhone düzeni (cihaz.sh, WDA_PORT 8100 Pro / 8101 iPhone 13, ios-on/off <cihaz>, temizle.py, ayar.py, anahtar.py, fwd.py) home-server.md "iPhone" bölümüne, Air `~/CLAUDE.md`'ye ve telefon-ajani.md'ye işlenmedi. Instagram hesapları artık 4: benburakcem, buraksayilar, vid.berry, appclearwave (cemsayilar bırakıldı; reel yönlendirme: kişisel ve sosyal medya benburakcem'e, VidBerry üretimi vid.berry'ye). İki telefon arası görev dağılımı kurucuyla konuşulacak.
+5. **Güvenlik:** Air'de FileVault kapalı, ajan zincirinin kilit anahtarı düz dosyada (`~/.config/ajan/kc`).
 
 ## Durum (2026-10-09)
 
