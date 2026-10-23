@@ -1,0 +1,173 @@
+<title>Parallax Sistem Şeması</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: tek büyük çizgili şema, dört bölge soldan sağa (kurucu, Mac Pro, Mac Air, bulut); altında çizgi anahtarı ve bu gece değişenler */
+:root{
+  --bg:#f2f4f3; --surface:#ffffff; --fg:#1a2420; --muted:#5d6b66; --zone:#e7ecea;
+  --edge:#33413c; --sync:#7a5aa6;
+  --pro:#2f5d8a; --pro-bg:#e7eef6; --air:#2c7656; --air-bg:#e4f1ea; --cloud:#9a5b1e; --cloud-bg:#f6ece0; --you:#1a2420; --you-bg:#ffffff;
+  --new:#b3261e;
+  --display:"Bricolage Grotesque","Avenir Next",system-ui,sans-serif;
+  --body:"IBM Plex Sans","Helvetica Neue",system-ui,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#111715; --surface:#19211e; --fg:#e3eae7; --muted:#9aa8a2; --zone:#1d2623;
+  --edge:#b9c6c1; --sync:#c3a6ec;
+  --pro:#8fb8e0; --pro-bg:#172431; --air:#7fd0aa; --air-bg:#14271e; --cloud:#e2ad78; --cloud-bg:#2a2016; --you:#e3eae7; --you-bg:#19211e;
+  --new:#f08a80; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#111715; --surface:#19211e; --fg:#e3eae7; --muted:#9aa8a2; --zone:#1d2623;
+  --edge:#b9c6c1; --sync:#c3a6ec;
+  --pro:#8fb8e0; --pro-bg:#172431; --air:#7fd0aa; --air-bg:#14271e; --cloud:#e2ad78; --cloud-bg:#2a2016; --you:#e3eae7; --you-bg:#19211e;
+  --new:#f08a80; color-scheme:dark}
+body{background:var(--bg);color:var(--fg);font-family:var(--body);font-size:15px;line-height:1.55}
+.wrap{max-width:1280px;margin:0 auto;padding-block:36px 64px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:flex;flex-direction:column;gap:28px}
+h1{font-family:var(--display);font-size:clamp(28px,4.5vw,42px);font-weight:700;margin:0;line-height:1.1;text-wrap:balance}
+.eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.lede{color:var(--muted);max-width:70ch;margin:0}
+header{display:flex;flex-direction:column;gap:10px}
+.board{background:var(--surface);border:1px solid var(--zone);border-radius:6px;overflow-x:auto;padding:8px}
+svg{display:block;min-width:1100px;width:100%;height:auto}
+.zone{fill:var(--zone)}
+.zl{font-family:var(--mono);font-size:12px;letter-spacing:.08em;fill:var(--muted);text-transform:uppercase}
+.n rect{stroke-width:1.5}
+.n .t{font-family:var(--display);font-weight:700;font-size:14px}
+.n .s{font-family:var(--mono);font-size:10.5px;fill:var(--muted)}
+.you rect{fill:var(--you-bg);stroke:var(--you)} .you .t{fill:var(--you)}
+.pro rect{fill:var(--pro-bg);stroke:var(--pro)} .pro .t{fill:var(--pro)}
+.air rect{fill:var(--air-bg);stroke:var(--air)} .air .t{fill:var(--air)}
+.cloud rect{fill:var(--cloud-bg);stroke:var(--cloud)} .cloud .t{fill:var(--cloud)}
+.e{fill:none;stroke:var(--edge);stroke-width:1.6}
+.sync{fill:none;stroke:var(--sync);stroke-width:1.6;stroke-dasharray:6 5}
+.ah{fill:var(--edge)} .ahs{fill:var(--sync)}
+.el{font-family:var(--mono);font-size:10.5px;fill:var(--fg);paint-order:stroke;stroke:var(--surface);stroke-width:5px;stroke-linejoin:round}
+.newdot{fill:var(--new)}
+.key{display:flex;flex-wrap:wrap;gap:10px 26px;font-size:13px;color:var(--muted);align-items:center}
+.key span{display:inline-flex;align-items:center;gap:8px}
+.key svg{min-width:0;width:auto;display:inline}
+.changes{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px}
+.changes div{background:var(--surface);border:1px solid var(--zone);border-radius:6px;padding:12px 14px;font-size:14px;min-width:0}
+.changes b{display:block;font-family:var(--display);font-size:15px;margin-bottom:2px}
+code{font-family:var(--mono);font-size:.86em}
+</style>
+
+<div class="wrap">
+<header>
+  <div class="eyebrow">Parallax · 23 Ekim 2026 gece, yeni düzen</div>
+  <h1>Kim neye, hangi yoldan bağlı</h1>
+  <p class="lede">Telefonlar artık orkestratör sırası beklemeden kilitle doğrudan kullanılıyor, orkestratör yalnız Air'in kendisini değiştiriyor, Telegram botunda yerel model yok. Kırmızı nokta bu gece değişen parça.</p>
+</header>
+
+<div class="board">
+<svg viewBox="0 0 1240 760" role="img" aria-label="Sistem şeması: kurucu, Mac Pro oturumları, Mac Air servisleri ve telefonlar, bulut servisleri ve Instagram arasındaki bağlantılar">
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="ah" d="M0 0L10 5L0 10z"/></marker>
+    <marker id="as" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="ahs" d="M0 0L10 5L0 10z"/></marker>
+  </defs>
+
+  <!-- bölgeler -->
+  <rect class="zone" x="20" y="20" width="185" height="720" rx="6"/>
+  <rect class="zone" x="225" y="20" width="285" height="720" rx="6"/>
+  <rect class="zone" x="540" y="20" width="420" height="720" rx="6"/>
+  <rect class="zone" x="985" y="20" width="235" height="720" rx="6"/>
+  <text class="zl" x="36" y="48">Kurucu</text>
+  <text class="zl" x="241" y="48">Mac Pro · yönetim</text>
+  <text class="zl" x="556" y="48">Mac Air · ev sunucusu</text>
+  <text class="zl" x="1001" y="48">Bulut</text>
+
+  <!-- çizgiler (düğümlerin altında kalsın diye önce) -->
+  <!-- kurucu yönetir -->
+  <path class="e" d="M180 118 H250" marker-end="url(#a)"/>
+  <path class="e" d="M180 118 H215 V198 H250" marker-end="url(#a)"/>
+  <path class="e" d="M215 198 V278 H250" marker-end="url(#a)"/>
+  <!-- kurucu telegram -->
+  <path class="e" d="M110 146 V430" marker-end="url(#a)"/>
+  <text class="el" x="118" y="290">mesaj, ses,</text>
+  <text class="el" x="118" y="304">görsel</text>
+  <!-- telegram bot -->
+  <path class="e" d="M180 458 H560" marker-start="url(#a)" marker-end="url(#a)"/>
+  <text class="el" x="300" y="450">Telegram, cevap geri</text>
+  <!-- Pro oturum gövdesi -->
+  <path class="e" d="M480 118 H505 V278"/>
+  <path class="e" d="M480 198 H505"/>
+  <path class="e" d="M480 278 H505"/>
+  <path class="e" d="M505 118 H560" marker-end="url(#a)"/>
+  <text class="el" x="512" y="108">istek</text>
+  <path class="e" d="M505 278 H560" marker-end="url(#a)"/>
+  <text class="el" x="512" y="268">SSH</text>
+  <!-- orkestratör kurar -->
+  <path class="e" d="M750 146 V170" marker-end="url(#a)"/>
+  <!-- kilit telefon -->
+  <path class="e" d="M720 278 H760" marker-end="url(#a)"/>
+  <!-- servisler yayın -->
+  <path class="e" d="M940 198 H1005" marker-end="url(#a)"/>
+  <text class="el" x="944" y="188">yayin.py</text>
+  <!-- ig-otomasyon instagram -->
+  <path class="e" d="M1105 240 V420" marker-end="url(#a)"/>
+  <text class="el" x="1112" y="330">Graph API</text>
+  <!-- telefonlar instagram -->
+  <path class="e" d="M940 290 H972 V448 H1005" marker-end="url(#a)"/>
+  <text class="el" x="944" y="372">uygulama</text>
+  <!-- bot yönlendirme -->
+  <path class="e" d="M720 450 H740 V408 H760" marker-end="url(#a)"/>
+  <path class="e" d="M720 466 H740 V508 H760" marker-end="url(#a)"/>
+  <!-- notes vault -->
+  <path class="e" d="M940 408 H952 V618 H940" marker-end="url(#a)"/>
+  <text class="el" x="900" y="566">yazar</text>
+  <!-- claude bulut -->
+  <path class="e" d="M940 520 H972 V568 H1005" marker-end="url(#a)"/>
+  <!-- syncthing -->
+  <path class="sync" d="M480 618 H760" marker-start="url(#as)" marker-end="url(#as)"/>
+  <text class="el" x="530" y="608">Syncthing</text>
+
+  <!-- düğümler -->
+  <g class="n you"><rect x="40" y="90" width="140" height="56" rx="5"/><text class="t" x="52" y="114">Kurucu</text><text class="s" x="52" y="132">onay yalnız ondan</text></g>
+  <g class="n you"><rect x="40" y="430" width="140" height="56" rx="5"/><text class="t" x="52" y="454">Telegram</text><text class="s" x="52" y="472">@burakcembot</text></g>
+
+  <g class="n pro"><rect x="250" y="90" width="230" height="56" rx="5"/><text class="t" x="262" y="114">local-assistant</text><text class="s" x="262" y="132">altyapı, güvenlik, çatışma</text></g>
+  <g class="n pro"><rect x="250" y="170" width="230" height="56" rx="5"/><text class="t" x="262" y="194">self-branding</text><text class="s" x="262" y="212">bütün içerik üretimi</text></g>
+  <g class="n pro"><rect x="250" y="250" width="230" height="56" rx="5"/><text class="t" x="262" y="274">Ürün oturumları</text><text class="s" x="262" y="292">vidberry, pillowtale, clearwave</text></g>
+  <g class="n pro"><rect x="250" y="590" width="230" height="56" rx="5"/><text class="t" x="262" y="614">Ortak klasörler</text><text class="s" x="262" y="632">git ve push yalnız burada</text></g>
+
+  <g class="n air"><rect x="560" y="90" width="380" height="56" rx="5"/><text class="t" x="572" y="114">air-orkestrator</text><text class="s" x="572" y="132">istek kutusu, yalnız Air'i değiştiren işler</text></g>
+  <circle class="newdot" cx="928" cy="102" r="5"/>
+  <g class="n air"><rect x="560" y="170" width="380" height="56" rx="5"/><text class="t" x="572" y="194">Servisler ve zamanlayıcılar</text><text class="s" x="572" y="212">ig-poll, ig-temizlik 04:00, Clear Wave reels, n8n</text></g>
+  <circle class="newdot" cx="928" cy="182" r="5"/>
+  <g class="n air"><rect x="560" y="250" width="160" height="56" rx="5"/><text class="t" x="572" y="274">kilit.py</text><text class="s" x="572" y="292">tek sahip, 15 dk</text></g>
+  <circle class="newdot" cx="708" cy="262" r="5"/>
+  <g class="n air"><rect x="760" y="250" width="180" height="70" rx="5"/><text class="t" x="772" y="274">Telefonlar</text><text class="s" x="772" y="292">iPhone 17 Pro :8100</text><text class="s" x="772" y="308">iPhone 13 :8101, Android</text></g>
+  <g class="n air"><rect x="560" y="430" width="160" height="56" rx="5"/><text class="t" x="572" y="454">Telegram botu</text><text class="s" x="572" y="472">anahtar kelimeye bakar</text></g>
+  <circle class="newdot" cx="708" cy="442" r="5"/>
+  <g class="n air"><rect x="760" y="380" width="180" height="56" rx="5"/><text class="t" x="772" y="404">notes.py</text><text class="s" x="772" y="422">ruya, gunluk, spor N</text></g>
+  <circle class="newdot" cx="928" cy="392" r="5"/>
+  <g class="n air"><rect x="760" y="480" width="180" height="56" rx="5"/><text class="t" x="772" y="504">Claude Code</text><text class="s" x="772" y="522">geri kalan her mesaj</text></g>
+  <g class="n air"><rect x="760" y="590" width="180" height="56" rx="5"/><text class="t" x="772" y="614">ObsidianVault</text><text class="s" x="772" y="632">ruya/ gunluk/ spor/</text></g>
+
+  <g class="n cloud"><rect x="1005" y="170" width="200" height="70" rx="5"/><text class="t" x="1017" y="194">ig-otomasyon</text><text class="s" x="1017" y="212">Lambda, S3 tmp/, SSM token</text><text class="s" x="1017" y="228">ops anahtarı yazabilir</text></g>
+  <circle class="newdot" cx="1193" cy="182" r="5"/>
+  <g class="n cloud"><rect x="1005" y="640" width="200" height="70" rx="5"/><text class="t" x="1017" y="664">supabase-keepalive</text><text class="s" x="1017" y="682">12 saatte bir Free</text><text class="s" x="1017" y="698">projelere okuma</text></g>
+  <g class="n cloud"><rect x="1005" y="420" width="200" height="70" rx="5"/><text class="t" x="1017" y="444">Instagram</text><text class="s" x="1017" y="462">benburakcem, vid.berry,</text><text class="s" x="1017" y="478">appclearwave, buraksayilar</text></g>
+  <g class="n cloud"><rect x="1005" y="540" width="200" height="56" rx="5"/><text class="t" x="1017" y="564">Claude</text><text class="s" x="1017" y="582">Anthropic, buluta çıkar</text></g>
+
+  <!-- kenar etiketleri düğüm üstünde kalsın -->
+  <text class="el" x="744" y="372">not</text>
+  <text class="el" x="744" y="548">diğer</text>
+  <text class="el" x="756" y="162">kurar</text>
+</svg>
+</div>
+
+<div class="key">
+  <span><svg width="44" height="10" aria-hidden="true"><path d="M2 5H36" stroke="var(--edge)" stroke-width="1.6"/><path d="M34 1L42 5L34 9z" fill="var(--edge)"/></svg>komut ya da veri akışı</span>
+  <span><svg width="44" height="10" aria-hidden="true"><path d="M2 5H42" stroke="var(--sync)" stroke-width="1.6" stroke-dasharray="6 5"/></svg>iki yönlü senkron</span>
+  <span><svg width="12" height="12" aria-hidden="true"><circle cx="6" cy="6" r="5" fill="var(--new)"/></svg>bu gece değişti</span>
+</div>
+
+<div class="changes">
+  <div><b>Telefon kuralı</b>Her oturum telefonu SSH ile doğrudan kullanır: önce <code>telefon-ajani.md</code>, <code>IPHONE_SAHIBI</code>, <code>kilit.py</code>. Orkestratör sırası kalktı.</div>
+  <div><b>Orkestratör</b>Yalnız Air'in kendisi: LaunchAgent, servis, kurulum, zamanlayıcı, Air <code>CLAUDE.md</code>.</div>
+  <div><b>Telegram botu</b><code>ruya</code>, <code>gunluk</code>, <code>spor 1</code> kodla vault'a; gerisi Claude'a. Qwen, RAG, GraphThulhu, SearxNG çıktı.</div>
+  <div><b>Clear Wave reels</b>Zamanlayıcı Air'e taşınıyor; ops anahtarı S3 <code>tmp/</code> yazabiliyor, reel videoları Syncthing istisnasıyla Air'e gidiyor.</div>
+</div>
+</div>
