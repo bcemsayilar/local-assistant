@@ -1,11 +1,7 @@
 # Local Assistant - TODO
 
 ## Aktif
-- [ ] Model tutarsizligi: Air `.env` `qwen3.5:9b` (6.6 GB, 8 GB RAM'de agir), `config.py` varsayilani `qwen3.5:4b` (Air'de yuklu degil), Mac Pro `.env` ve `.env.example` `qwen3:4b`. Birini sec, hepsini esitle
-- [ ] SearxNG Air'de calismiyor (2026-10-02: localhost:4000 dinlemiyor, colima/docker kapali), `web_search` araci olu. Ya kaldir ya LaunchAgent ile kalici kur
 - [ ] n8n Twitter Bookmarks workflow'u `qwen3:4b` kullaniyor, model Air'de yok; bookmarks.json 2026-02-28'den beri guncellenmedi. Ya modeli guncelle ve beslemeyi kur ya workflow'u kapat
-- [ ] Multimodal Asistan Faz 2 - Video destegi (ffmpeg), spor/ruya/gunluk sorgulama (RAG), sohbet modu
-- [ ] Alibaba Coding Plan degerlendirmesi ($3-5/ay, qwen3.5, kimi k2.5, glm 5)
 - [ ] **cemsayilar.com kisisel/proje sitesi** - projelerin + deneyim oldugu guzel bir sayfa (demirbulbuloglu.com tarzi: tek sayfa, koyu tema, isim+meslek hero, kisa bio, proje/deneyim listesi). Kok domain = cemsayilar.com (blog alt alanda: blog.cemsayilar.com). Cloudflare Pages ile static deploy; DNS'i Squarespace'ten Cloudflare'e tasi (o zaman blog CNAME + site kayitlari CLI'dan yonetilir). Template: Astro temasi (astro.build/themes) ya da hazir portfolio.
 - [ ] **Ay sonu finans guncellemesi (Ekim 2026):** kurucu kart ekstrelerini ve guncel yatirim detaylarini verecek, finance-tracker'a (Air) islenecek. Portfoyde artik hisse var: ~2026-10-15 para piyasasi fonundan 100k bozuldu (kurucu beyani: ~6k kesinti, buyuk ihtimalle getiri uzerinden stopaj, dekontla dogrulanacak), Gen Ilac (GENIL) 4.88 TL'den ~96k alindi, yani yaklasik 19.670 lot. Ekstre gelince alis dekontu, lot, maliyet ve fon bozma kesintisinin kalemi teyit edilsin; `baseline-analiz.md` fon bakiyesi (340k) bu cikisla guncellenmeli. Kurucu ortalama dusurme icin +50k dusunuyor, karar verilmedi
 - [ ] **Merkezi kontrolör ajanı (kurucu fikri 2026-10-23, acele yok):** spend guard (Clear Wave ASA), Supabase keep-alive ve benzeri koruma ve ping işlerini tek merkezden yöneten, Remote Control ile uzaktan müdahale edilebilen statik bir kontrolör. Her yeni app için kaynak limitlerini (reklam bütçesi, Fal, OpenAI, Supabase, AWS) okuyup eşikte durduran tek kayıt ve tek zamanlayıcı. Bugünkü parçalar: `watercleaner/asa/spend_guard.py` (Air), `aws/supabase-keepalive` (Lambda), Air `air-orkestrator` (istek kutusu ve Remote Control oturumu `air-rc`). Kalıp `General App Guidlines/day-one-decisions.md` bölüm 7 "Spend guards are a standard component"
@@ -21,11 +17,10 @@ Denetimde olculen durum: FileVault kapali, auto-login acik (elifberraksayilar), 
 - [ ] Air icin Tailscale ACL + tag, ve Tailscale SSH'i ac (bugun kapali, advertised SSH host key yok). Erisim kontrolu tek yerde merkezi olarak iptal edilebilir hale gelir, makinelere dagilmis authorized_keys'e bagli kalmaz.
 - [ ] Deco mesh'te ayri misafir WiFi, ziyaretciler LAN'a acik servislere ulasamasin.
 - [ ] YAPMA (acikca): Superonline statik IP ile Deco'dan Air'e SSH ya da baska port-forward. Air zaten Tailscale ile her yerden, hucresel agdan, baska ulkeden erisilebilir, statik IP ek erisim getirmez, port-forward makinenin SSH'ini internetteki her tarayicinin onune koyar. Statik IP sadece Tailscale'in relay yerine direkt yol secmesine yarar (hiz meselesi). Gercekten public inbound gerekirse (ucuncu partiden n8n webhook gibi) dogru arac Cloudflare Tunnel ya da Tailscale Funnel, tek HTTPS yolu acar, router portu acmaz.
-- [ ] Ayri not: makinedeki secret'lar plaintext dotenv. Yukaridaki FileVault karari bunun kabul edilebilir olup olmadigini belirler. FileVault kapali kalirsa Air'in durusu "eve giren herkesin okuyabilecegi bir sunucu", secret'lar buna gore secilmeli.
+- [x] Plaintext secret'lar ve ajan zincirinin duz dosyadaki kilit anahtari (`~/.config/ajan/kc`): FileVault kapali kaldigi icin KABUL EDILMIS RISK (kurucu 2026-10-23).
 
 ## Claude kopru (Telegram)
-- [ ] Bugunku bot degisiklikleri (`claude_bridge.py`, `telegram.py`, `main.py`) ve git'te takip edilmeyen `media.py`, `docs/` dosyalari commit bekliyor (main, kullanici onayi gerekir)
-- [ ] `relay.py` (Air'de, Mac Pro'dan Air'deki Claude oturumuna mesaj gecip cevabi Telegram'a yollar) repoya alinmadi
+- [ ] `relay.py` yalniz Air'de duruyor (Mac Pro'dan Air'deki Claude oturumuna mesaj gecip cevabi Telegram'a yollar); kullaniliyorsa repoya al, kullanilmiyorsa sil
 
 ## Arastirilacak
 - [ ] Yazilimcilar icin "20B" vergi muafiyetini arastir (Turkiye, yazilimci/gelistirici gelir vergisi istisnasi, sartlar ve basvuru)

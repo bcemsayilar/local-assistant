@@ -1,28 +1,3 @@
-# Local Assistant - Dependencies
-# Tamami lokal, bulut bagimliligi yok
-
-# LLM
-ollama>=0.4.0
-
-# Telegram
-python-telegram-bot>=21.0
-
-# RAG & Embeddings
-lancedb>=0.15.0
-pyarrow>=14.0
-
-# Document processing
-PyMuPDF>=1.24.0
-python-docx>=1.0.0
-
-# File watching
-watchdog>=4.0.0
-
-# Web search client
-httpx>=0.27.0
-
-# Media processing
-Pillow>=10.0.0
-
-# Config
+# Local Assistant - Dependencies (2026-10-23 sadelestirme: model, RAG ve web arama kaldirildi)
+python-telegram-bot[job-queue]>=21.0
 python-dotenv>=1.0.0
