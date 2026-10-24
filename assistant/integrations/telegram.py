@@ -110,7 +110,13 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
     # "af ..." -> app-fabrikasi oturumuna kurucu mesaji olarak (tmux)
     hedef = oturum_kopru.route(text)
     if hedef is not None:
-        await update.message.reply_text(oturum_kopru.gonder(*hedef))
+        # oturum mesgulse bosa dusmesini bekler; bot o arada baska mesaj alabilsin diye arka planda
+        import asyncio
+        await update.message.reply_text(f"{hedef[0]} icin sirada, bosa dusunce teslim edilecek.")
+
+        async def _teslim(msg=update.message, h=hedef):
+            await msg.reply_text(await oturum_kopru.gonder(*h))
+        asyncio.create_task(_teslim())
         return
 
     saved = notes.route(text)
