@@ -15,6 +15,7 @@ from telegram.ext import (
 from assistant.config import TELEGRAM_BOT_TOKEN, ALLOWED_USER_IDS
 from assistant.integrations import claude_bridge as cb
 from assistant import notes
+from assistant.integrations import oturum_kopru
 
 logger = logging.getLogger(__name__)
 
@@ -41,7 +42,7 @@ async def cmd_help(update: Update, context: ContextTypes.DEFAULT_TYPE):
         "gunluk ... -> bugunun gunluk notu\n"
         "spor 1 + satir satir 'hareket: setler' -> Program 1 tablosu, kalan metin not\n\n"
         "Gerisi (metin, gorsel, video, dosya, sesli not) Air'deki Claude oturumuna gider, buluta cikar.\n"
-        "/yeni - Claude ile yeni oturum\n/help - Bu mesaj"
+        "af ... -> mesaj Air'deki app-fabrikasi oturumuna senin yazdigin gibi gider\n/yeni - Claude ile yeni oturum\n/help - Bu mesaj"
     )
 
 
@@ -104,6 +105,12 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
         return
     text = update.message.text
     if not text:
+        return
+
+    # "af ..." -> app-fabrikasi oturumuna kurucu mesaji olarak (tmux)
+    hedef = oturum_kopru.route(text)
+    if hedef is not None:
+        await update.message.reply_text(oturum_kopru.gonder(*hedef))
         return
 
     saved = notes.route(text)
