@@ -16,6 +16,15 @@ from pathlib import Path
 
 logger = logging.getLogger(__name__)
 
+# Claude limit bekcisi (2026-10-25): bildirim/claude_limit.py, Air'de ~/Projects/local-assistant/bildirim/
+import sys as _sys
+_sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "bildirim"))
+try:
+    import claude_limit
+except ImportError:  # bekci yoksa kopru eskisi gibi calisir
+    claude_limit = None
+LIMIT_ONEKI = claude_limit.ONEK if claude_limit else "CLAUDE LIMITI:"
+
 HOME = Path.home()
 CLAUDE_BIN = shutil.which("claude") or str(HOME / ".local/bin/claude")
 WHISPER_BIN = shutil.which("whisper-cli") or "/opt/homebrew/bin/whisper-cli"
@@ -148,11 +157,17 @@ async def ask_claude(user_id: int, prompt: str, fresh: bool = False) -> str:
 
     fresh=True runs a one-off turn: no resume, and the user's session id is left untouched.
     """
+    kaynak = "arka plan hasadi" if fresh else "Telegram sohbeti"
+    if fresh and claude_limit:  # arka plan isi limit surerken Claude'u hic cagirmaz, is cagiranda kalir
+        bekle = claude_limit.bekle_metni(kaynak)
+        if bekle:
+            logger.warning(bekle)
+            return bekle
     sessions = _load_sessions()
     sid = None if fresh else sessions.get(str(user_id))
     cmd = [
         CLAUDE_BIN, "-p", f"{SYSTEM_NOTE}\n\n{prompt}",
-        "--output-format", "json",
+        "--output-format", "stream-json", "--verbose",
         "--dangerously-skip-permissions",
     ]
     if sid:
@@ -169,15 +184,28 @@ async def ask_claude(user_id: int, prompt: str, fresh: bool = False) -> str:
     except asyncio.TimeoutError:
         proc.kill()
         return f"Claude {TIMEOUT_S // 60} dakikada bitiremedi, is yarida kaldi."
+    text = out.decode(errors="replace")
+    if claude_limit:
+        limitli, reset, sonuc = claude_limit.incele(text or err.decode(errors="replace"))
+        if limitli:
+            msg = claude_limit.kaydet(kaynak, sonuc or err.decode(errors="replace"), reset)
+            logger.warning(msg)
+            return msg
     if proc.returncode != 0 and not out:
         logger.error(f"claude failed: {err.decode()[:500]}")
         if sid:  # stale session id, start fresh next time
             reset_session(user_id)
         return f"Claude hata verdi: {err.decode()[:300]}"
-    try:
-        data = json.loads(out.decode())
-    except json.JSONDecodeError:
-        return out.decode()[:4000]
+    data = {}
+    for line in text.splitlines():  # stream-json: son "result" olayi cevaptir
+        try:
+            d = json.loads(line)
+        except json.JSONDecodeError:
+            continue
+        if d.get("type") == "result":
+            data = d
+    if not data:
+        return text[:4000]
     if data.get("session_id") and not fresh:
         sessions[str(user_id)] = data["session_id"]
         _save_sessions(sessions)

@@ -43,6 +43,16 @@ def _mesgul(ekran: str) -> bool:
     return MESGUL in "\n".join(ekran.splitlines()[-6:])
 
 
+LIMIT_RE = re.compile(r"hit your (usage |session |weekly )?limit|usage (credit )?limit reached|limit reached|out of extra usage", re.I)
+
+
+async def _limit_notu(hedef: str) -> str:
+    """Teslimden sonra oturum Claude limitine takildiysa (ekranin son satirlarinda limit metni) bunu acikca soyler."""
+    await asyncio.sleep(15)
+    son = [l.strip() for l in _ekran(hedef).splitlines()[-15:] if LIMIT_RE.search(l)]
+    return f" AMA oturum Claude limitinde, isleyemiyor: {son[-1][:160]}" if son else ""
+
+
 async def gonder(hedef: str, govde: str) -> str:
     """Oturum bosa dusunce yazar ve teslimi dogrular; kullaniciya gidecek sonucu doner."""
     if not govde:
@@ -63,5 +73,6 @@ async def gonder(hedef: str, govde: str) -> str:
         await asyncio.sleep(2)
         ekran = _ekran(hedef)
         if not _giris_satiri(ekran) and (_mesgul(ekran) or satir[:40] in ekran):
-            return f"{hedef} oturumuna teslim edildi" + (f" ({beklendi // 60} dk bekledi)." if beklendi >= 60 else ".")
+            sonuc = f"{hedef} oturumuna teslim edildi" + (f" ({beklendi // 60} dk bekledi)." if beklendi >= 60 else ".")
+            return sonuc + await _limit_notu(hedef)
     return f"{hedef}: metin yazildi ama teslim dogrulanamadi. Giris kutusuna bak ya da tekrar gonder."

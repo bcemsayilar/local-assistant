@@ -11,6 +11,10 @@ TIMEOUT_S = 2700
 # stream-json her olayi satir satir verir; model beklenirken STALL_MODEL_S, arac calisirken STALL_TOOL_S
 # (Bash araci en fazla 10 dk) boyunca yeni satir gelmezse surec oldurulur ve bir kez yeniden denenir.
 STALL_MODEL_S, STALL_TOOL_S = 300, 660
+# Claude limit bekcisi (2026-10-25): limit doluyken kosu Claude'u cagirmaz, istekler isleniyor/ da kalir ve limit bitince islenir
+sys.path.insert(0, os.path.join(H, "Projects/local-assistant/bildirim"))
+try: import claude_limit
+except ImportError: claude_limit = None
 
 def log(*a):
     with open(LOG, "a") as f: f.write(time.strftime("%Y-%m-%d %H:%M:%S ") + " ".join(str(x) for x in a) + "\n")
@@ -24,17 +28,23 @@ def calistir(cmd, env):
     """claude -p'yi stream-json ile calistirir. Donus: (sonuc olayi ya da {}, durum) ; durum 'tamam', 'takildi' ya da 'zaman asimi'."""
     p = subprocess.Popen(cmd, cwd=D, env=env, stdin=subprocess.DEVNULL, stdout=subprocess.PIPE, stderr=subprocess.DEVNULL)
     fd = p.stdout.fileno(); sel = selectors.DefaultSelector(); sel.register(fd, selectors.EVENT_READ)
-    basla = son = time.time(); arac = False; sonuc = {}; tampon = b""
+    basla = son = time.time(); arac = False; sonuc = {}; tampon = b""; ham = []
     try:
         while True:
             if time.time() - basla > TIMEOUT_S: return sonuc, "zaman asimi"
             if time.time() - son > (STALL_TOOL_S if arac else STALL_MODEL_S): return sonuc, "takildi"
             if not sel.select(timeout=10): continue
             parca = os.read(fd, 65536)
-            if not parca: p.wait(); return sonuc, "tamam"
+            if not parca:
+                p.wait()
+                if claude_limit:
+                    limitli, reset, metin = claude_limit.incele("\n".join(ham))
+                    if limitli: return {"limit_reset": reset, "result": metin}, "limit"
+                return sonuc, "tamam"
             son = time.time(); tampon += parca
             *satirlar, tampon = tampon.split(b"\n")
             for line in satirlar:
+                if b"rate_limit_event" in line or b'"result"' in line: ham.append(line.decode(errors="replace"))
                 try: d = json.loads(line)
                 except ValueError: continue
                 if d.get("type") == "result": sonuc = d
@@ -54,6 +64,12 @@ def main():
     yeni = sorted(f for f in os.listdir(IST) if f.endswith(".md"))
     eski = sorted(f for f in os.listdir(ISL) if f.endswith(".md"))  # yarida kalmis kosudan
     if not yeni and not eski: return
+    if claude_limit and claude_limit.aktif()[0]:
+        isaret = os.path.join(D, ".limit-loglandi")  # limit penceresi basina tek log satiri
+        if not os.path.exists(isaret) or os.path.getmtime(isaret) < time.time() - 3600:
+            log("claude limiti suruyor, %d istek bekliyor, sifirlanma %s" % (len(yeni) + len(eski), claude_limit.saat(claude_limit.aktif()[1])))
+            open(isaret, "w").close()
+        return
     open(LOCK, "w").write(str(os.getpid()))
     try:
         for f in yeni: shutil.move(os.path.join(IST, f), os.path.join(ISL, f))
@@ -69,6 +85,9 @@ def main():
         out, durum = calistir(cmd, env)
         if durum == "takildi" and not out:  # bir kez yeniden dene
             log("kosu takildi, yeniden deneniyor"); out, durum = calistir(cmd, env)
+        if durum == "limit":  # istekler isleniyor/ da kalir, cevap yazilmaz; limit bitince sonraki kosu isler
+            msg = claude_limit.kaydet("air-orkestrator", out.get("result", ""), out.get("limit_reset", 0))
+            log("kosu bitti CLAUDE LIMITI, istekler kuyrukta:", msg); return
         if durum != "tamam" and not out: out = {"result": durum, "is_error": True}
         if out.get("session_id"): open(SID, "w").write(out["session_id"])
         if sid and not out.get("session_id"):  # bozuk oturum: bir sonraki kosu yeni oturumla baslasin, istekler isleniyor/ de kalir
