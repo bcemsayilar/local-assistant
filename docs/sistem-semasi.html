@@ -55,9 +55,9 @@ code{font-family:var(--mono);font-size:.86em}
 
 <div class="wrap">
 <header>
-  <div class="eyebrow">Parallax · 23 Ekim 2026 gece, yeni düzen</div>
+  <div class="eyebrow">Parallax · 25 Ekim 2026, bildirim kapısı</div>
   <h1>Kim neye, hangi yoldan bağlı</h1>
-  <p class="lede">Telefonlar artık orkestratör sırası beklemeden kilitle doğrudan kullanılıyor, orkestratör yalnız Air'in kendisini değiştiriyor, Telegram botunda yerel model yok. Kırmızı nokta bu gece değişen parça.</p>
+  <p class="lede">Kurucuya Telegram'dan rapor gitmiyor. Air'deki her bildirim tek kapıdan geçiyor ve Telegram'a yalnız hata ya da karar, o da yalnız to-go modunda ya da Mac Pro yönetim oturumları ulaşılamazken çıkıyor. Kırmızı nokta bu değişiklikle değişen parça.</p>
 </header>
 
 <div class="board">
@@ -96,7 +96,7 @@ code{font-family:var(--mono);font-size:.86em}
   <path class="e" d="M505 118 H560" marker-end="url(#a)"/>
   <text class="el" x="512" y="108">istek</text>
   <path class="e" d="M505 278 H560" marker-end="url(#a)"/>
-  <text class="el" x="512" y="268">SSH</text>
+  <text class="el" x="512" y="268">SSH, nabız</text>
   <!-- orkestratör kurar -->
   <path class="e" d="M750 146 V170" marker-end="url(#a)"/>
   <!-- kilit telefon -->
@@ -118,6 +118,11 @@ code{font-family:var(--mono);font-size:.86em}
   <text class="el" x="900" y="566">yazar</text>
   <!-- claude bulut -->
   <path class="e" d="M940 520 H972 V568 H1005" marker-end="url(#a)"/>
+  <!-- servisler bildirim kapisina -->
+  <path class="e" d="M560 212 H545 V548 H560" marker-end="url(#a)"/>
+  <!-- kapi telegrama, yalniz to-go ya da Pro yokken -->
+  <path class="e" d="M560 562 H110 V486" marker-end="url(#a)"/>
+  <text class="el" x="240" y="580">yalnız hata, to-go ya da Pro yokken</text>
   <!-- syncthing -->
   <path class="sync" d="M480 618 H760" marker-start="url(#as)" marker-end="url(#as)"/>
   <text class="el" x="530" y="608">Syncthing</text>
@@ -132,21 +137,18 @@ code{font-family:var(--mono);font-size:.86em}
   <g class="n pro"><rect x="250" y="590" width="230" height="56" rx="5"/><text class="t" x="262" y="614">Ortak klasörler</text><text class="s" x="262" y="632">git ve push yalnız burada</text></g>
 
   <g class="n air"><rect x="560" y="90" width="380" height="56" rx="5"/><text class="t" x="572" y="114">air-orkestrator</text><text class="s" x="572" y="132">istek kutusu, yalnız Air'i değiştiren işler</text></g>
-  <circle class="newdot" cx="928" cy="102" r="5"/>
   <g class="n air"><rect x="560" y="170" width="380" height="56" rx="5"/><text class="t" x="572" y="194">Servisler ve zamanlayıcılar</text><text class="s" x="572" y="212">ig-poll, ig-temizlik 04:00, Clear Wave reels, n8n</text></g>
-  <circle class="newdot" cx="928" cy="182" r="5"/>
   <g class="n air"><rect x="560" y="250" width="160" height="56" rx="5"/><text class="t" x="572" y="274">kilit.py</text><text class="s" x="572" y="292">tek sahip, 15 dk</text></g>
-  <circle class="newdot" cx="708" cy="262" r="5"/>
   <g class="n air"><rect x="760" y="250" width="180" height="70" rx="5"/><text class="t" x="772" y="274">Telefonlar</text><text class="s" x="772" y="292">iPhone 17 Pro :8100</text><text class="s" x="772" y="308">iPhone 13 :8101, Android</text></g>
   <g class="n air"><rect x="560" y="430" width="160" height="56" rx="5"/><text class="t" x="572" y="454">Telegram botu</text><text class="s" x="572" y="472">anahtar kelimeye bakar</text></g>
-  <circle class="newdot" cx="708" cy="442" r="5"/>
   <g class="n air"><rect x="760" y="380" width="180" height="56" rx="5"/><text class="t" x="772" y="404">notes.py</text><text class="s" x="772" y="422">ruya, gunluk, spor N</text></g>
-  <circle class="newdot" cx="928" cy="392" r="5"/>
   <g class="n air"><rect x="760" y="480" width="180" height="56" rx="5"/><text class="t" x="772" y="504">Claude Code</text><text class="s" x="772" y="522">geri kalan her mesaj</text></g>
+  <g class="n air"><rect x="560" y="520" width="160" height="56" rx="5"/><text class="t" x="572" y="544">Bildirim kapısı</text><text class="s" x="572" y="562">kurucuya_yaz.py</text></g>
+  <circle class="newdot" cx="708" cy="532" r="5"/>
+  <circle class="newdot" cx="468" cy="102" r="5"/>
   <g class="n air"><rect x="760" y="590" width="180" height="56" rx="5"/><text class="t" x="772" y="614">ObsidianVault</text><text class="s" x="772" y="632">ruya/ gunluk/ spor/</text></g>
 
   <g class="n cloud"><rect x="1005" y="170" width="200" height="70" rx="5"/><text class="t" x="1017" y="194">ig-otomasyon</text><text class="s" x="1017" y="212">Lambda, S3 tmp/, SSM token</text><text class="s" x="1017" y="228">ops anahtarı yazabilir</text></g>
-  <circle class="newdot" cx="1193" cy="182" r="5"/>
   <g class="n cloud"><rect x="1005" y="640" width="200" height="70" rx="5"/><text class="t" x="1017" y="664">supabase-keepalive</text><text class="s" x="1017" y="682">12 saatte bir Free</text><text class="s" x="1017" y="698">projelere okuma</text></g>
   <g class="n cloud"><rect x="1005" y="420" width="200" height="70" rx="5"/><text class="t" x="1017" y="444">Instagram</text><text class="s" x="1017" y="462">benburakcem, vid.berry,</text><text class="s" x="1017" y="478">appclearwave, buraksayilar</text></g>
   <g class="n cloud"><rect x="1005" y="540" width="200" height="56" rx="5"/><text class="t" x="1017" y="564">Claude</text><text class="s" x="1017" y="582">Anthropic, buluta çıkar</text></g>
@@ -161,13 +163,14 @@ code{font-family:var(--mono);font-size:.86em}
 <div class="key">
   <span><svg width="44" height="10" aria-hidden="true"><path d="M2 5H36" stroke="var(--edge)" stroke-width="1.6"/><path d="M34 1L42 5L34 9z" fill="var(--edge)"/></svg>komut ya da veri akışı</span>
   <span><svg width="44" height="10" aria-hidden="true"><path d="M2 5H42" stroke="var(--sync)" stroke-width="1.6" stroke-dasharray="6 5"/></svg>iki yönlü senkron</span>
-  <span><svg width="12" height="12" aria-hidden="true"><circle cx="6" cy="6" r="5" fill="var(--new)"/></svg>bu gece değişti</span>
+  <span><svg width="12" height="12" aria-hidden="true"><circle cx="6" cy="6" r="5" fill="var(--new)"/></svg>25 Ekim değişti</span>
 </div>
 
 <div class="changes">
-  <div><b>Telefon kuralı</b>Her oturum telefonu SSH ile doğrudan kullanır: önce <code>telefon-ajani.md</code>, <code>IPHONE_SAHIBI</code>, <code>kilit.py</code>. Orkestratör sırası kalktı.</div>
-  <div><b>Orkestratör</b>Yalnız Air'in kendisi: LaunchAgent, servis, kurulum, zamanlayıcı, Air <code>CLAUDE.md</code>.</div>
-  <div><b>Telegram botu</b><code>ruya</code>, <code>gunluk</code>, <code>spor 1</code> kodla vault'a; gerisi Claude'a. Qwen, RAG, GraphThulhu, SearxNG çıktı.</div>
-  <div><b>Clear Wave reels</b>Zamanlayıcı Air'e taşınıyor; ops anahtarı S3 <code>tmp/</code> yazabiliyor, reel videoları Syncthing istisnasıyla Air'e gidiyor.</div>
+  <div><b>Bildirim kapısı</b>Air'den kurucuya her mesaj <code>kurucuya_yaz.py</code>'den geçer: bilgi hiç gitmez, hata ve karar yalnız to-go modunda ya da Mac Pro ulaşılamazken Telegram'a gider, gerisi olay kaydına.</div>
+  <div><b>Nabız</b>Mac Pro 2 dakikada bir Air'e hangi yönetim oturumunun açık olduğunu yazar (<code>com.local-assistant.nabiz</code>); yeni hatalar yönetim oturumlarına sonraki komutta kancayla düşer.</div>
+  <div><b>To-go modu</b>Kurucu "to go moduna geç" deyince local-assistant açar; önemli bir şey olursa Telegram'dan ulaşılır. Evde iletişim Mac Pro oturumlarından.</div>
+  <div><b>Telegram botu</b>Kurucunun yazdığı mesaja cevap ve <code>af</code> komutları aynen sürer; rapor ve özetler kalktı.</div>
+</div>
 </div>
 </div>

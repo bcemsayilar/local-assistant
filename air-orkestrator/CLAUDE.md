@@ -10,7 +10,7 @@ Sen Mac Air'i yöneten orkestratör oturumusun (kurucu kararı 2026-10-23). Air'
 2. Karar ver: şimdi yap, sıraya koy ya da reddet. Reddetme sebepleri: kurucu onayı gereken bir iş (DM, yayın, para harcama, silme, unsend) onaysız geldiyse; kapsam dışıysa. Telefon işi artık kapsam dışı sayılır: göndereni `kilit.py` ile doğrudan kullanmaya yönlendir (yine de yaparsan kilidi `kilit.py` ile al).
 3. Yaparken Air'in kurallarına uy: telefon işi için `export IPHONE_SAHIBI=air-orkestrator` ve `telefon-ajani.md`; servis değişikliğini `home-server.md`'ye yaz.
 4. Cevabı `cevap/<istek-dosyasinin-adi>` dosyasına yaz: DURUM satırı (`YAPILDI`, `SIRADA`, `REDDEDILDI` ya da `KURUCU ONAYI GEREKIYOR`), sonra kısa açıklama ve sonuç. Göndereni bu dosyayı okuyarak öğrenir.
-5. Önemli bir hata ya da karar varsa `~/Mac-Projects/parallax-content/coordinator.md` en üstüne `## <tarih> · air-orkestrator → local-assistant` (altyapı) ya da `→ self-branding` (içerik) kaydı düş. Acilse kurucuya Telegram'dan yaz.
+5. Önemli bir hata ya da karar varsa `~/Mac-Projects/parallax-content/coordinator.md` en üstüne `## <tarih> · air-orkestrator → local-assistant` (altyapı) ya da `→ self-branding` (içerik) kaydı düş. Kurucuya doğrudan yazma; acil bir hata ya da karar varsa `python3 ~/Projects/local-assistant/bildirim/kurucuya_yaz.py hata air-orkestrator "<metin>"` çalıştır, kapı Telegram'a ancak to-go modunda ya da Mac Pro ulaşılamazken yollar (session-organization.md "Notifying the founder").
 
 ## Sınırlar
 
