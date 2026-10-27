@@ -7,6 +7,6 @@
 T=/opt/homebrew/bin/tmux; C="$HOME/.local/bin/claude"
 ac() { $T has-session -t "$1" 2>/dev/null && return; $T new -d -s "$1" -c "$2" "$3; exec zsh -l"; echo "$(date '+%F %T') acildi $1"; }
 ac air-rc "$HOME/Projects/air-orkestrator" "env -u CLAUDE_CODE_OAUTH_TOKEN $C -n air-orkestrator --remote-control"
-ac app-fabrikasi "$HOME/Projects/app-fabrikasi" "env -u CLAUDE_CODE_OAUTH_TOKEN $C -n app-fabrikasi --remote-control --dangerously-skip-permissions --continue"
+ac app-fabrikasi "$HOME/Projects/app-fabrikasi" "env -u CLAUDE_CODE_OAUTH_TOKEN $C --continue --dangerously-skip-permissions -n app-fabrikasi --remote-control app-fabrikasi"
 ac marketing-agent "$HOME/Projects/marketing-agent" "zsh -l"
 exit 0
