@@ -1,0 +1,190 @@
+<title>Tek Defter Akışı</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Literata:opsz,wght@7..72,500;7..72,700&family=Source+Sans+3:wght@400;600&family=JetBrains+Mono:wght@400&display=swap">
+<style>
+/* Layout: kaynak, islem, Obsidian uc sutun; altta bicim ornegi ve onay bekleyen kararlar */
+:root{
+  --bg:#f6f7f4; --panel:#ffffff; --fg:#1d2420; --muted:#5d6862; --line:#9aa59f;
+  --accent:#2f6f5e; --accent-soft:#e1efe9; --warn:#a2581c; --warn-soft:#f8eadc;
+  --display:"Literata",Georgia,serif; --body:"Source Sans 3",system-ui,sans-serif; --mono:"JetBrains Mono",ui-monospace,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#141917; --panel:#1c2320; --fg:#e4ebe7; --muted:#9aa8a1; --line:#5c6963;
+  --accent:#7cc4ad; --accent-soft:#1f3a32; --warn:#e3a26b; --warn-soft:#3a2a1c; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#141917; --panel:#1c2320; --fg:#e4ebe7; --muted:#9aa8a1; --line:#5c6963;
+  --accent:#7cc4ad; --accent-soft:#1f3a32; --warn:#e3a26b; --warn-soft:#3a2a1c; color-scheme:dark}
+body{background:var(--bg);color:var(--fg);font:16px/1.55 var(--body);
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:32px 56px}
+main{max-width:1060px;margin:0 auto;display:grid;gap:32px}
+h1{font:700 2rem/1.15 var(--display);margin:0;text-wrap:balance}
+h2{font:700 1.25rem/1.3 var(--display);margin:0 0 12px;text-wrap:balance}
+p{margin:0;max-width:68ch}
+.lede{color:var(--muted)}
+.diagram{overflow-x:auto;background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:12px}
+svg{display:block;min-width:960px;width:100%;height:auto}
+svg text{font-family:var(--body);fill:var(--fg)}
+svg .h{font:600 13px var(--body);letter-spacing:.08em;fill:var(--muted)}
+svg .t{font:600 14px var(--body)}
+svg .s{font:12.5px var(--body);fill:var(--muted)}
+svg .m{font:12px var(--mono)}
+svg .lbl{font:11.5px var(--body);fill:var(--accent)}
+svg .box{fill:var(--panel);stroke:var(--line);stroke-width:1.2}
+svg .key{fill:var(--accent-soft);stroke:var(--accent);stroke-width:1.4}
+svg .new{fill:var(--warn-soft);stroke:var(--warn);stroke-width:1.2}
+svg .edge{fill:none;stroke:var(--accent);stroke-width:1.6}
+svg .edge2{fill:none;stroke:var(--line);stroke-width:1.4;stroke-dasharray:5 4}
+svg .ah{fill:var(--accent)} svg .ah2{fill:var(--line)}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:24px}
+.grid>*{min-width:0}
+pre{margin:0;background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:14px;overflow-x:auto;font:13px/1.6 var(--mono)}
+ol{margin:0;padding-left:1.3em;display:grid;gap:10px}
+li{max-width:68ch}
+.q{background:var(--warn-soft);border-left:3px solid var(--warn);padding:2px 0 2px 10px;border-radius:2px}
+code{font:13px var(--mono)}
+</style>
+<main>
+<header style="display:grid;gap:8px">
+  <h1>Tek defter: rüya, günlük, terapi Obsidian'da</h1>
+  <p class="lede">Üç kaynaktaki kişisel yazılar Air'deki Obsidian kasasında tek klasörde, tarih sırasıyla birleşir. Turuncu kutular onayını bekleyen kararlar.</p>
+</header>
+
+<div class="diagram" role="img" aria-label="Kaynaklardan Obsidian'a akış şeması">
+<svg viewBox="0 0 1000 560" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0L10,5L0,10z" class="ah"/></marker>
+    <marker id="b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0L10,5L0,10z" class="ah2"/></marker>
+  </defs>
+  <text x="20" y="28" class="h">KAYNAK</text>
+  <text x="370" y="28" class="h">İŞLEM</text>
+  <text x="720" y="28" class="h">OBSIDIAN (AIR, MAC PRO SENKRON)</text>
+
+  <!-- kaynaklar -->
+  <rect x="20" y="48" width="250" height="78" rx="6" class="box"/>
+  <text x="34" y="72" class="t">1. Elle yazılmış defterler</text>
+  <text x="34" y="92" class="s">Sen sesli okursun, Ses Kayıtları'na</text>
+  <text x="34" y="110" class="s">düşer (ilki: 27 Ekim, 52 dk)</text>
+
+  <rect x="20" y="150" width="250" height="118" rx="6" class="box"/>
+  <text x="34" y="174" class="t">2. Notion: Personal Home, Journal</text>
+  <text x="34" y="194" class="s">Rüyalar, Günlük, Terapi</text>
+  <text x="34" y="214" class="s">Uyandığımda, H, OKU, Sorular</text>
+  <text x="34" y="240" class="s">Erişim: senin vereceğin Notion</text>
+  <text x="34" y="258" class="s">MCP girişi</text>
+
+  <rect x="20" y="292" width="250" height="78" rx="6" class="box"/>
+  <text x="34" y="316" class="t">3. Telegram ve bu oturum</text>
+  <text x="34" y="336" class="s">"günlük ..." ve "rüya ..." önekli</text>
+  <text x="34" y="354" class="s">mesajlar, modelsiz, kodla yazılır</text>
+
+  <rect x="20" y="394" width="250" height="78" rx="6" class="box"/>
+  <text x="34" y="418" class="t">4. Kasada bugün olan</text>
+  <text x="34" y="438" class="m">ruya/Rüya.md (566 satır)</text>
+  <text x="34" y="456" class="m">gunluk/ (3 dosya)</text>
+
+  <!-- islem -->
+  <rect x="370" y="48" width="260" height="98" rx="6" class="box"/>
+  <text x="384" y="72" class="t">Yazıya dökme</text>
+  <text x="384" y="92" class="s">Mac Pro'da yerel whisper, Türkçe</text>
+  <text x="384" y="110" class="s">Ses dışarı çıkmaz</text>
+  <text x="384" y="128" class="s">Sonra imla düzeltilir, kelime değişmez</text>
+
+  <rect x="370" y="170" width="260" height="118" rx="6" class="box"/>
+  <text x="384" y="194" class="t">Bölme ve etiketleme</text>
+  <text x="384" y="214" class="s">Okuduğun her tarih ("14 Ağustos 2024")</text>
+  <text x="384" y="232" class="s">yeni bir kayıt başlatır</text>
+  <text x="384" y="252" class="s">"Terapi notları" dediğin yerden</text>
+  <text x="384" y="270" class="s">sonrası Terapi olarak etiketlenir</text>
+
+  <rect x="370" y="312" width="260" height="78" rx="6" class="box"/>
+  <text x="384" y="336" class="t">Tekrar kontrolü</text>
+  <text x="384" y="356" class="s">Aynı gün aynı metin varsa yazılmaz</text>
+  <text x="384" y="374" class="s">(Notion ile defter çakışabilir)</text>
+
+  <rect x="370" y="414" width="260" height="78" rx="6" class="new"/>
+  <text x="384" y="438" class="t">Bot kodu güncellenir</text>
+  <text x="384" y="458" class="s">notes.py: rüya da günlük de aynı</text>
+  <text x="384" y="476" class="s">günün dosyasına, Air'e deploy</text>
+
+  <!-- hedef -->
+  <rect x="720" y="48" width="260" height="200" rx="6" class="key"/>
+  <text x="734" y="72" class="t">Tek klasör: gunluk/</text>
+  <text x="734" y="94" class="m">gunluk/2024/2024-08-14.md</text>
+  <text x="734" y="112" class="m">gunluk/2026/2026-10-28.md</text>
+  <text x="734" y="138" class="s">Her gün bir dosya. İçinde o günün</text>
+  <text x="734" y="156" class="s">günlük, rüya ve terapi kayıtları</text>
+  <text x="734" y="174" class="s">saat sırasıyla, her biri türüyle</text>
+  <text x="734" y="192" class="s">etiketli. Klasör adı sırası zaten</text>
+  <text x="734" y="210" class="s">kronolojik.</text>
+  <text x="734" y="232" class="s">Eski ruya/Rüya.md günlere dağıtılır</text>
+
+  <rect x="720" y="296" width="260" height="98" rx="6" class="box"/>
+  <text x="734" y="320" class="t">Olduğu gibi taşınanlar</text>
+  <text x="734" y="342" class="m">Uyandığımda/  H/</text>
+  <text x="734" y="362" class="m">OKU/  Sorular/</text>
+  <text x="734" y="382" class="s">Notion'daki yapı korunur</text>
+
+  <rect x="720" y="418" width="260" height="58" rx="6" class="box"/>
+  <text x="734" y="442" class="m">spor/</text>
+  <text x="734" y="462" class="s">Değişmez</text>
+
+  <!-- kenarlar -->
+  <path d="M270,87 H370" class="edge" marker-end="url(#a)"/>
+  <path d="M500,146 V170" class="edge" marker-end="url(#a)"/>
+  <path d="M500,288 V312" class="edge" marker-end="url(#a)"/>
+  <path d="M630,351 H675 V148 H720" class="edge" marker-end="url(#a)"/>
+
+  <path d="M270,200 H325 V229 H370" class="edge" marker-end="url(#a)"/>
+  <text x="284" y="190" class="lbl">rüya, günlük, terapi</text>
+  <path d="M270,240 H300 V540 H700 V345 H720" class="edge2" marker-end="url(#b)"/>
+  <text x="430" y="534" class="lbl">diğer dört sayfa, dönüştürülmeden</text>
+
+  <path d="M270,331 H345 V453 H370" class="edge" marker-end="url(#a)"/>
+  <path d="M630,453 H690 V200 H720" class="edge" marker-end="url(#a)"/>
+  <text x="640" y="508" class="lbl">her yeni mesaj</text>
+
+  <path d="M270,433 H335 V370 H370" class="edge2" marker-end="url(#b)"/>
+</svg>
+</div>
+
+<section class="grid">
+  <div>
+    <h2>Bir günün dosyası</h2>
+    <pre>gunluk/2024/2024-08-14.md
+
+> [!note]- Günlük · defter
+> (okuduğun metin, imlası düzeltilmiş)
+
+> [!note]- Terapi · defter
+> (terapi notu)
+
+> [!note]- Rüya · 07:12
+> (Telegram'dan gelen rüya)
+
+> [!note]- Günlük · 23:50
+> (Telegram'dan gelen günlük)</pre>
+    <p class="lede" style="margin-top:10px">Bugünkü katlanır not bloğu biçimi aynen kalır, başlığa yalnız tür eklenir. Saati bilinmeyen defter ve Notion kayıtları "defter" ya da "notion" yazar ve günün başına gelir.</p>
+  </div>
+  <div>
+    <h2>Sıra</h2>
+    <ol>
+      <li>Bu şema onaylanır.</li>
+      <li>27 Ekim kaydı yazıya dökülür (başladı), günlere bölünüp kasaya yazılır, sana birkaç gün örnek gösterilir.</li>
+      <li>Eski <code>ruya/Rüya.md</code> günlere dağıtılır, mevcut 3 günlük dosyası yeni yere taşınır.</li>
+      <li>Bot kodu değişir: "rüya" ve "günlük" önekleri günün dosyasına yazar. Rüya mesajının 5 dakika sonra sohbetten silinmesi aynen kalır.</li>
+      <li>Notion girişi gelince Journal okunur, eşlenir, tekrarlar elenir.</li>
+      <li>Sen "bitti" diyene kadar görev TODO'da sabit durur, yeni ses kayıtları aynı yoldan işlenir.</li>
+    </ol>
+  </div>
+</section>
+
+<section>
+  <h2>Onayını bekleyen kararlar</h2>
+  <ol>
+    <li class="q">Klasör adı <code>gunluk/</code> kalsın mı, yoksa başka bir ad mı (ör. <code>defter/</code>)? Öneri: <code>gunluk/</code>, Telegram öneki ile aynı.</li>
+    <li class="q">Yıl alt klasörü (<code>gunluk/2024/</code>) olsun mu? Öneri: evet; Notion ve defterlerle yüzlerce gün dosyası olacak, düz klasör Obsidian'da okunmaz hale gelir.</li>
+    <li class="q">Terapi notunun tarihi: kayıtta her terapi notuna tarih söylemediysen, son söylenen tarihe mi bağlansın, yoksa ayrı bir "tarihsiz terapi" dosyasına mı? Öneri: son söylenen tarih, emin olunamayanlar sana listelenir.</li>
+  </ol>
+</section>
+</main>

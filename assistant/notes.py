@@ -1,7 +1,8 @@
 """Anahtar kelimeyle baslayan Telegram mesajlarini Obsidian vault'a yazar. Model yok, sadece kod (kurucu karari 2026-10-23).
 
-  ruya ...    -> ruya/<tek dosya>.md, tarihli callout
-  gunluk ...  -> gunluk/YYYY-MM-DD.md, saatli callout
+  ruya ...    -> gunluk/YYYY/YYYY-MM-DD.md, "Rüya · SS:DD" callout
+  gunluk ...  -> gunluk/YYYY/YYYY-MM-DD.md, "Günlük · SS:DD" callout
+  (ruya, gunluk ve terapi tek klasorde gun gun birlesir, kurucu karari 2026-10-28)
   spor 1 ...  -> spor/Program 1*.md tablosuna bugunun satiri (numarasiz 'spor ...' Claude'a gider)
 
 route(text) eslesme yoksa None doner, mesaj Claude'a gider.
@@ -30,19 +31,19 @@ def _append(p: Path, block: str) -> None:
     p.write_text(old + block + "\n", encoding="utf-8")
 
 
-def daily_log(content: str) -> Dict[str, Any]:
+def _day_log(label: str, content: str) -> Dict[str, Any]:
     now = datetime.now()
-    p = OBSIDIAN_VAULT / "gunluk" / f"{now:%Y-%m-%d}.md"
-    _append(p, _callout(f"{now:%H:%M}", content))
-    return {"note": f"gunluk/{p.stem}"}
+    p = OBSIDIAN_VAULT / "gunluk" / f"{now:%Y}" / f"{now:%Y-%m-%d}.md"
+    _append(p, _callout(f"{label} · {now:%H:%M}", content))
+    return {"note": f"gunluk/{now:%Y}/{p.stem}"}
+
+
+def daily_log(content: str) -> Dict[str, Any]:
+    return _day_log("Günlük", content)
 
 
 def dream_log(content: str) -> Dict[str, Any]:
-    d = OBSIDIAN_VAULT / "ruya"
-    files = sorted(d.glob("*.md")) if d.exists() else []
-    p = files[0] if files else d / "Rüya.md"
-    _append(p, _callout(f"Ruya - {datetime.now():%Y-%m-%d}", content))
-    return {"note": f"ruya/{p.stem}"}
+    return _day_log("Rüya", content)
 
 
 PROGRAM_DEFAULTS = {
