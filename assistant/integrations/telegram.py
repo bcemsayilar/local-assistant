@@ -30,7 +30,7 @@ def is_allowed(user_id: int) -> bool:
 async def cmd_start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if not is_allowed(update.effective_user.id):
         return
-    await update.message.reply_text("Merhaba. Yazdigin her sey Claude'a gider; ruya, gunluk ve spor ile baslayan mesajlar dogrudan nota yazilir. /help")
+    await update.message.reply_text("Merhaba. Yazdigin her sey Claude'a gider; ruya, gunluk, terapi ve spor ile baslayan mesajlar dogrudan nota yazilir. /help")
 
 
 async def cmd_help(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -40,6 +40,7 @@ async def cmd_help(update: Update, context: ContextTypes.DEFAULT_TYPE):
         "Notlar (model yok, kod yazar):\n"
         "ruya ... -> ruya notu (mesajlar 5 dk sonra silinir)\n"
         "gunluk ... -> bugunun gunluk notu\n"
+        "terapi ... -> bugunun terapi notu (ruya, gunluk, terapi ayni gun dosyasina)\n"
         "spor 1 + satir satir 'hareket: setler' -> Program 1 tablosu, kalan metin not\n\n"
         "Gerisi (metin, gorsel, video, dosya, sesli not) Air'deki Claude oturumuna gider, buluta cikar.\n"
         "af ... -> mesaj Air'deki app-fabrikasi oturumuna senin yazdigin gibi gider\n/yeni - Claude ile yeni oturum\n/help - Bu mesaj"
@@ -100,7 +101,7 @@ AUTO_DELETE_DELAY = 300  # 5 minutes
 
 
 async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    """ruya / gunluk / spor ile baslayan mesaj nota yazilir, gerisi Claude'a gider."""
+    """ruya / gunluk / terapi / spor ile baslayan mesaj nota yazilir, gerisi Claude'a gider."""
     if not is_allowed(update.effective_user.id):
         return
     text = update.message.text

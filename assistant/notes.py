@@ -2,6 +2,7 @@
 
   ruya ...    -> gunluk/YYYY/YYYY-MM-DD.md, "Rüya · SS:DD" callout
   gunluk ...  -> gunluk/YYYY/YYYY-MM-DD.md, "Günlük · SS:DD" callout
+  terapi ...  -> gunluk/YYYY/YYYY-MM-DD.md, "Terapi · SS:DD" callout
   (ruya, gunluk ve terapi tek klasorde gun gun birlesir, kurucu karari 2026-10-28)
   spor 1 ...  -> spor/Program 1*.md tablosuna bugunun satiri (numarasiz 'spor ...' Claude'a gider)
 
@@ -17,8 +18,8 @@ from assistant.config import OBSIDIAN_VAULT as _VAULT_STR
 
 OBSIDIAN_VAULT = Path(_VAULT_STR).expanduser()
 
-PREFIX = re.compile(r"^\s*(rüya|ruya|günlük|gunluk|spor)(?:\s+not(?:u|um)?)?\s*[:\-,.]?\s*(.*)$", re.I | re.S)
-KIND = {"rüya": "ruya", "ruya": "ruya", "günlük": "gunluk", "gunluk": "gunluk", "spor": "spor"}
+PREFIX = re.compile(r"^\s*(rüya|ruya|günlük|gunluk|terapi|spor)(?:\s+not(?:u|um)?)?\s*[:\-,.]?\s*(.*)$", re.I | re.S)
+KIND = {"rüya": "ruya", "ruya": "ruya", "günlük": "gunluk", "gunluk": "gunluk", "terapi": "terapi", "spor": "spor"}
 
 
 def _callout(title: str, content: str) -> str:
@@ -44,6 +45,10 @@ def daily_log(content: str) -> Dict[str, Any]:
 
 def dream_log(content: str) -> Dict[str, Any]:
     return _day_log("Rüya", content)
+
+
+def therapy_log(content: str) -> Dict[str, Any]:
+    return _day_log("Terapi", content)
 
 
 PROGRAM_DEFAULTS = {
@@ -159,6 +164,8 @@ def route(text: str) -> Optional[Dict[str, Any]]:
             return {"kind": kind, "reply": f"Kaydedildi: {dream_log(body)['note']}"}
         if kind == "gunluk":
             return {"kind": kind, "reply": f"Kaydedildi: {daily_log(body)['note']}"}
+        if kind == "terapi":
+            return {"kind": kind, "reply": f"Kaydedildi: {therapy_log(body)['note']}"}
         r = sport_log(*_parse_sport(body))
         if "error" in r:
             return {"kind": kind, "reply": r["error"]}
