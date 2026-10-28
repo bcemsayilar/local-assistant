@@ -1,4 +1,5 @@
-"""Claude Code bridge: routes selected Telegram messages to `claude -p` on this machine.
+"""Agent bridge: routes selected Telegram messages to a headless coding agent (Claude Code, Codex or Gemini) on this machine.
+Provider order and limit failover live in agentrun (AGENT_PROVIDER, ~/.config/parallax/agent.json).
 
 Plain text stays with the local model (qwen via agent_loop). Messages starting with
 "claude", Instagram post links, photos, videos, documents and voice notes come here. Data sent here leaves
@@ -11,6 +12,7 @@ import logging
 import os
 import re
 import shutil
+import time
 from datetime import datetime
 from pathlib import Path
 
@@ -19,14 +21,16 @@ logger = logging.getLogger(__name__)
 # Claude limit bekcisi (2026-10-25): bildirim/claude_limit.py, Air'de ~/Projects/local-assistant/bildirim/
 import sys as _sys
 _sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "bildirim"))
+_sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 try:
     import claude_limit
 except ImportError:  # bekci yoksa kopru eskisi gibi calisir
     claude_limit = None
 LIMIT_ONEKI = claude_limit.ONEK if claude_limit else "CLAUDE LIMITI:"
 
+import agentrun  # repo root is two levels up
 HOME = Path.home()
-CLAUDE_BIN = shutil.which("claude") or str(HOME / ".local/bin/claude")
+CLAUDE_BIN = shutil.which("claude") or str(HOME / ".local/bin/claude")  # kept for old imports, agentrun finds the CLIs itself
 WHISPER_BIN = shutil.which("whisper-cli") or "/opt/homebrew/bin/whisper-cli"
 FFMPEG_BIN = shutil.which("ffmpeg") or "/opt/homebrew/bin/ffmpeg"
 SAY_BIN = "/usr/bin/say"
@@ -40,7 +44,7 @@ PREFIX_RE = re.compile(r"^\s*claude\b[\s,:.\-]*", re.IGNORECASE)
 
 SYSTEM_NOTE = (
     "Bu mesaj Telegram'dan, Burak'tan geliyor; Mac Air (ev sunucusu) uzerinde calisiyorsun. "
-    "Once ~/CLAUDE.md haritasina bak. Cevabin Telegram'da okunacak: kisa, Turkce, duz metin, "
+    "Once ~/CLAUDE.md haritasina bak (varsa ~/AGENTS.md). Cevabin Telegram'da okunacak: kisa, Turkce, duz metin, "
     "tablo ve uzun markdown yok. Geri donusu olmayan islerde (silme, gonderme, satin alma) "
     "once ne yapacagini yaz ve onay iste, onay bu sohbette gelirse yap."
 )
@@ -152,61 +156,39 @@ async def speak(text: str):
     return ogg if ogg.exists() and ogg.stat().st_size > 0 else None
 
 
-async def ask_claude(user_id: int, prompt: str, fresh: bool = False) -> str:
-    """Run one turn of Claude Code, resuming this user's session.
+async def ask_agent(user_id: int, prompt: str, fresh: bool = False) -> str:
+    """Run one agent turn with the configured provider order, resuming this user's session per provider.
 
-    fresh=True runs a one-off turn: no resume, and the user's session id is left untouched.
+    fresh=True runs a one-off turn: no resume, and the user's session ids are left untouched.
     """
     kaynak = "arka plan hasadi" if fresh else "Telegram sohbeti"
-    if fresh and claude_limit:  # arka plan isi limit surerken Claude'u hic cagirmaz, is cagiranda kalir
-        bekle = claude_limit.bekle_metni(kaynak)
-        if bekle:
-            logger.warning(bekle)
-            return bekle
-    sessions = _load_sessions()
-    sid = None if fresh else sessions.get(str(user_id))
-    cmd = [
-        CLAUDE_BIN, "-p", f"{SYSTEM_NOTE}\n\n{prompt}",
-        "--output-format", "stream-json", "--verbose",
-        "--dangerously-skip-permissions",
-    ]
-    if sid:
-        cmd += ["--resume", sid]
-    env = dict(os.environ)
-    env.setdefault("PATH", "/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin")
-    env["PATH"] = f"{HOME}/.local/bin:/opt/homebrew/bin:{env['PATH']}"
-    proc = await asyncio.create_subprocess_exec(
-        *cmd, cwd=str(HOME), env=env,
-        stdout=asyncio.subprocess.PIPE, stderr=asyncio.subprocess.PIPE,
-    )
-    try:
-        out, err = await asyncio.wait_for(proc.communicate(), timeout=TIMEOUT_S)
-    except asyncio.TimeoutError:
-        proc.kill()
-        return f"Claude {TIMEOUT_S // 60} dakikada bitiremedi, is yarida kaldi."
-    text = out.decode(errors="replace")
-    if claude_limit:
-        limitli, reset, sonuc = claude_limit.incele(text or err.decode(errors="replace"))
-        if limitli:
-            msg = claude_limit.kaydet(kaynak, sonuc or err.decode(errors="replace"), reset)
-            logger.warning(msg)
-            return msg
-    if proc.returncode != 0 and not out:
-        logger.error(f"claude failed: {err.decode()[:500]}")
-        if sid:  # stale session id, start fresh next time
-            reset_session(user_id)
-        return f"Claude hata verdi: {err.decode()[:300]}"
-    data = {}
-    for line in text.splitlines():  # stream-json: son "result" olayi cevaptir
+    store = agentrun.Sessions(SESSIONS_FILE)
+    order = agentrun.provider_order()
+    sids = {} if fresh else {p: store.get(user_id, p) for p in order if store.get(user_id, p)}
+
+    def notify(text):
         try:
-            d = json.loads(line)
-        except json.JSONDecodeError:
-            continue
-        if d.get("type") == "result":
-            data = d
-    if not data:
-        return text[:4000]
-    if data.get("session_id") and not fresh:
-        sessions[str(user_id)] = data["session_id"]
-        _save_sessions(sessions)
-    return data.get("result") or "(bos cevap)"
+            import kurucuya_yaz
+            kurucuya_yaz.gonder(text, seviye="hata", kaynak="agent-limit")
+        except Exception:
+            pass
+
+    r = await asyncio.to_thread(agentrun.run, f"{SYSTEM_NOTE}\n\n{prompt}", cwd=HOME, session_id=sids,
+                                timeout=TIMEOUT_S, notify=notify)
+    if r.ok:
+        if r.session_id and not fresh:
+            store.put(user_id, r.provider, r.session_id)
+        return r.text or "(bos cevap)"
+    if r.limit:
+        bitis = time.strftime("%d.%m %H:%M", time.localtime(r.reset)) if r.reset else "bilinmiyor"
+        msg = f"{LIMIT_ONEKI} tum ajanlar limitte ({', '.join('%s=%s' % t for t in r.tried)}), en yakin sifirlanma {bitis}. {kaynak} bekliyor."
+        logger.warning(msg)
+        return msg
+    logger.error(f"agent failed: {r.error[:500]}")
+    if not fresh:  # stale session id, start fresh next time
+        for p in order:
+            store.drop(user_id, p)
+    return f"Ajan hata verdi ({', '.join('%s=%s' % t for t in r.tried)}): {r.error[:300]}"
+
+
+ask_claude = ask_agent  # old name, callers still import it

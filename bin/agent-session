@@ -1,0 +1,21 @@
+#!/bin/bash
+# agent-session NAME [PROVIDER]  : starts the interactive coding agent in the current directory.
+# Provider: argument, else AGENT_PROVIDER (first of a comma list), else the first entry of ~/.config/parallax/agent.json, else claude.
+# Same rule files for every provider (global ~/.claude/CLAUDE.md and the project CLAUDE.md or AGENTS.md).
+# Claude only: --remote-control and naming; Codex and Gemini have no equivalent, cross-session messages go through the file inbox.
+# AGENT_BYPASS=0 keeps approval prompts, AGENT_CONTINUE=0 starts a new conversation instead of resuming the last one.
+NAME="${1:-session}"; P="${2:-${AGENT_PROVIDER%%,*}}"; BYPASS="${AGENT_BYPASS:-1}"; CONT="${AGENT_CONTINUE:-1}"
+if [ -z "$P" ]; then P=$(python3 -c "import json,os;print((json.load(open(os.path.expanduser('~/.config/parallax/agent.json'))).get('providers') or ['claude'])[0])" 2>/dev/null); fi
+P="${P:-claude}"
+export PATH="$HOME/.local/bin:/opt/homebrew/bin:/usr/local/bin:$(ls -d $HOME/.nvm/versions/node/*/bin 2>/dev/null | tail -1):$PATH"
+C=(); X=(); G=()
+[ "$CONT" = 1 ] && C=(--continue)
+[ "$BYPASS" = 1 ] && X=(--dangerously-skip-permissions)
+case "$P" in
+  claude)  exec env -u CLAUDE_CODE_OAUTH_TOKEN claude "${C[@]}" "${X[@]}" -n "$NAME" --remote-control "$NAME" ;;
+  codex)   CX=(-c 'project_doc_fallback_filenames=["CLAUDE.md"]' -c project_doc_max_bytes=262144); [ "$BYPASS" = 1 ] && CX+=(--dangerously-bypass-approvals-and-sandbox)
+           if [ "$CONT" = 1 ]; then codex resume --last "${CX[@]}" 2>/dev/null || exec codex "${CX[@]}"; else exec codex "${CX[@]}"; fi ;;
+  gemini)  export GEMINI_CLI_HOME="$HOME/.config/parallax/gemini-home"; [ "$BYPASS" = 1 ] && G=(--approval-mode yolo)
+           if [ "$CONT" = 1 ]; then gemini "${G[@]}" --resume latest 2>/dev/null || exec gemini "${G[@]}"; else exec gemini "${G[@]}"; fi ;;
+  *) echo "bilinmeyen saglayici: $P" >&2; exit 2 ;;
+esac

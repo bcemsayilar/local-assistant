@@ -31,3 +31,11 @@ Once `~/.claude/CLAUDE.md` (global kurallar, yonetim yapisi, yetki devri, kurucu
 - **Kablo:** 17 Pro Air'in kendi portunda C-C; hub'in ikinci USB-C'si PD (yalniz sarj, veri yok). `home-server-telefonlar.md`. Air sarji hub PD'den, AlDente %80'de tutar.
 - **Instagram web:** benburakcem Air Chrome'da (CDP 9223) acik. Clear Wave kuyrugu: 54 reel, 23 Kasim'a kadar; sabah "Comment APP", aksam "Link in bio".
 - **Kimlikler:** As Shot ve Onscript ASC, Sentry, Mixpanel, RevenueCat ve web adresleri `app-registry.md`'de (ASC IAP ve abonelik kimlikleri, TestFlight buildleri dahil).
+
+## Agent bagimsizligi (Codex ve Gemini gecisi), 2026-10-28 gece, YARIM
+
+- Yazildi: `agentrun/` (core.py, __main__.py), `bin/agent` (doctor, setup, run, limits). Saglayici sirasi claude, codex, gemini; limitte siradakine gecer; Codex `CLAUDE.md`yi `project_doc_fallback_filenames` ile okur, Gemini `context.fileName` ve yonetilen `~/.config/parallax/gemini-home` ile. `bin/agent setup` calisti, anahtarlar `~/.config/parallax/agent.env` (600).
+- Testler: Codex API anahtariyla basliz calisiyor ve CLAUDE.md talimatini okudu; Gemini API anahtariyla calisiyor (kisisel OAuth emekli, cok yavas dusunme); Claude 5 saatlik limitte (17:30 sifirlanir), `agent limits` ile gorulur.
+- ENGEL: Codex ChatGPT hesabi ucretsiz katmanda ve kullanim limitinde (24 Kasim'a kadar). Gecis icin Plus ya da Pro ya da API anahtari modu (`AGENT_CODEX_AUTH=api_key`, kullanima gore ucret, 5 dolar ustu kurucu onayi).
+- YAPILACAK: claude_bridge.py, air-orkestrator/kosu.py, ig-temizlik/run.py, oturumlari-ac.sh `agentrun`a baglanacak (simdi dogrudan `claude -p`); Air'e codex ve gemini kurulumu (nvm node 20 var, brew PATH disinda); skills tek yer `~/.agents/skills`; global ve kok `AGENTS.md` (`.claude/CLAUDE.md` kullanan local-assistant ve finance-agent icin kok AGENTS.md); `General App Guidlines/agent-portability.md`; cross-session SendMessage dosya kutusuna tasinmali. `agent run --model` bayragi `-m` degil `--model`.
+- Hukuki sayfa ve App Store: Onscript yeniden basim kolu arka planda calisiyor olabilir (ekran, header ASC), videolar iki uygulamada gercek kayitla yeniden kurulacak, Add for Review taslagi bekliyor.
