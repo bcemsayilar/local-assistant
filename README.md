@@ -9,4 +9,4 @@ Kurucunun Telegram botu (`@burakcembot`). Mac Air'de 7/24 calisir (LaunchAgent `
 
 ## Calistirma
 
-`cp .env.example .env`, degerleri doldur, `./run.sh`. Kurallar ve Air ayrintisi: `.claude/CLAUDE.md`.
+`cp .env.example .env`, degerleri doldur, `./run.sh`. Kurallar ve Air ayrintisi: `CLAUDE.md`.
