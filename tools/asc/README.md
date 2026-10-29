@@ -1,0 +1,7 @@
+# ASC yardimcilari (2026-10-28 turundan)
+
+`asc.py` App Store Connect API istemcisi (JWT openssl ile imzalanir, anahtarlar vidberry/.env icindeki ASC_* degiskenlerinden), `up.py` ekran goruntusu ve preview yukleme (APP_IPHONE_67 ve IPHONE_67, uygulama ve surum kimlikleri APPS sozlugunde), `chk.py` yukleme durumlari. `sj.sh` Safari sekmesinde JS calistirir (TABMATCH ile sekme secilir), `jsup.py` dosyayi ASC arayuzundeki file input'a enjekte eder, `poster.sh` Media Manager'da poster karesi. Ayrinti ve tuzaklar: parallax-content/shared/knowledge/app-store-gorselleri.md bolum 8. Betikler /tmp/claude-501 yollarina gore yazildi, kullanmadan once yollari duzelt.
+
+## Ilk IAP veya abonelikle gonderim (2026-10-29 dersi)
+
+Bir uygulamanin ilk IAP'si ya da aboneligi surumle birlikte gonderilmek zorunda; API tek basina `subscriptionSubmissions` ile gondermez (`FIRST_SUBSCRIPTION_MUST_BE_SUBMITTED_ON_VERSION`) ve surum sayfasinda ayri bir IAP bolumu da cikmaz. Calisan yol: (1) API ile `reviewSubmissions` taslagi ac ve `appStoreVersion` kalemini ekle; (2) ASC arayuzunde abonelik grubu sayfasinda ve ayrica aboneligin kendi sayfasinda "Add for Review" > "Draft iOS Submission" sec (grup tek basina yetmez, "you need to submit at least one subscription first" der); (3) taslakta uc kalem olunca API ile `submitted: true`. Yalniz surumu gonderirsen abonelik dahil olmaz ve inceleyici ucretli ozelligi acamaz. Gonderimi geri cekmek (`canceled: true`) CANCELING durumundan COMPLETE'e gecene kadar surumu kilitler, bir dakika bekle.
