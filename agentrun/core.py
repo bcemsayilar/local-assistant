@@ -31,6 +31,8 @@ DEFAULT_CONF = {
     },
     "codex_auth": "login",                         # "login" = ChatGPT subscription, "api_key" = pay per use via CODEX_API_KEY
     "gemini_auth": "api_key",                      # personal OAuth was retired for the CLI; the key comes from agent.env
+    "claude_auth": "login",                        # "login" = Max subscription (OAuth token), "api_key" = pay per use, billed to the Console org the key belongs to
+    "claude_api_key_env": "CLAUDE_API_KEY_PERSONAL",   # env var holding that key (agent.env); CLAUDE_API_KEY is the Parallax org key
 }
 
 
@@ -48,7 +50,7 @@ class Result:
 
 def load_conf() -> dict:
     conf = json.loads(json.dumps(DEFAULT_CONF))
-    for k, env in (("codex_auth", "AGENT_CODEX_AUTH"), ("gemini_auth", "AGENT_GEMINI_AUTH")):
+    for k, env in (("codex_auth", "AGENT_CODEX_AUTH"), ("gemini_auth", "AGENT_GEMINI_AUTH"), ("claude_auth", "AGENT_CLAUDE_AUTH")):
         if os.environ.get(env):
             conf[k] = os.environ[env]
     try:
@@ -61,7 +63,7 @@ def load_conf() -> dict:
                 conf[k] = v
     except (OSError, ValueError):
         pass
-    for k, env in (("codex_auth", "AGENT_CODEX_AUTH"), ("gemini_auth", "AGENT_GEMINI_AUTH")):
+    for k, env in (("codex_auth", "AGENT_CODEX_AUTH"), ("gemini_auth", "AGENT_GEMINI_AUTH"), ("claude_auth", "AGENT_CLAUDE_AUTH")):
         if os.environ.get(env):
             conf[k] = os.environ[env]
     return conf
@@ -209,6 +211,13 @@ def _claude(prompt, sid, model, conf, env, cwd, tmp):
         cmd += ["--resume", sid]
     if model:
         cmd += ["--model", model]
+    env = dict(env)
+    key = env.get(conf.get("claude_api_key_env") or "CLAUDE_API_KEY_PERSONAL") or env.get("CLAUDE_API_KEY")
+    if conf.get("claude_auth") == "api_key" and key:
+        env["ANTHROPIC_API_KEY"] = key
+        env.pop("CLAUDE_CODE_OAUTH_TOKEN", None)   # pay per use was chosen on purpose, so the subscription token stays out
+    else:
+        env.pop("ANTHROPIC_API_KEY", None)         # subscription login unless pay per use was chosen on purpose
 
     def parse(out, err, rc):
         res = Result(provider="claude")
