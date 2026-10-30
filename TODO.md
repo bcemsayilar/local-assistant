@@ -16,6 +16,7 @@
 - [ ] **lifeOS projesi**: 2026-06-05 pivot, Cognee Mac Air'de surdurulebilir bulunmadi, yeni aday PewDiePie Odysseus. Detay: `projects/lifeOS/README.md` "STRATEJI PIVOT".
 
 ## PARKED
+- [ ] İspanya D8 dijital göçebe vizesi (kurucu 2026-10-30: NIE sonucu gelene kadar park). Yönetim sayfası `~/Desktop/İspanya D8/ispanya-d8-yonetim.md`. 3 Kasım 2026 10:00 NIE randevusu (12 USD nakit, tam para). NIE cevabı gelince vize belge toplama ve BLS randevusu (kontenjan her ayın 1'i ve 16'sı 09:00) başlar
 - [ ] air-orkestrator koşusu takılması (kurucu 2026-10-30: bir süredir takılmıyor, parka alındı). Kök neden bulunamadı; takılan dört istek `claude-opus-5-5`e gitmişti, model 28 Ekim'de Sonnet yapıldıktan sonra takılma görülmedi. Tekrarlanırsa `agentrun/core.py` `_claude`a `--debug-file` ekleyip takılmada kaydı sakla
 - [ ] Deco mesh'te ayri misafir WiFi, ziyaretciler LAN'a acik servislere ulasamasin. Deco uygulamasi ister, uzaktan yapilamiyor. Kararlar (FileVault kapali, statik IP ile port yonlendirme yok, Tailscale ACL) `home-server.md`'de.
 
