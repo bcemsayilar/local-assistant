@@ -14,6 +14,7 @@ Kurucu KISA cevap ister. Oturum cok uzadi, `TODO.md` guncel; asagida yalniz devr
 - **Sureli:** bulut kredisi $250 5 Kasim 10:59'da biter (pilot oturum raporu claude.ai/code'da, kredi 1 dolar dustu); Max $100 API kredisi 14 Kasim'da yenilenir, relink onayi (Anthropic destek thread 1a187ba46a9dbcec, insan ajan henuz yazmadi) gelmeden yine Individual Org'a gider; Claude for Startups basvurusu buna bagli. 16 Kasim oncesi Air `agent.json` `claude_auth` durumunu gozden gecir.
 - **Kurucu kisisel isler:** Ispanya D8 vizesi PARKTA, NIE randevusu 3 Kasim 2026 10:00 (Karanfil Araligi Sk. No 16, Levent, 12 USD nakit tam para; 2 dolar eksikti, EX-15'te ana baba adlari bos); yonetim sayfasi `~/Desktop/İspanya D8/ispanya-d8-yonetim.md`. Deniz Kahveci egitimi: odeme bekleniyor, egitim 8 Kasim 14:30 (teyit), klasor `Freelance Projects/Eğitim/`.
 - Gmail'de kallawaymarketing "hooks" mail bekleniyor (bcsayilar@gmail.com adresi DM ile verildi; me@cemsayilar.com ilk mesajda gitti, o kutuya erisimim yok).
+- TikTok post otomasyonu: TODO'da plan ve durum var (tek uygulama, birden çok hesap; developer portal girişi kurucu onayıyla; Air Chrome giriş yapmamış).
 - Yeni TODO maddeleri: Air iPhone altyapisi iyilestirmeleri ve uygulama donusum taktikleri (kaynaklar TODO'da ve Data House `ideas.md`'de).
 
 ## 1. App Store: As Shot ve Onscript (inceleme gonderimi bekliyor)
