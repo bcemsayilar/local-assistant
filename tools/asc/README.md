@@ -1,6 +1,6 @@
 # ASC yardimcilari (2026-10-28 turundan)
 
-`asc.py` App Store Connect API istemcisi (JWT openssl ile imzalanir, anahtarlar vidberry/.env icindeki ASC_* degiskenlerinden), `up.py` ekran goruntusu ve preview yukleme (APP_IPHONE_67 ve IPHONE_67, uygulama ve surum kimlikleri APPS sozlugunde), `chk.py` yukleme durumlari. `sj.sh` Safari sekmesinde JS calistirir (TABMATCH ile sekme secilir), `jsup.py` dosyayi ASC arayuzundeki file input'a enjekte eder, `poster.sh` Media Manager'da poster karesi. Ayrinti ve tuzaklar: parallax-content/shared/knowledge/app-store-gorselleri.md bolum 8. Betikler /tmp/claude-501 yollarina gore yazildi, kullanmadan once yollari duzelt.
+`asc.py` App Store Connect API istemcisi (JWT openssl ile imzalanir, anahtarlar kasadaki apple.env icindeki ASC_* degiskenlerinden (kasa yoksa eski vidberry/.env)), `up.py` ekran goruntusu ve preview yukleme (APP_IPHONE_67 ve IPHONE_67, uygulama ve surum kimlikleri APPS sozlugunde), `chk.py` yukleme durumlari. `sj.sh` Safari sekmesinde JS calistirir (TABMATCH ile sekme secilir), `jsup.py` dosyayi ASC arayuzundeki file input'a enjekte eder, `poster.sh` Media Manager'da poster karesi. Ayrinti ve tuzaklar: parallax-content/shared/knowledge/app-store-gorselleri.md bolum 8. Betikler /tmp/claude-501 yollarina gore yazildi, kullanmadan once yollari duzelt.
 
 ## Ilk IAP veya abonelikle gonderim (2026-10-29 dersi)
 

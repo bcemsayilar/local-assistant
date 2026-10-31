@@ -70,7 +70,7 @@ Ad eski kaldi: kopru artik `agentrun` uzerinden Claude, Codex ya da Gemini calis
 
 ## Supabase keep-alive (AWS, 2026-10-23)
 Supabase Free plandaki projeler 7 gun hareketsiz kalinca durduruluyor. AWS Lambda `supabase-keepalive` (eu-central-1, hesap 573199225040, Activate kredisi) EventBridge `supabase-keepalive-12h` ile 12 saatte bir her projede herkese acik anahtarla tek satirlik REST okumasi yapar.
-- Kod `aws/supabase-keepalive/handler.py`, kurulum `deploy.sh` (tekrar calistirmak guvenli, yonetici kimligi `vidberry/.env`). Proje listesi `projects.json` (git disi, sadece publishable ya da anon anahtar; secret ve hesap token'i yok).
+- Kod `aws/supabase-keepalive/handler.py`, kurulum `deploy.sh` (tekrar calistirmak guvenli, yonetici kimligi kasadaki `aws.env`). Proje listesi `projects.json` (git disi, sadece publishable ya da anon anahtar; secret ve hesap token'i yok).
 - Kapsam: watercleaner (Clear Wave) ve wp-agent-studio (Parallax Technologies org, Free), pillowtale (bcsayilar org, Free). videoapp ve cvai_project Pro org'da, gerekmez.
 - Sonuc CloudWatch `/aws/lambda/supabase-keepalive` (30 gun). 402 kota kisiti demek, istek veritabanina ulasmaz ve aktivite sayilmaz; Parallax Technologies org'u 2026-10-23'te `exceed_cached_egress_quota` ile kisitliydi.
 - Yeni Free proje acilinca `projects.json`'a ekle, `deploy.sh` calistir.

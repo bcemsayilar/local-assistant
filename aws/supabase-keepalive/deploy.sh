@@ -1,7 +1,7 @@
 #!/bin/bash
-# deploy.sh : supabase-keepalive Lambda'sini kurar ya da gunceller (tekrar calistirmak guvenli). Yonetici kimligi vidberry/.env'den (cli-access.md).
+# deploy.sh : supabase-keepalive Lambda'sini kurar ya da gunceller (tekrar calistirmak guvenli). Yonetici kimligi anahtar kasasindan, yalniz aws servisi (secrets-management.md).
 set -euo pipefail
-set -a; source ~/Mac-Projects/vidberry/.env; set +a
+set -a; source ~/.config/parallax/secrets/aws.env; set +a   # yalniz aws servisi, vidberry/.env toptan yuklenmez
 export AWS_REGION=eu-central-1 AWS_DEFAULT_REGION=eu-central-1
 cd "$(dirname "$0")"
 ACC=573199225040; FN=supabase-keepalive; ROLE=supabase-keepalive-lambda; RULE=supabase-keepalive-12h
