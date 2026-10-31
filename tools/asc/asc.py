@@ -1,8 +1,11 @@
 import os, json, time, base64, subprocess, urllib.request, urllib.error, hashlib, re
 ENV = {}
-for l in open(os.path.expanduser('~/Mac-Projects/vidberry/.env')):
-    m = re.match(r'^(ASC_[A-Z_]+)=(.*)$', l.strip())
-    if m: ENV[m.group(1)] = m.group(2).strip().strip('"').strip("'")
+# Once kasa (secrets-management.md), yoksa eski yer vidberry/.env
+for _f in ('~/.config/parallax/secrets/apple.env', '~/Mac-Projects/vidberry/.env'):
+    if not os.path.isfile(os.path.expanduser(_f)): continue
+    for l in open(os.path.expanduser(_f)):
+        m = re.match(r'^(ASC_[A-Z_]+)=(.*)$', l.strip())
+        if m and m.group(1) not in ENV: ENV[m.group(1)] = m.group(2).strip().strip('"').strip("'")
 KEY = os.path.expanduser(ENV['ASC_PRIVATE_KEY_PATH'])
 def b64(b): return base64.urlsafe_b64encode(b).rstrip(b'=')
 def der_to_raw(der):
