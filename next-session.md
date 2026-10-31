@@ -1,13 +1,20 @@
-# Next Session - Devir Notu (guncel: 2026-10-30)
+# Next Session - Devir Notu (guncel: 2026-10-31)
 
 Once `~/.claude/CLAUDE.md` (global kurallar, ajan notu, yonetim yapisi, yetki devri, kurucuya bildirim), sonra `~/Desktop/Parallax Technologies LLC/General App Guidlines/session-organization.md`, `agent-portability.md` ve `home-server.md`. Servise dokunmadan once `service-access.md`. Sistem semasi https://claude.ai/artifact/7RwAweEfyNQutzLT785WHY (kaynak `docs/sistem-semasi.html`). Acik isler `TODO.md`'de; bu dosya yalniz devir notu. Kurucu sparring partner ister, KISA cevap ister, urun adindan ve altyapidan varsayma (TestFlight'in telefonda oldugunu varsaydim, yanlis cikti, once kontrol et), geri donusu olmayan isler ve commit once onay, tarih ya da sure tahmini verme.
 
-## 0. Yeni oturumun ilk isleri (2026-10-30 oturum sonu)
+## 0. Yeni oturumun ilk isleri (2026-10-31 oturum sonu)
 
-- `TODO.md` guncel; bu oturumdan acik kalanlar orada: Claude for Startups basvurusu (relink onayi bekleniyor), 16 Kasim'dan once `claude_auth` geri alma, $250 bulut kredisi (5 Kasim), GENIL gozden gecirme kosulu, air-orkestrator takilma kok nedeni.
-- Gmail'de (bcsayilar@gmail.com, MCP bagli) destek thread'ine bak: 1a187ba46a9dbcec. Cevap gelmediyse "Rate your conversation" mailleri bot mesajidir, insan onayi degildir.
-- As Shot 1.0 (13) ve Onscript 1.0 (8) Apple incelemesinde; sonuc gelince (App Store Connect ya da mail) devam. Onscript abonelik ve As Shot IAP surumle birlikte gonderildi.
-- Yeni yatirim kararlari `Data House/life/finance/baseline-analiz.md`'de.
+Kurucu KISA cevap ister. Oturum cok uzadi, `TODO.md` guncel; asagida yalniz devralinacak durum.
+
+- **Hedefli DM arama turu Air'de calisiyor** (19:04'te `run.py --force --bekleyenler`; Air `/tmp/ig-bek.log`, ledger.md): tetik-bekleyen'de "DM yok" yazan hesaplari Primary, General, Requests ve Gizlenen Istekler'de arar, bulunani isler, kok nedeni ledger'a yazar ve telefon-ajani.md kutu listesini duzeltir. Bitince sonucu ve kok nedeni oku, kurucuya yaz. Ilk "Send me the link" basisinda `ig-otomasyon/tools/oto.py log benburakcem 5` ile `own_tap_skip` gorunmeli (Lambda duzeltmesi 2026-10-31, commit 46d4533; daha once kendi basisimiz bulten kuralini tetikleyip karsi hesaba bulten linki gonderiyordu).
+- **Anahtar kasasi** `~/.config/parallax/secrets/` (iki makinede, Air'de binance yok): `bin/secrets add|list|run|sync-air|audit|build`; rehber `General App Guidlines/secrets-management.md`, harcama sinirlari `spend-limits.md` (AWS, ElevenLabs, OpenRouter, Gemini projeleri dogrulandi; PillowTale Gemini ustu sinir 1000 TL kondu). Kalan: app `.env`'lerinden ortak anahtar silmeyi her depo oturumu kendisi yapar, Anthropic/OpenAI/Fal sinirlari dogrulanmadi.
+- **Reels:** reel 12 yayinlandi ve kurucu sildi (sebep: konusan yuz ile ses uyusmuyordu; FORBIDDEN.md madde 3). Kurucu gormeden hicbir marka hesabina yayin yok (local-assistant onayi yetmez, `marka-hesaba-test-yayini` hafiza kaydi). STORE kurali kapali. self-branding oturumu artik "self-branding-77" adiyla ulasilamiyor, `ListAgents` ile yeni adini bul; arka planda "Reel 12 v2 sonnet guncelleme" oturumu var.
+- **To-go modu** tanimi yazildi (`session-organization.md`); Air'de mod `to-go` acildi, kurucu evdeyse `ssh Air python3 ~/Projects/local-assistant/bildirim/kurucuya_yaz.py mod evde`. Kural: oturumlar "kurucu onayi bekliyorum" diye durmaz, local-assistant'a sorar; yalniz 5 dolar ustu harcama ve gerceklik hukmu kurucuyu bekler.
+- **Web:** destek sayfalari Pillowtale, VidBerry, Clear Wave yayinda; As Shot ve Onscript urun sayfalari gizli yayinda (noindex). ASC Support URL: VidBerry 1.3.7 ve Pillowtale 1.0 yazildi, Clear Wave sonraki surumde.
+- **Sureli:** bulut kredisi $250 5 Kasim 10:59'da biter (pilot oturum raporu claude.ai/code'da, kredi 1 dolar dustu); Max $100 API kredisi 14 Kasim'da yenilenir, relink onayi (Anthropic destek thread 1a187ba46a9dbcec, insan ajan henuz yazmadi) gelmeden yine Individual Org'a gider; Claude for Startups basvurusu buna bagli. 16 Kasim oncesi Air `agent.json` `claude_auth` durumunu gozden gecir.
+- **Kurucu kisisel isler:** Ispanya D8 vizesi PARKTA, NIE randevusu 3 Kasim 2026 10:00 (Karanfil Araligi Sk. No 16, Levent, 12 USD nakit tam para; 2 dolar eksikti, EX-15'te ana baba adlari bos); yonetim sayfasi `~/Desktop/İspanya D8/ispanya-d8-yonetim.md`. Deniz Kahveci egitimi: odeme bekleniyor, egitim 8 Kasim 14:30 (teyit), klasor `Freelance Projects/Eğitim/`.
+- Gmail'de kallawaymarketing "hooks" mail bekleniyor (bcsayilar@gmail.com adresi DM ile verildi; me@cemsayilar.com ilk mesajda gitti, o kutuya erisimim yok).
+- Yeni TODO maddeleri: Air iPhone altyapisi iyilestirmeleri ve uygulama donusum taktikleri (kaynaklar TODO'da ve Data House `ideas.md`'de).
 
 ## 1. App Store: As Shot ve Onscript (inceleme gonderimi bekliyor)
 
