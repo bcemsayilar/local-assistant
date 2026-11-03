@@ -55,10 +55,18 @@ def api(sid, path, payload):
     if item["expires_at"] < time.time() + 60:
         code, tok = token_call({"grant_type": "refresh_token", "refresh_token": item["refresh_token"]})
         if code != 200 or "access_token" not in tok:
-            return 401, {"error": "token yenilenemedi"}
-        item.update(access_token=tok["access_token"], refresh_token=tok.get("refresh_token", item["refresh_token"]),
-                    expires_at=int(time.time()) + int(tok["expires_in"]))
-        TABLE.put_item(Item=item)
+            # refresh token rotasyonu: baska bir istek az once yenilemis olabilir, guncel kaydi bir kez daha oku
+            fresh = TABLE.get_item(Key={"pk": "sess", "sk": sid}).get("Item")
+            if fresh and fresh["refresh_token"] != item["refresh_token"] and fresh["expires_at"] > time.time() + 60:
+                item = fresh
+            else:
+                return 401, {"error": "token yenilenemedi"}
+        else:
+            now = int(time.time())
+            rexp = now + int(tok.get("refresh_expires_in", 180 * 86400))
+            item.update(access_token=tok["access_token"], refresh_token=tok.get("refresh_token", item["refresh_token"]),
+                        expires_at=now + int(tok["expires_in"]), refresh_expires_at=rexp, ttl=rexp + 86400)
+            TABLE.put_item(Item=item)
     return http(API + path, json.dumps(payload).encode(),
                 {"authorization": "Bearer " + item["access_token"], "content-type": "application/json; charset=UTF-8"})
 
@@ -90,7 +98,9 @@ def handler(event, _ctx):
         sid = secrets.token_urlsafe(32)
         TABLE.put_item(Item={"pk": "sess", "sk": sid, "open_id": tok["open_id"], "access_token": tok["access_token"],
                              "refresh_token": tok["refresh_token"], "expires_at": int(time.time()) + int(tok["expires_in"]),
-                             "scope": tok.get("scope", ""), "ttl": int(time.time()) + 365 * 86400})
+                             "refresh_expires_at": int(time.time()) + int(tok.get("refresh_expires_in", 180 * 86400)),
+                             "scope": tok.get("scope", ""),
+                             "ttl": int(time.time()) + int(tok.get("refresh_expires_in", 180 * 86400)) + 86400})
         return resp(200, {"sid": sid})
 
     sid = body.get("sid", "")
