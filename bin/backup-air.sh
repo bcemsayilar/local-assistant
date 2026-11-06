@@ -27,6 +27,9 @@ find Projects/marketing-agent -type f -size -20000k -not -path "*/.git/*" -not -
 find android-agent -type f -size -20000k -not -path "android-agent/web/media*" -not -path "android-agent/web/frames*" -not -path "android-agent/ytvenv/*" -not -path "*/WebDriverAgent*" -not -path "*/node_modules/*" -not -name "*.xapk" 2>/dev/null >> "$L"
 find .config/parallax -type f -size -20000k -not -path "*/gemini-home/*" 2>/dev/null >> "$L"
 find Projects/local-assistant/data -type f 2>/dev/null >> "$L"
+# kisisel notlar (kurucu 2026-11-06): gunluk, ruya, terapi ve dijital gunluk notlari; Syncthing yedek degil (silme ve bozulma iki makineye de yayilir), bu yuzden bulutta sifreli ve surumlu da durur
+find ObsidianVault -type f -size -20000k 2>/dev/null >> "$L"
+find "Desktop/Data House" -type f -size -20000k -not -name ".DS_Store" 2>/dev/null >> "$L"
 find .n8n -maxdepth 2 -type f -size -20000k -not -path "*/node_modules/*" -not -name "n8nEventLog*" -not -name "database.sqlite*" 2>/dev/null >> "$L"
 N=$(wc -l < "$L")
 # 3) tek sifreli arsiv: dosya listesi + hazirlanan db kopyalari
