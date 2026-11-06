@@ -19,7 +19,7 @@ Portfoyun canli semasi https://claude.ai/artifact/7RwAweEfyNQutzLT785WHY, kaynag
 
 ## LinkedIn Haftalik Post
 - Yazim kurallari tek kaynak: `n8n/linkedin-automation/docs/linkedin-yazim-kurallari.md` (burada tekrarlanmaz)
-- Arsiv ve stil referansi: `~/Desktop/Self Branding/LinkedIn/linkedin-postlari.txt`
+- Arsiv ve stil referansi: `~/Desktop/Self Branding/linkedin/linkedin-postlari.txt`
 - Uretim 2026-08'den beri `~/Mac-Projects/newsletter-project` (LinkedIn teaser, metni OpenAI yazar), detay o projenin `CLAUDE.md`'si
 
 ## Genel Kurallar

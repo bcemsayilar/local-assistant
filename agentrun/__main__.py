@@ -68,6 +68,37 @@ def cmd_limits(a):
     return 0
 
 
+CONTEXT_WINDOW = 200000   # GLM-5.3-Flash Free ve DeepSeek V4.1 Flash Free, opencode models --verbose limit.context (2026-11-05)
+
+
+def cmd_usage(a):
+    """OpenCode kullanim izi: son calismalarin oturum doluluğu (son adimin girdi token'i / baglam penceresi), saatlik ve gunluk toplam, limit olaylari.
+    Ucretsiz modellerin genel istek limiti disaridan okunamaz; bu iz yalniz kendi calismalarimizi gosterir."""
+    f = core.CONF_DIR / "opencode-usage.jsonl"
+    rows = []
+    try:
+        for line in f.read_text().splitlines():
+            try:
+                rows.append(json.loads(line))
+            except ValueError:
+                pass
+    except OSError:
+        print("kayit yok: " + str(f)); return 0
+    now = time.time()
+    def tot(rs):
+        return sum(r.get("input", 0) + r.get("output", 0) + r.get("reasoning", 0) + r.get("cache_read", 0) for r in rs)
+    for label, span in (("son 1 saat", 3600), ("son 24 saat", 86400), ("son 7 gun", 7 * 86400)):
+        rs = [r for r in rows if now - r["t"] <= span]
+        print("%-12s %4d cagri  %9d token  %d adim  limit olayi %d  hata %d" % (label, len(rs), tot(rs), sum(r.get("steps", 0) for r in rs),
+              sum(1 for r in rs if r.get("limit")), sum(1 for r in rs if not r.get("ok") and not r.get("limit"))))
+    print("\nson %d calisma (oturum doluluğu = son adimin baglami / %d):" % (a.n, CONTEXT_WINDOW))
+    for r in rows[-a.n:]:
+        fill = 100.0 * r.get("last_input", 0) / CONTEXT_WINDOW
+        print("  %s  %-8s %-30s doluluk %%%4.1f (%7d)  adim %2d  %s" % (time.strftime("%m-%d %H:%M", time.localtime(r["t"])), r.get("provider", "?"), r.get("model") or "-", fill,
+              r.get("last_input", 0), r.get("steps", 0), "OK" if r.get("ok") else ("LIMIT" if r.get("limit") else "HATA")))
+    return 0
+
+
 def main():
     ap = argparse.ArgumentParser(prog="agent")
     sub = ap.add_subparsers(dest="cmd", required=True)
@@ -79,6 +110,7 @@ def main():
     sub.add_parser("doctor").set_defaults(fn=cmd_doctor)
     sub.add_parser("setup").set_defaults(fn=cmd_setup)
     l = sub.add_parser("limits"); l.add_argument("--clear", action="store_true"); l.set_defaults(fn=cmd_limits)
+    u = sub.add_parser("usage"); u.add_argument("-n", type=int, default=10); u.set_defaults(fn=cmd_usage)
     a = ap.parse_args()
     sys.exit(a.fn(a))
 

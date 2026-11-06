@@ -1,6 +1,6 @@
 #!/bin/bash
 # agent: provider independent headless agent. Usage: agent run "prompt" [--provider codex] [--cwd DIR] [--session KEY]
-#        agent doctor | agent setup | agent limits [--clear]
+#        agent doctor | agent setup | agent limits [--clear] | agent usage [-n N]
 D="$(cd "$(dirname "$(readlink "$0" || echo "$0")")/.." && pwd)"
 PY="$(command -v python3)"
 exec "$PY" -c "import sys; sys.path.insert(0, '$D'); from agentrun.__main__ import main; main()" "$@"

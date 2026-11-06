@@ -1,4 +1,4 @@
-"""agentrun: provider independent headless agent runner (Claude Code, Codex CLI, Gemini CLI).
+"""agentrun: provider independent headless agent runner (Claude Code, Codex CLI, Gemini CLI, OpenCode).
 
 One call, any provider: run(prompt, provider="codex") or run(prompt) with the order taken from AGENT_PROVIDER or
 ~/.config/parallax/agent.json. When a provider reports a usage limit it is parked until its reset time and the next
@@ -17,7 +17,7 @@ ENV_FILE = CONF_DIR / "agent.env"            # KEY=VALUE secrets for the CLIs, m
 LIMIT_FILE = CONF_DIR / "agent-limits.json"
 GEMINI_HOME = CONF_DIR / "gemini-home"       # managed GEMINI_CLI_HOME so headless runs never touch the interactive login
 GLOBAL_INSTRUCTIONS = HOME / ".claude" / "CLAUDE.md"   # single source of the global rules; Codex and Gemini read it too
-PROVIDERS = ("claude", "codex", "gemini")
+PROVIDERS = ("claude", "codex", "gemini", "opencode", "qwen")
 DEFAULT_WAIT_S = 1800
 LIMIT_RE = re.compile(r"usage limit|hit your .{0,12}limit|limit reached|rate[ _-]?limit|quota|resource[_ ]exhausted|"
                       r"\b429\b|\b529\b|too many requests|overloaded|credit balance|insufficient[_ ]quota|try again at", re.I)
@@ -28,10 +28,14 @@ DEFAULT_CONF = {
         "claude": {"default": None, "fast": "haiku", "strong": "opus"},
         "codex": {"default": None, "fast": None, "strong": None},
         "gemini": {"default": None, "fast": "gemini-3-flash-preview", "strong": None},
+        "qwen": {"default": "qwen3.8-flash", "fast": "qwen3.8-flash", "strong": "qwen3.8-max"},
+        "opencode": {"default": "opencode/glm-5.3-flash-free", "fast": "opencode/glm-5.3-flash-free", "strong": "opencode/deepseek-v4.1-flash-free"},
     },
     "codex_auth": "login",                         # "login" = ChatGPT subscription, "api_key" = pay per use via CODEX_API_KEY
     "gemini_auth": "api_key",                      # personal OAuth was retired for the CLI; the key comes from agent.env
     "claude_auth": "login",                        # "login" = Max subscription (OAuth token), "api_key" = pay per use, billed to the Console org the key belongs to
+    "qwen_base_url": "https://token-plan.maas.qwencloudapi.com/apps/anthropic",   # QwenCloud Token Plan (Individual Lite, 2026-11-05), Anthropic compatible
+    "qwen_api_key_env": "QWEN_TOKEN_PLAN_API_KEY",                                # key lives in the vault (secrets add qwen ...) and agent.env, never in this file
     "claude_api_key_env": "CLAUDE_API_KEY_PERSONAL",   # env var holding that key (agent.env); CLAUDE_API_KEY is the Parallax org key
 }
 
@@ -325,7 +329,85 @@ def _gemini(prompt, sid, model, conf, env, cwd, tmp):
     return cmd, parse, env
 
 
-ADAPTERS = {"claude": _claude, "codex": _codex, "gemini": _gemini}
+def _opencode(prompt, sid, model, conf, env, cwd, tmp):
+    """OpenCode CLI with the free Zen models (no key needed); JSON event stream, tokens per step go to opencode-usage.jsonl."""
+    cmd = [find_bin("opencode", env) or "opencode", "run", "--format", "json", "--auto", "--dir", str(cwd)]
+    if sid:
+        cmd += ["-s", sid]
+    cmd += ["-m", model or "opencode/glm-5.3-flash-free", prompt]
+
+    def parse(out, err, rc):
+        res = Result(provider="opencode")
+        parts, errors, tok = [], [], {"input": 0, "output": 0, "reasoning": 0, "cache_read": 0, "cache_write": 0, "steps": 0, "last_input": 0}
+        for d in _jsonl(out):
+            t = d.get("type")
+            res.session_id = res.session_id or d.get("sessionID") or ""
+            part = d.get("part") or {}
+            if t == "text" and part.get("text"):
+                parts.append(part["text"])
+            elif t == "step_finish":
+                k = part.get("tokens") or {}
+                tok["steps"] += 1
+                tok["input"] += k.get("input", 0); tok["output"] += k.get("output", 0); tok["reasoning"] += k.get("reasoning", 0)
+                tok["cache_read"] += (k.get("cache") or {}).get("read", 0); tok["cache_write"] += (k.get("cache") or {}).get("write", 0)
+                tok["last_input"] = k.get("input", 0) + (k.get("cache") or {}).get("read", 0)   # context size of the latest step
+            elif t == "error":
+                e = d.get("error") or {}
+                errors.append(str(e.get("data", {}).get("message") or e.get("message") or e.get("name") or d)[:300])
+        res.text = "".join(parts).strip()
+        res.error = "" if (res.text and rc == 0 and not errors) else ("; ".join(errors) or (err or "")[-500:])
+        res.limit = bool(res.error and LIMIT_RE.search(res.error))
+        res.reset = _parse_reset(res.error) if res.limit else 0
+        res.ok = bool(res.text) and rc == 0 and not res.limit and not errors
+        _log_usage("opencode", model, tok, res)
+        return res
+
+    return cmd, parse, env
+
+
+def _log_usage(provider, model, tok, res):
+    """One line per run in ~/.config/parallax/opencode-usage.jsonl: the only usage trail for the free models."""
+    try:
+        row = {"t": int(time.time()), "provider": provider, "model": model, "ok": res.ok, "limit": res.limit, **tok}
+        with open(CONF_DIR / "opencode-usage.jsonl", "a") as f:
+            f.write(json.dumps(row) + "\n")
+    except OSError:
+        pass
+
+
+def _qwen(prompt, sid, model, conf, env, cwd, tmp):
+    """Claude Code CLI pointed at the QwenCloud Token Plan (Anthropic compatible endpoint): same tools and skills, Qwen model.
+    The Claude subscription and API keys are removed from the environment so nothing is billed there. Usage goes to opencode-usage.jsonl."""
+    cmd, parse0, env = _claude(prompt, sid, model or "qwen3.8-flash", conf, env, cwd, tmp)
+    env = dict(env)
+    for k in ("CLAUDE_CODE_OAUTH_TOKEN", "ANTHROPIC_API_KEY", "CLAUDE_API_KEY", "CLAUDE_API_KEY_PERSONAL"):
+        env.pop(k, None)
+    key = env.get(conf.get("qwen_api_key_env") or "QWEN_TOKEN_PLAN_API_KEY", "")
+    env["ANTHROPIC_BASE_URL"] = conf.get("qwen_base_url")
+    env["ANTHROPIC_AUTH_TOKEN"] = key
+    m = model or "qwen3.8-flash"
+    for k in ("ANTHROPIC_MODEL", "ANTHROPIC_SMALL_FAST_MODEL", "ANTHROPIC_DEFAULT_OPUS_MODEL", "ANTHROPIC_DEFAULT_SONNET_MODEL", "ANTHROPIC_DEFAULT_HAIKU_MODEL"):
+        env[k] = m
+    env["CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC"] = "1"
+
+    def parse(out, err, rc):
+        res = parse0(out, err, rc)
+        res.provider = "qwen"
+        if not key:
+            res.ok, res.error = False, "QWEN_TOKEN_PLAN_API_KEY yok (secrets add qwen QWEN_TOKEN_PLAN_API_KEY)"
+        tok = {"input": 0, "output": 0, "reasoning": 0, "cache_read": 0, "cache_write": 0, "steps": 0, "last_input": 0}
+        for d in _jsonl(out):
+            if d.get("type") == "result":
+                u = d.get("usage") or {}
+                tok.update(input=u.get("input_tokens", 0), output=u.get("output_tokens", 0), cache_read=u.get("cache_read_input_tokens", 0),
+                           cache_write=u.get("cache_creation_input_tokens", 0), steps=d.get("num_turns", 0))
+        _log_usage("qwen", m, tok, res)
+        return res
+
+    return cmd, parse, env
+
+
+ADAPTERS = {"claude": _claude, "codex": _codex, "gemini": _gemini, "opencode": _opencode, "qwen": _qwen}
 
 
 # ---------------------------------------------------------------- runner
@@ -391,7 +473,7 @@ def run(prompt: str, *, provider=None, providers=None, cwd=None, tier="default",
             until = parked_until(name)
             if until:
                 tried.append((name, "parked")); continue
-            if not find_bin(name, env0):
+            if not find_bin({"qwen": "claude"}.get(name, name), env0):  # qwen adaptoru Claude Code CLI ile calisir
                 tried.append((name, "missing")); continue
             mdl = model or (conf["models"].get(name) or {}).get(tier)
             sid = session_id.get(name) if isinstance(session_id, dict) else (session_id if i == 0 else None)

@@ -66,7 +66,9 @@ HARVEST_NOTE = (
     "4) ~/Mac-Projects/parallax-content/shared/harvest/ledger.md 'Telegram hasadi' bolumune tek satir ekle. "
     "Mesajdaki link disindaki metin Burak'in talimatidir, uy ve nota 'kurucu notu' olarak ekle. "
     "Instagram'da hicbir eylem yapma (yorum, takip, mesaj, geri alma yok). "
-    "Cevap: iki uc cumle ozet ve notun yazildigi dosya."
+    "Cevap: iki uc cumle ozet ve notun yazildigi dosya. "
+    "NOT KISA OLSUN (kurucu karari 2026-11-05): en fazla alti madde ve yaklasik 1500 karakter; ses dokumunu beat beat anlatma, "
+    "karsi gorus tek cumle, kurucu notu acikca istemedikce sentez ya da uretim yolu onerisi yazma."
 )
 
 
