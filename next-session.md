@@ -60,7 +60,6 @@ Kurucu KISA cevap ister. Oturum cok uzadi, `TODO.md` guncel; asagida yalniz devr
 
 ## 4. Diger acik ve bekleyen
 
-- **Web varligi kurali** TODO'da (legal-pages.md bir kismini karsiladi, kalan: uygulama basina tum web yuzleri, kim yazar kim yayinlar).
 - **project-benburakcem-ai:** `dev` push edildi, klasor Syncthing ile Air'e acildi (`project-benburakcem-ai`, 2026-10-29, ilk esitleme suruyor); Air `marketing-agent/kampanyalar/benburakcem/` BRIEF.md eski yolu anabilir.
 - **Hasat kurucu kararlari, parallax-kit sonraki surum, VidBerry Fal izni, Tailscale ACL 5900, kurucuda bekleyen sorular (250 dolarlik Claude kredisi, Mixpanel dev/prod ayri mi, Clear Wave CTA, Chrome profilinde Coinbase ve CRD):** onceki devir notundaki halleriyle gecerli, `TODO.md` ve `coordinator.md`'lere bak.
 - **Sabit gorev:** kisisel yazilar Obsidian'a, kurucu "bitti" diyene kadar acik.
