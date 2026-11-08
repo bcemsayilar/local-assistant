@@ -1,5 +1,8 @@
 import os, json, time, base64, subprocess, urllib.request, urllib.error, hashlib, re
 ENV = {}
+# Ortam degiskeni varsa once o (secrets run apple-air -- ... dar rollu Air anahtari), yoksa asagidaki dosyalar
+for _k in ('ASC_KEY_ID','ASC_ISSUER_ID','ASC_PRIVATE_KEY_PATH'):
+    if os.environ.get(_k): ENV[_k] = os.environ[_k]
 # Once kasa (secrets-management.md), yoksa eski yer vidberry/.env
 for _f in ('~/.config/parallax/secrets/apple.env', '~/Mac-Projects/vidberry/.env'):
     if not os.path.isfile(os.path.expanduser(_f)): continue
