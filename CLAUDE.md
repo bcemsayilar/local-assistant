@@ -1,7 +1,7 @@
 # Local Assistant - Kisisel Asistan Projesi
 
 ## Proje Amaci
-Telegram botu (`@burakcembot`, Air'de 7/24). 2026-10-23 sadelestirmesinden beri iki yol var: `ruya`, `gunluk` ya da `spor <no>` ile baslayan mesaj modelsiz, kodla Obsidian vault'a yazilir (`assistant/notes.py`); geri kalan her sey (metin, gorsel, video, dosya, sesli not) Air'deki Claude Code oturumuna gider (`claude_bridge.py`). Yerel model (Ollama), RAG, GraphThulhu ve SearxNG bottan kaldirildi.
+Telegram botu (`@burakcembot`, Air'de 7/24). 2026-10-23 sadelestirmesinden beri iki yol var: `ruya`, `gunluk`, `terapi` ya da `spor <no>` ile baslayan mesaj modelsiz, kodla Obsidian vault'a yazilir (`assistant/notes.py`); geri kalan her sey (metin, gorsel, video, dosya, sesli not) Air'deki Claude Code oturumuna gider (`claude_bridge.py`). Yerel model (Ollama), RAG, GraphThulhu ve SearxNG bottan kaldirildi.
 
 ## Rol: genel yonetim oturumu (kurucu karari 2026-10-23)
 Bu klasorde acilan oturum Mac Pro'daki iki yonetim oturumundan biridir: icerik disindaki her seyden sorumlu (altyapi, backend ve planlar, guvenlik, oturumlar arasi catisma, General App Guidlines, Data House, finans). Icerik `self-branding`'in, Mac Air `air-orkestrator`'un. Roller ve kurallar: `~/Desktop/Parallax Technologies LLC/General App Guidlines/session-organization.md`.
@@ -11,10 +11,10 @@ Portfoyun canli semasi https://claude.ai/artifact/7RwAweEfyNQutzLT785WHY, kaynag
 
 ## Teknoloji Yigini
 - **Telegram**: python-telegram-bot v21+ (job-queue, ruya mesajlari 5 dk sonra silinir)
-- **Notlar**: `assistant/notes.py`, ObsidianVault'a dogrudan dosya yazar (`ruya/`, `gunluk/`, `spor/Program N*.md` tablosu)
+- **Notlar**: `assistant/notes.py`, ObsidianVault'a dogrudan dosya yazar (`gunluk/YYYY/` gun dosyalari, `spor/Program N*.md` tablosu)
 - **Ajan**: Air'de basliz ajan (`agentrun`: Claude, Codex ya da Gemini, limitte siradakine gecer), ayrinti "Claude kopru modu"
 - **File Sync**: Syncthing (ObsidianVault iki makinede)
-- **Dil**: Python 3.11 (venv)
+- **Dil**: Python; Air'deki bot venv'i 3.9.6, Mac Pro venv'i 3.13 (2026-11-10 olculdu). Kod 3.9 ile uyumlu kalmali
 - Ollama Air'de hala kurulu (qwen3.5:9b, lfm2.5:8b, nomic-embed-text) ama bot kullanmiyor; tek kullanicisi n8n Twitter Bookmarks (o da olu model `qwen3:4b`'ye bagli)
 
 ## LinkedIn Haftalik Post
@@ -23,12 +23,8 @@ Portfoyun canli semasi https://claude.ai/artifact/7RwAweEfyNQutzLT785WHY, kaynag
 - Uretim 2026-08'den beri `~/Mac-Projects/newsletter-project` (LinkedIn teaser, metni OpenAI yazar), detay o projenin `CLAUDE.md`'si
 
 ## Genel Kurallar
-- Turkce commit mesajlari, teknik terimler Ingilizce kalabilir
-- Commit mesajlarinda " ve : kullanma
-- Commit mesajlarinda "fixed/done/completed" yerine "test/attempt/try" kullan
-- Claude co-author ekleme
-- Main branch'e dokunma (kullanici acikca belirtmedikce)
-- Ruya, gunluk ve spor notlari buluta cikmaz (kodla yazilir); diger mesajlar Claude'a gider
+- Commit ve branch kurallari (dil, yasak karakterler, deneme kelimesi, imza, co-author yasagi, medya yasagi) tek yerde: `~/Desktop/Parallax Technologies LLC/General App Guidlines/git-conventions.md`
+- Ruya, gunluk, terapi ve spor notlari buluta cikmaz (kodla yazilir); diger mesajlar ajana gider
 
 ## Altyapi - Makineler
 
@@ -49,11 +45,10 @@ Mac Air sunucusunun genel bilgisi (erişim, servisler, güvenlik): `~/Desktop/Pa
 Genel kalip home-server.md'de. Bu projede degisen dosyalar tar ile `~/Projects/local-assistant/` altina gonderilir, acilir, sonra `launchctl stop com.local-assistant.bot` (KeepAlive yeniden baslatir).
 
 ## Notlar (kodla, modelsiz)
-- `ruya ...` / `rüya: ...` -> `ruya/` klasorundeki tek dosyaya tarihli callout; mesaj ve cevap 5 dk sonra sohbetten silinir
-- `gunluk ...` -> `gunluk/YYYY-MM-DD.md`, saatli callout
+- `ruya ...` / `rüya: ...`, `gunluk ...`, `terapi ...` -> ucu de ayni gun dosyasina, `gunluk/YYYY/YYYY-MM-DD.md`, saatli callout ("Rüya", "Günlük", "Terapi"; kurucu karari 2026-10-28). Ruya mesaji ve cevabi 5 dk sonra sohbetten silinir
 - `spor 1` + satir satir `hareket: setler` (ya da `;` ile) -> `spor/Program 1*.md` tablosuna bugunun satiri; verilmeyen hareket `PROGRAM_DEFAULTS`, kalan metin Notlar sutunu. Numarasiz `spor ...` not sayilmaz, Claude'a gider
 - Vault: iki makinede `~/ObsidianVault`, Syncthing folder `obsidian-vault`, iki yonlu
-- GraphThulhu (`com.graphthulhu.server`) yalniz eski bot kullaniyordu, 2026-10-23'te durdurulmasi istendi
+- GraphThulhu (`com.graphthulhu.server`) yalniz eski bot kullaniyordu, 2026-10-23'te kalici kapatildi (plist Air `~/Library/LaunchAgents/parked/`, ayrinti `home-server-servisler.md`)
 
 ## Claude kopru modu (2026-10-04, 2026-10-28'den beri saglayici bagimsiz)
 Ad eski kaldi: kopru artik `agentrun` uzerinden Claude, Codex ya da Gemini calistirir (siralama `AGENT_PROVIDER` ya da `~/.config/parallax/agent.json`, limitli saglayici atlanir). `ask_claude` adi `ask_agent`in takma adidir. Asagidaki Claude'a ozgu satirlar (`claude -p`, `CLAUDE_CODE_OAUTH_TOKEN`, TCC) yalniz Claude saglayicisi icin gecerlidir. Rehber: `General App Guidlines/agent-portability.md`.
@@ -66,7 +61,7 @@ Ad eski kaldi: kopru artik `agentrun` uzerinden Claude, Codex ya da Gemini calis
 - Sesli cevap (2026-10-09): sesli nota (`msg.voice`) cevap hem ses hem metin olarak doner. `claude_bridge.speak()` Air'de `say -v Yelda` ile aiff uretir, ffmpeg libopus ile ogg'a cevirir, `run_claude(voice=True)` `reply_voice` ile yollar. Ses dosyasi (`msg.audio`) gonderilirse cevap sadece metin.
 - TCC tuzagi (2026-10-05): Air'deki `claude` binary'si (`~/.local/share/claude/versions/<surum>`) Masaustu'ne ilk eristiginde macOS izin penceresi acar ve dosya erisimi pencere onaylanana kadar KILITLENIR; komut 120 sn sonra arka plana atilir, `claude -p` cikmaz ve 30 dk zaman asimi "bitiremedi" der. 2026-10-05'te pencere System Events ile onaylandi (`tell process "UserNotificationCenter" to click button "Allow" of window 1`). Claude yeni surume guncellenince binary yolu degisir, pencere tekrar cikabilir; "bitiremedi" gelirse once Air ekranina bak.
 - Guvenlik: izin sormadan calisir, tek koruma `ALLOWED_USER_IDS`. Botun token'i Air'in anahtari sayilir.
-- httpx INFO loglari bot token'ini URL icinde yaziyordu; `main.py`'de httpx WARNING'e cekildi, eski `bot-stderr.log` (238 MB) 2026-10-04'te bosaltildi. Token yine de dondurulmeli (BotFather /revoke).
+- httpx INFO loglari bot token'ini URL icinde yaziyordu; `main.py`'de httpx WARNING'e cekildi, eski `bot-stderr.log` (238 MB) 2026-10-04'te bosaltildi. Token yine de dondurulmeli (BotFather /revoke, kasa ve Air `.env` guncellenir); bot kisa sure kesilecegi icin kurucu karari bekliyor, kayit `docs/audit/ACIK-BULGULAR.md` S-21.
 
 ## Supabase keep-alive (AWS, 2026-10-23)
 Supabase Free plandaki projeler 7 gun hareketsiz kalinca durduruluyor. AWS Lambda `supabase-keepalive` (eu-central-1, hesap 573199225040, Activate kredisi) EventBridge `supabase-keepalive-12h` ile 12 saatte bir her projede herkese acik anahtarla tek satirlik REST okumasi yapar.
@@ -81,7 +76,7 @@ local-assistant/
 ├── assistant/
 │   ├── main.py              # bot baslatma
 │   ├── config.py            # token, izinli kullanici, vault yolu
-│   ├── notes.py             # ruya / gunluk / spor yonlendirici, kodla yazar
+│   ├── notes.py             # ruya / gunluk / terapi / spor yonlendirici, kodla yazar
 │   └── integrations/
 │       ├── telegram.py      # handler'lar
 │       └── claude_bridge.py # Air'deki Claude Code oturumu, whisper, sesli cevap
@@ -93,34 +88,9 @@ local-assistant/
 ```
 
 ## API Key'ler
-- Tum key'ler `finance_agent.env` dosyasinda (local-assistant root)
-- `MINIMAX_API_KEY_cemsayilar` - MiniMax API
-- `OPENROUTER_API_KEY_cemsayilar` - OpenRouter API (coklu model erisimi)
-- Gemini, Groq, Grok, Binance, Finnhub key'leri de ayni dosyada
-- Key'leri kullanirken `finance_agent.env`'den oku, `.env`'ye ekleme
+Anahtarlar kasada (`~/.config/parallax/secrets/`, ornek servis adlari `minimax`, `openrouter`, `groq`, `grok`, `binance`, `finnhub`, `openai`; tam liste `bin/secrets list` ya da klasorun kendisi), yalniz gereken servis `bin/secrets run <servis> -- komut` ile yuklenir; kural `General App Guidlines/secrets-management.md`. Kokteki `finance_agent.env` eski toplu dosyadir, yeni okuma ondan yapilmaz (tek kalan okuyucu `agentrun` kurulumunun Gemini anahtari).
 
 ## n8n Otomasyon (Mac Air)
-Mac Air sunucusunun genel bilgisi (erişim, servisler, güvenlik): `~/Desktop/Parallax Technologies LLC/General App Guidlines/home-server.md` (n8n'e localhost erisimi, SSH tuneli, REST API PUT ve API key orada).
-- n8n: v2.8.3 (2026-10-02 dogrulandi), port 5678. Instance bu projenin ama icinde VidBerry, CV-Crafter ve UGC workflow'lari da var; onlarin dokumani kendi depolarinda
-- LaunchAgent: ~/Library/LaunchAgents/com.n8n.server.plist
-- Startup script: ~/start-n8n.sh
-- Loglar: ~/.n8n/n8n.log ve ~/.n8n/n8n-error.log
-- Workflow detaylari: `n8n/linkedin-automation/README.md`, `n8n/twitter-bookmarks/README.md`
-
-### LinkedIn AI Post Workflow (S0RDiop6EVTj33AX)
-- Haftalik AI newsletter verisini ceker ve ozetler. 2026-10-02 itibariyla `LLM - Write LinkedIn Post`, `Format Email HTML`, `Gmail - Send Post` node'lari DISABLED; post yazimi ve mail yok (Faz 2 uygulanmis)
-- Kaynak: AlphaSignal + AI News (Gmail)
-- LLM (Summarize node'u): OpenAI gpt-4o -> Gemini gemini-3.1-pro-preview -> Groq llama-3.3-70b -> Mistral, ilk basarili kullanilir
-- Schedule: Pazartesi 09:00 Istanbul
-- Webhook tetikleme: `ssh -o IdentitiesOnly=yes -i ~/.ssh/id_ed25519 elifberraksayilar@100.108.136.36 "curl -s http://localhost:5678/webhook/linkedin-trigger"`
-- Gmail body sorunu: HTTP Request node ile Gmail API dogrudan cagirilir (n8n Gmail node body'yi kesiyor)
-- Detaylar ve teknik notlar: `n8n/linkedin-automation/README.md`
-
-### Twitter Bookmarks Digest (gDUBYcStVPkPni3C)
-- Haftalik Twitter bookmark ozeti -> kategorize email
-- Kaynak: Twillot JSON export (manuel, bookmarks.json). Air'deki dosya 2026-02-28'den beri guncellenmedi, yani haftalik calisma yeni bookmark bulmadan bitiyor
-- LLM: Ollama `qwen3:4b` (127.0.0.1:11434). Bu model 2026-10-02'de Air'de YUKLU DEGIL; yeni bookmark gelirse kategorize adimi hata verir
-- Schedule: Pazar 20:00 Istanbul
-- Webhook tetikleme: `ssh -o IdentitiesOnly=yes -i ~/.ssh/id_ed25519 elifberraksayilar@100.108.136.36 "curl -s http://localhost:5678/webhook/twitter-bookmarks-trigger"`
-- State: n8n staticData (processedIds)
-- Detaylar: `n8n/twitter-bookmarks/README.md`
+Air'deki n8n (port 5678, localhost, LaunchAgent `com.n8n.server`) bu projenin; icinde VidBerry ve CV-Crafter workflow'lari da var, onlarin dokumani kendi depolarinda. Erisim, SSH tuneli, REST API `PUT` ve API key: `General App Guidlines/home-server-servisler.md`. Bu projenin iki workflow'u ve durumlari (tetikleme, model sirasi, kapali node'lar, bilinen bozukluklar) yalniz kendi README'lerinde:
+- Weekly LinkedIn AI Post (`S0RDiop6EVTj33AX`): `n8n/linkedin-automation/README.md`
+- Twitter Bookmarks Digest (`gDUBYcStVPkPni3C`): `n8n/twitter-bookmarks/README.md`
