@@ -49,15 +49,15 @@ Status: **Acik proje #2** (paralel: LinkedIn newsletter projesi).
 - Gunluk ruya notlari
 - Film/dizi/kitap listeleri
 - **Erisim:** Notion API (OAuth), n8n native node.
-- **Sayisal:** Bilinmiyor — workspace listesi cikarmali.
+- **Sayisal:** Bilinmiyor: workspace listesi cikarmali.
 
 ### 2. Mac Pro lokal dosyalar
-- **PEAKUP** — tum proje dosyalari: kod, belge, sunum, egitim. Musteri bazinda klasor.
-- Danismanlik projeleri — teklifler, sozlesmeler, kodlar, sunumlar.
+- **PEAKUP**: tum proje dosyalari: kod, belge, sunum, egitim. Musteri bazinda klasor.
+- Danismanlik projeleri: teklifler, sozlesmeler, kodlar, sunumlar.
 - Side projeler: VidBerry (app + sosyal medya + kod), CV-Crafter (site + arastirma + sosyal medya + kod), benburakcem IG iceriklerini + CapCut dosyalari + egitim notlari.
 - Ozgecmisler.
 - **Erisim:** Filesystem (Python script + watchdog), formata gore (PDF, DOCX, MD, kod) farkli extractor.
-- **Sayisal:** Buyuk, GB seviyesi olabilir — selective indexing gerekli.
+- **Sayisal:** Buyuk, GB seviyesi olabilir: selective indexing gerekli.
 
 ### 3. Obsidian vault (~/ObsidianVault)
 - CV-Crafter proje gunlugu (gunluk neler yapildi)
@@ -66,11 +66,11 @@ Status: **Acik proje #2** (paralel: LinkedIn newsletter projesi).
 - Son 2 ayin ruya notlari
 - Ozel bilgiler
 - **Erisim:** Mevcut local-assistant zaten okuyor. fs entegrasyonu mevcut. GraphThulhu MCP graph traversal icin var.
-- **En kolay kaynak** — zaten parse edilebilir, lokal, yapilandirilmis.
+- **En kolay kaynak**: zaten parse edilebilir, lokal, yapilandirilmis.
 
 ### 4. ChatGPT + Claude Desktop chat history
 - Izlenen filmler, saglik/spor sorulari, PEAKUP, CV-Crafter, VidBerry, benburakcem proje arastirmalari.
-- **ChatGPT:** Resmi export ozelligi var — Settings > Data Controls > Export. JSON dump alir.
+- **ChatGPT:** Resmi export ozelligi var: Settings > Data Controls > Export. JSON dump alir.
 - **Claude Desktop:** Resmi export yok. Anthropic conversation history API'sini deneyebiliriz, yoksa manual scrape.
 - **Stratejik karar:** Bir kerelik retroaktif dump + sonraki sohbetlerin canli yakalanmasi. Canli yakalama icin Claude Desktop'a MCP server bagli olmali (lifeOS kendisi MCP server olur).
 
@@ -78,9 +78,9 @@ Status: **Acik proje #2** (paralel: LinkedIn newsletter projesi).
 - En zor kaynak.
 - **Cozum yollari:**
   - **iCloud Photos export → lokal Photos.app library** (~/Pictures/Photos Library.photoslibrary) → SQLite + medya dosyalari okunabilir.
-  - **Photos AirDrop / Image Capture / Photo Library API (Swift)** — selective sync.
-  - **Local multimodal LLM:** LLaVA, Qwen2-VL, Llama 3.2 Vision — fotograf icerigini metne cevirebilir (object/scene detection + OCR + caption).
-  - **Ram butcesi sorunu:** Mac Air 8GB'da multimodal model RAM kullanir — Mac Pro'da pipeline calistirmak daha mantikli, sonra ozet metni Mac Air'a aktarmak.
+  - **Photos AirDrop / Image Capture / Photo Library API (Swift)**: selective sync.
+  - **Local multimodal LLM:** LLaVA, Qwen2-VL, Llama 3.2 Vision: fotograf icerigini metne cevirebilir (object/scene detection + OCR + caption).
+  - **Ram butcesi sorunu:** Mac Air 8GB'da multimodal model RAM kullanir: Mac Pro'da pipeline calistirmak daha mantikli, sonra ozet metni Mac Air'a aktarmak.
 - **Selective indexing:** Tum 10K+ fotograf degil, sadece screenshot'lar (cogu zaten tweet/post save) ve belirli klasor/album'ler.
 
 ### 6. Sosyal medya kaydedilenleri (Twitter + Instagram saves)
@@ -98,17 +98,17 @@ Status: **Acik proje #2** (paralel: LinkedIn newsletter projesi).
 
 ### 8. Akilli saat + manuel giris (Telegram)
 - **Akilli saat:** Antrenman suresi, kalori, uyku. Apple Watch -> HealthKit -> export (Health Auto Export uygulamasi gibi araclarla CSV/JSON).
-- **Manuel:** Telegram'a foto + mesaj — agent zaten parse ediyor (daily_log, sport_log, dream_log).
+- **Manuel:** Telegram'a foto + mesaj: agent zaten parse ediyor (daily_log, sport_log, dream_log).
 - **Birlestirme:** HealthKit verisi + manuel girdileri ayni "personal-state" namespace altinda topla.
 
 ## Cogntive Layer Eksiklikleri (Mevcut local-assistant'in Sahip Olmadigi)
 
-1. **Temporal reasoning** — "Mart'ta X dedim, Mayis'ta tersini" cozumlemesi.
-2. **Contradiction resolution** — celisen bilgileri yontemli isaretle.
-3. **Entity-aware retrieval** — "Pekaup'taki X client" cross-source (Notion + Drive + Telegram + email).
-4. **Proactive triggers** — agent kendiliginden "buna geri donmek istemistin", "su iki not celiskili", "spor program X gunden beri yapilmiyor".
-5. **Auto-categorization** — gelen icerigi 7 kategori + alt kirilimlara klasifiye.
-6. **Personal profile distillation** — stable facts (boyu, hedefleri, kronik dosyalar) vs son aktivite (bu hafta neler) ayri tut.
+1. **Temporal reasoning**: "Mart'ta X dedim, Mayis'ta tersini" cozumlemesi.
+2. **Contradiction resolution**: celisen bilgileri yontemli isaretle.
+3. **Entity-aware retrieval**: "Pekaup'taki X client" cross-source (Notion + Drive + Telegram + email).
+4. **Proactive triggers**: agent kendiliginden "buna geri donmek istemistin", "su iki not celiskili", "spor program X gunden beri yapilmiyor".
+5. **Auto-categorization**: gelen icerigi 7 kategori + alt kirilimlara klasifiye.
+6. **Personal profile distillation**: stable facts (boyu, hedefleri, kronik dosyalar) vs son aktivite (bu hafta neler) ayri tut.
 
 ## STRATEJI PIVOT (2026-06-05)
 
@@ -192,13 +192,13 @@ Tek seferde olmaz, parca parca.
 
 ## Sparring Notlari (Kullanici Adina Itiraz Edilmesi Gereken Yerler)
 
-1. **"Tum kaynaklar tek sisteme" coju projede basarisiz olur.** Oncelik sec — Notion + Obsidian zaten ikinci beyninin %80'i. iPhone fotograflari ve sosyal saves later. Eger Faz 0-2 calisirsa, gerisi optional.
+1. **"Tum kaynaklar tek sisteme" coju projede basarisiz olur.** Oncelik sec: Notion + Obsidian zaten ikinci beyninin %80'i. iPhone fotograflari ve sosyal saves later. Eger Faz 0-2 calisirsa, gerisi optional.
 
 2. **Privacy ucurumu:** Tum bu veriler agregalandiginda saldiri yuzeyi 10x. Mac Air'in disari acik portu olmamasi sart. Cognee localde, dis baglanti yok.
 
 3. **Chat history privacy:** ChatGPT/Claude Desktop konusmalarinda saglik, finansal, kisisel detaylar var. lifeOS'a yuklemeden once "hangi konularda ozel filtre?" karari ver. Bazi konusmalar lifeOS'a girmemeli.
 
-4. **iPhone fotograf indexing maliyetli ve marginal.** 10K+ foto -> multimodal LLM ile metin -> embed = saatler suren is. Cogu fotograf "Lou Andreas-Salome ile selfie", "yemek", "kedi" gibi sey. *Sadece screenshot klasoru* veya *spesifik album* ile basla — full library degil.
+4. **iPhone fotograf indexing maliyetli ve marginal.** 10K+ foto -> multimodal LLM ile metin -> embed = saatler suren is. Cogu fotograf "Lou Andreas-Salome ile selfie", "yemek", "kedi" gibi sey. *Sadece screenshot klasoru* veya *spesifik album* ile basla: full library degil.
 
 5. **Ingestion'i once "manual import" olarak yap, sonra automate et.** Otomasyon yazip sonra "yanlis bilgi cekti" demek yerine, once elle 10 notu yukle, retrieval'i dogrula, sonra connector kur.
 
@@ -209,13 +209,13 @@ NOT: Asagidaki Cognee maddeleri 2026-06-05 pivotuyla atil kaldi (Cognee Mac Air'
 
 - [ ] Cognee Mac Air'da Docker compose test → RAM butcesine sigar mi?
 - [ ] Cognee MCP server'i var mi (Claude Code direkt baglanma)?
-- [ ] Hangi kaynaktan baslayalim — Faz 1 (Obsidian + Mac fs) onerim, kullanici onayi?
+- [ ] Hangi kaynaktan baslayalim: Faz 1 (Obsidian + Mac fs) onerim, kullanici onayi?
 - [ ] Chat history "neyi import etmemeli" filter listesi.
 
 ## Konusma Kaynaklari (Bu Karara Yon Veren)
 
-- supermemoryai/supermemory repo — referans alinan kapali kaynak rakip.
+- supermemoryai/supermemory repo: referans alinan kapali kaynak rakip.
 - supermemory.ai/rag → design language inspiration (ayri konu, design-inspiration.md'ye).
-- Ege Bese LifeOS X postu — isim ilhami + estetik dil referansi.
-- Kullanicinin local-assistant CLAUDE.md'si — privacy prensibi.
-- Kullanicinin veri kaynagi envanteri (2026-05-31) — yukaridaki 8 kategori.
+- Ege Bese LifeOS X postu: isim ilhami + estetik dil referansi.
+- Kullanicinin local-assistant CLAUDE.md'si: privacy prensibi.
+- Kullanicinin veri kaynagi envanteri (2026-05-31): yukaridaki 8 kategori.
