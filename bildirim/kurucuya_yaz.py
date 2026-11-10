@@ -5,12 +5,15 @@ Kural (kurucu karari 2026-10-25): kurucu Telegram'i gunluk kullanmiyor. Bilgi, r
 Telegram'a gitmez, yalniz olay kaydina yazilir. Telegram'a giden tek sey "hata" ya da "karar" seviyesi ve ancak su iki
 durumda: kurucu "to go" modunu actiysa (mod dosyasinda "to-go"), ya da Mac Pro'daki yonetim oturumlari (local-assistant,
 self-branding) ulasilamazsa (nabiz.json bayat ya da iki oturum da kapali). Gerisini Mac Pro oturumlari olay kaydindan okur.
+Istisna "engel" seviyesi (kurucu karari 2026-11-10): bir adim gercekten yapilamadi, durdu ya da atlandi; mod ve nabiza
+bakilmadan her zaman Telegram'a gider. Seviye tablosu ve mod kurali: General App Guidlines/session-organization.md
+"Notifying the founder".
 Kurucunun kendi yazdigi mesaja verilen cevap (Claude kopru, "af" komutlari) bu kapidan gecmez, onlar dogrudan cevaptir.
 
 Kullanim, Python'dan:
     sys.path.insert(0, os.path.expanduser("~/Projects/local-assistant/bildirim")); import kurucuya_yaz
     kurucuya_yaz.gonder("metin", seviye="hata", kaynak="spend-guard")
-Komut satirindan:  kurucuya_yaz.py <bilgi|hata|karar> <kaynak> [metin]   (metin yoksa stdin)
+Komut satirindan:  kurucuya_yaz.py <bilgi|hata|karar|engel> <kaynak> [metin]   (metin yoksa stdin)
 Mod:               kurucuya_yaz.py mod [evde|to-go]
 """
 import json, os, sys, time, urllib.parse, urllib.request
@@ -20,7 +23,7 @@ ENV = os.path.join(os.path.dirname(D), ".env")
 MOD, NABIZ, OLAY = (os.path.join(D, x) for x in ("mod", "nabiz.json", "olaylar.jsonl"))
 NABIZ_BAYAT_S = 600  # Mac Pro nabzi 2 dakikada bir gelir; 10 dakika gelmezse Mac Pro ulasilamaz sayilir
 YONETIM = ("local-assistant", "self-branding")
-ONEMLI = ("hata", "karar")
+ONEMLI = ("hata", "karar", "engel")  # "engel" (2026-11-10, kurucu karari): bir is durdu ya da atlandi; her zaman Telegram'a gider, mod ve nabiz bakilmaz
 
 
 def mod():
@@ -56,6 +59,7 @@ def gonder(metin, seviye="bilgi", kaynak="?"):
     try:
         m = mod()
         if seviye not in ONEMLI: git, sebep = False, "bilgi seviyesi"
+        elif seviye == "engel": git, sebep = True, "engel: her zaman"
         elif m == "to-go": git, sebep = True, "to-go modu"
         elif not pro_aktif(): git, sebep = True, "Mac Pro yonetim oturumlari ulasilamaz"
         else: git, sebep = False, "evde, Mac Pro aktif"
