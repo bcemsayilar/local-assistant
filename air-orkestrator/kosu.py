@@ -14,10 +14,19 @@ STALL_MODEL_S, STALL_TOOL_S = 300, 660
 # Saglayici bagimsiz calistirici (2026-10-28): agentrun Claude, Codex ve Gemini arasinda limit gecisini yapar;
 # limitteki saglayici sifirlanana kadar atlanir, hepsi limitteyse istekler isleniyor/ da kalir ve sonraki kosu isler.
 sys.path.insert(0, os.path.join(H, "Projects/local-assistant")); sys.path.insert(0, os.path.join(H, "Mac-Projects/local-assistant"))
+sys.path.insert(0, os.path.join(H, "Projects/local-assistant/bildirim"))
 import agentrun
 
 def log(*a):
     with open(LOG, "a") as f: f.write(time.strftime("%Y-%m-%d %H:%M:%S ") + " ".join(str(x) for x in a) + "\n")
+
+def notify(text):
+    """Butun saglayicilar limitteyse kurucuya bildirim kapisindan 'hata' yazar (eski claude_limit.kaydet davranisi, Telegram koprusuyle ayni)."""
+    try:
+        import kurucuya_yaz
+        kurucuya_yaz.gonder(text + " air-orkestrator istekleri kuyrukta, sifirlaninca islenir.", seviye="hata", kaynak="agent-limit")
+    except Exception:
+        pass
 
 def main():
     for d in (IST, ISL, CEV): os.makedirs(d, exist_ok=True)
@@ -48,7 +57,7 @@ def main():
             store.put("orkestrator", "claude", open(SID).read().strip())
         sids = {p: store.get("orkestrator", p) for p in order if store.get("orkestrator", p)}
         log("kosu basladi", len(isler), "istek", "resume" if sids else "yeni oturum", ">".join(order))
-        kw = dict(cwd=D, session_id=sids, timeout=TIMEOUT_S, idle_s=STALL_MODEL_S, idle_tool_s=STALL_TOOL_S)
+        kw = dict(cwd=D, session_id=sids, timeout=TIMEOUT_S, idle_s=STALL_MODEL_S, idle_tool_s=STALL_TOOL_S, notify=notify)
         r = agentrun.run(prompt, **kw)
         if "idle" in (r.error or "") and not r.limit:  # bir kez yeniden dene
             log("kosu takildi, yeniden deneniyor"); r = agentrun.run(prompt, **kw)

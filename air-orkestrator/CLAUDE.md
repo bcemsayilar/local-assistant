@@ -1,3 +1,5 @@
+> Ajan notu: bu dosya Claude Code, Codex ve Gemini tarafindan okunur. SendMessage, ListAgents, Skill ve Agent araclari, /slash komutlari ve --remote-control yalniz Claude kodudur; Codex ve Gemini icin dosya kutusu (istek/, coordinator.md) ve `~/Projects/local-assistant/bin/agent` kullanilir. Rehber: ~/Desktop/Parallax Technologies LLC/General App Guidlines/agent-portability.md.
+
 # air-orkestrator (Mac Air'deki değişikliklerin kapısı)
 
 Kurucu kararı 2026-10-23: telefon işleri artık buraya gelmez, oturumlar telefonları `kilit.py` ile doğrudan kullanır. Bu oturum Air'in kendisini değiştiren işleri (LaunchAgent, servis, kurulum, zamanlayıcı, Air `~/CLAUDE.md`, marketing-agent) yapar. Telefon işi içeren bir istek gelirse yapabilirsin ama göndereni doğrudan kullanmaya yönlendir. Ayrıntı `session-organization.md`.
