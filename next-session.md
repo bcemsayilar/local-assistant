@@ -17,9 +17,7 @@
 
 ## Kurucuya sorulacak (TODO dışı)
 
-- Bot token rotasyonu (BotFather `/revoke`, asistan botu ~1 dakika kesilir): yapılsın mı.
-- VidBerry `assets-local` silme listesi (~28 GB: `preview-video/v8` 20 GB, `v6` 3,4 GB, 22 eski arşiv 3,4 GB, ipa ve export 1,4 GB): onay.
-- Masaüstündeki gerçek dosyalar (`dans-faceswap/` 446 MB, metin dosyaları, iki ekran görüntüsü): nereye.
+- Masaüstündeki kalan gerçek dosyalar (metin dosyaları, iki ekran görüntüsü, `claude-basvuru/`): nereye. `dans-faceswap/` 2026-11-11'de VidBerry'ye taşındı.
 - Global GSD kurulumu kaldırılsın mı (`~/.claude/settings.json` durum çubuğu ve güncelleme hook'u).
 - 2026-11-04 devir notundan kalan: Clear Wave CTA kararı; Air Chrome profilinde Coinbase ve Chrome Remote Desktop ne olacak.
 - Yönetim: Air'de kurucu Chrome'unda (9223) ASC için yalnız ajanın kendi yeni sekmesi kullanılır (`home-server.md` istisnası); kurucu "Marka Chrome" klasörünü Dock'tan açıp girişleri kendisi yapar.
