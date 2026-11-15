@@ -1,4 +1,4 @@
-# Next Session - Devir Notu (güncel: 2026-11-15 gece)
+# Next Session - Devir Notu (güncel: 2026-11-16 gece)
 
 Önce `~/.claude/CLAUDE.md`, sonra `~/Desktop/Parallax Technologies LLC/General App Guidlines/session-organization.md`, `agent-portability.md` ve `home-server.md`; servise dokunmadan önce `service-access.md`. Sistem şeması https://claude.ai/artifact/7RwAweEfyNQutzLT785WHY (kaynak `docs/sistem-semasi.html`). Açık işler yalnız `TODO.md`'de; bu dosya yalnız devir ve doğrulanmış durum, madde listesi değil. Biten, doğrulanan ya da kurucunun kapattığı iş bu dosyadan ve TODO'dan sormadan kaldırılıp commit'lenir (global kural, kurucu kararı 2026-11-13).
 
@@ -18,6 +18,21 @@
 
 - **Paywall standardı:** VidBerry ve Clear Wave kalıbı bütün uygulamalarda varsayılan (`GAG/design-language.md`), ortak bileşen parallax-kit `ParallaxPaywall`.
 - **Ekran kaydı ve görüntüsü Mac Air'de** (parallax-content `CLAUDE.md`, 2026-11-15).
+
+## Yarım kalan, söylenip yapılmayan, başlanıp bitmeyen (2026-11-16)
+
+- **Gift Almanac ve Printmargin incelemeye gönderim:** paywall ajanı ASC web arayüzünden IAP ve aboneliği taslağa ekleyip gönderiyor (build GA 10, PM 8). Sonucu (WAITING_FOR_REVIEW) doğrula; sonra Beeward ve Solledge ikinci tur (kod ve görseller hazır, yükleme yok).
+- **VidBerry Vibedesign reeli v2:** ajan aşama 1'de (metin, ElevenLabs sesi, Focusee düzeni ve dokunuş yakınlaşmalı montaj kodu). Çekim için iki şart: kurucunun arka plan seçimi (16 Focusee arka planı, numarayla) ve vidberry oturumunun kıyafet giydirme özelliği. Ajana "çekime başla" mesajı local-assistant'tan gider.
+- **vidberry oturumu:** (1) kıyafet giydirme özelliği: kurucu tanımı "sahne ve poz verilir, referanstaki kıyafet o sahneye, poza ve mankene giydirilir; modelim var derse kendi modeli aktarılır". Önce mevcut akışlarda muadil taranacak (Virtual Model, On Model, choose-your-outfit), yeni şablon onun üstüne kurulacak; mağazaya (1.3.7) açma tarama sonucuna kadar bekliyor. Model Nano Banana 2 Lite (Google kendi API). (2) Gizlilik ve Şartlar sayfalarına Google Gemini ve Fal adıyla (uygulama içi onay ekranına dokunulmaz). (3) Ürünü 360 çevir: termos ya da parfüm şişesiyle kart görseli, PBR denemesi (fark yoksa kapalı, takıda açık, PBR'li kredi fiyatı yüksek), çeviriler, 1.3.8 build.
+- **ChatPlace:** Ecem'e yayın tarihini kaydırma e-postası gönderilmedi (16 Kasım verilmişti); sözleşme gelmedi; gelir payı 6 ay mı 12 ay mı; senaryo seçimi kurucuda (A kendi sayılarıyla kanıt önerildi).
+- **Maypop:** kit bağlantısıyla cevap gönderildi (2026-11-15 20:32 UTC, Air Chrome benburakcem), dönüş bekleniyor.
+- **gcloud kalıcı oturum:** kurucu 2026-11-16 istedi; Workspace "Google Cloud session control" yeniden doğrulama politikası ve otomasyon için claude-ops servis hesabı yolu (bu oturumda başlatıldı, durumu aşağıda).
+- **DM hunisi:** dışarıdan iş birliği ve satış teklifleri kuralda tanımsız (şimdilik ciddi sayılıp Telegram'a düşüyor), kurucu kararı yok; sıcak bildirimleri ilk günlerde elle oku.
+- **Telefon betiği:** hesabın kendine attığı reellerin sohbetini gece turunda silme, yazılmadı.
+- **Onscript:** Türkçe ses için yeni remote config anahtar adı app-fabrikasi'den bekleniyor.
+- **iPhone 17 temizliği:** Fotoğraflar'da IMG_0108 ve IMG_0109, iCloud Downloads `elbise.jpg`, açık Safari sekmesi.
+- **Alt ajan brief kuralı:** "bekleme döngüsüne zaman aşımı koy" satırı (takılı döngüler kabuk sayacını şişiriyor); GAG `working-agreement.md` brief bölümüne eklenecek.
+- **n8n CV-Crafter carousel:** Gemini anahtarının projesi faturalamadan çıkarıldı (ücretsiz katman); limit hatası verirse anahtar başka projeye alınır.
 
 ## Kurucuya sorulacak (TODO dışı)
 
