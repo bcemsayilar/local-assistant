@@ -13,8 +13,11 @@ Komutlar:
   gonder <hesap> --kime A --konu K --govde-dosya F [--yanit-uid U] [--kutu K] [--bilgi A]
                                             gonderir; --yanit-uid verilirse ayni konuya In-Reply-To ile cevap olur
 Hesap adlari: gmail (bcsayilar@gmail.com), is (me@cemsayilar.com), yahoo (bcsayilar@yahoo.com), proton (vidberry@proton.me, Air'deki Proton Bridge).
-Gonderme dis dunyaya yayindir: kurucunun onayi olmadan gonderme (GAG/working-agreement.md)."""
-import argparse, email, email.policy, email.utils, imaplib, os, re, smtplib, ssl, sys, time
+KISITLI ERISIM (kurucu karari 2026-11-15): bu araci yalniz Mac Pro'daki local-assistant oturumu calistirir ve yalniz okur.
+Baska oturum, alt ajan, Air ya da bulut oturumu kurucunun dogrudan izni olmadan okuyamaz, islem yapamaz. Gonderme (gonder) local-assistant
+icin de yalniz kurucunun o e-posta icin onayiyla ya da "yaz gonder" demesiyle; --kurucu-onayi alanina kurucunun sozu yazilir.
+Kural kaynagi: GAG/service-access.md "E-posta". Silme, arsivleme, etiket gibi islemler aracta yoktur."""
+import argparse, socket, email, email.policy, email.utils, imaplib, os, re, smtplib, ssl, sys, time
 from email.message import EmailMessage
 
 HESAP = {
@@ -163,6 +166,8 @@ def hesaplar():
 
 
 if __name__ == "__main__":
+    if "Air" in socket.gethostname() or os.path.expanduser("~").endswith("elifberraksayilar"):
+        sys.exit("mail araci Air'de calismaz (kisitli erisim, kurucu karari 2026-11-15)")
     p = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     s = p.add_subparsers(dest="k", required=True)
     s.add_parser("hesaplar")
@@ -170,6 +175,7 @@ if __name__ == "__main__":
     o = s.add_parser("oku"); o.add_argument("hesap", choices=HESAP); o.add_argument("uid"); o.add_argument("--kutu")
     g = s.add_parser("gonder"); g.add_argument("hesap", choices=HESAP); g.add_argument("--kime", required=True); g.add_argument("--konu", required=True)
     g.add_argument("--govde-dosya", required=True); g.add_argument("--yanit-uid"); g.add_argument("--kutu"); g.add_argument("--bilgi")
+    g.add_argument("--kurucu-onayi", required=True, help="kurucunun bu e-posta icin verdigi onay, sozu aynen")
     x = p.parse_args()
     if x.k == "hesaplar":
         hesaplar()
@@ -178,4 +184,6 @@ if __name__ == "__main__":
     elif x.k == "oku":
         oku(x.hesap, x.uid, x.kutu)
     else:
+        if len(x.kurucu_onayi.strip()) < 3:
+            sys.exit("gonderme icin kurucu onayi gerekli")
         gonder(x.hesap, x.kime, x.konu, x.govde_dosya, x.yanit_uid, x.kutu, x.bilgi)
