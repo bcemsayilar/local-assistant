@@ -21,7 +21,7 @@
 
 ## Yarım kalan, söylenip yapılmayan, başlanıp bitmeyen (2026-11-16)
 
-- **Gift Almanac ve Printmargin incelemeye gönderim:** paywall ajanı ASC web arayüzünden IAP ve aboneliği taslağa ekleyip gönderiyor (build GA 10, PM 8). Sonucu (WAITING_FOR_REVIEW) doğrula; sonra Beeward ve Solledge ikinci tur (kod ve görseller hazır, yükleme yok).
+- **Gift Almanac ve Printmargin incelemede** (2026-11-15 21:15 UTC gönderildi, WAITING_FOR_REVIEW); sonuçtan sonra Beeward ve Solledge ikinci tur.
 - **VidBerry Vibedesign reeli v2:** ajan aşama 1'de (metin, ElevenLabs sesi, Focusee düzeni ve dokunuş yakınlaşmalı montaj kodu). Çekim için iki şart: kurucunun arka plan seçimi (16 Focusee arka planı, numarayla) ve vidberry oturumunun kıyafet giydirme özelliği. Ajana "çekime başla" mesajı local-assistant'tan gider.
 - **vidberry oturumu:** (1) kıyafet giydirme özelliği: kurucu tanımı "sahne ve poz verilir, referanstaki kıyafet o sahneye, poza ve mankene giydirilir; modelim var derse kendi modeli aktarılır". Önce mevcut akışlarda muadil taranacak (Virtual Model, On Model, choose-your-outfit), yeni şablon onun üstüne kurulacak; mağazaya (1.3.7) açma tarama sonucuna kadar bekliyor. Model Nano Banana 2 Lite (Google kendi API). (2) Gizlilik ve Şartlar sayfalarına Google Gemini ve Fal adıyla (uygulama içi onay ekranına dokunulmaz). (3) Ürünü 360 çevir: termos ya da parfüm şişesiyle kart görseli, PBR denemesi (fark yoksa kapalı, takıda açık, PBR'li kredi fiyatı yüksek), çeviriler, 1.3.8 build.
 - **ChatPlace:** Ecem'e yayın tarihini kaydırma e-postası gönderilmedi (16 Kasım verilmişti); sözleşme gelmedi; gelir payı 6 ay mı 12 ay mı; senaryo seçimi kurucuda (A kendi sayılarıyla kanıt önerildi).
