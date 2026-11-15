@@ -1,0 +1,181 @@
+#!/usr/bin/env python3
+"""mail: kurucunun e-posta hesaplari icin kalici komut araci (IMAP ve SMTP, yalniz Python standart kutuphanesi). Kurucu karari 2026-11-15.
+
+claude.ai Gmail baglayicisi oturum basinda kopuyor ve tek hesaba bagli; bu arac uygulama sifresiyle (Gmail, Yahoo) ve Proton Bridge ile
+dort hesabi her oturumda ve Air'deki ajanlarda baglanti istemeden okur ve gonderir. Sifreler kasada `mail` servisinde, yalniz su yolla yuklenir:
+
+  ~/Mac-Projects/local-assistant/bin/secrets run mail -- ~/Mac-Projects/local-assistant/bin/mail <komut>
+
+Komutlar:
+  hesaplar                                  hesaplari ve sifresi kasada olanlari listeler, her birine baglanmayi dener
+  ara <hesap> <sorgu> [--n 20] [--kutu K]   Gmail'de Gmail arama dili (from:, newer_than:7d, subject:), digerlerinde metin ya da from:ADRES
+  oku <hesap> <uid> [--kutu K]              mesaji duz metin olarak basar (ekler yalniz adlariyla)
+  gonder <hesap> --kime A --konu K --govde-dosya F [--yanit-uid U] [--kutu K] [--bilgi A]
+                                            gonderir; --yanit-uid verilirse ayni konuya In-Reply-To ile cevap olur
+Hesap adlari: gmail (bcsayilar@gmail.com), is (me@cemsayilar.com), yahoo (bcsayilar@yahoo.com), proton (vidberry@proton.me, Air'deki Proton Bridge).
+Gonderme dis dunyaya yayindir: kurucunun onayi olmadan gonderme (GAG/working-agreement.md)."""
+import argparse, email, email.policy, email.utils, imaplib, os, re, smtplib, ssl, sys, time
+from email.message import EmailMessage
+
+HESAP = {
+    "gmail": {"adres": "bcsayilar@gmail.com", "imap": ("imap.gmail.com", 993), "smtp": ("smtp.gmail.com", 465), "anahtar": "MAIL_GMAIL_BCSAYILAR", "gmail": True},
+    "is": {"adres": "me@cemsayilar.com", "imap": ("imap.gmail.com", 993), "smtp": ("smtp.gmail.com", 465), "anahtar": "MAIL_GMAIL_CEMSAYILAR", "gmail": True},
+    "yahoo": {"adres": "bcsayilar@yahoo.com", "imap": ("imap.mail.yahoo.com", 993), "smtp": ("smtp.mail.yahoo.com", 465), "anahtar": "MAIL_YAHOO_BCSAYILAR"},
+    # Proton Bridge yalniz Air'de calisir, yerel adres ve kendi urettigi sifreyle (STARTTLS, kendinden imzali sertifika)
+    "proton": {"adres": "vidberry@proton.me", "imap": ("127.0.0.1", 1143), "smtp": ("127.0.0.1", 1025), "anahtar": "MAIL_PROTON_VIDBERRY_BRIDGE", "bridge": True},
+}
+
+
+def sifre(h):
+    v = os.environ.get(HESAP[h]["anahtar"])
+    if not v:
+        sys.exit("%s icin sifre yok: kasada `mail` servisinde %s (secrets run mail -- ile calistir)" % (h, HESAP[h]["anahtar"]))
+    return v
+
+
+def baglan(h):
+    c = HESAP[h]
+    if c.get("bridge"):
+        ctx = ssl.create_default_context(); ctx.check_hostname = False; ctx.verify_mode = ssl.CERT_NONE
+        m = imaplib.IMAP4(*c["imap"]); m.starttls(ssl_context=ctx)
+    else:
+        m = imaplib.IMAP4_SSL(*c["imap"])
+    m.login(c["adres"], sifre(h))
+    return m
+
+
+def kutu_sec(m, h, kutu):
+    if not kutu and HESAP[h].get("gmail"):
+        # "Tum Postalar" kutusunun adi hesabin diline gore degisir ([Gmail]/T&APw-m Postalar); \All isaretinden bulunur
+        for satir in m.list()[1]:
+            s = satir.decode()
+            if "\\All" in s:
+                kutu = '"%s"' % re.findall(r'"([^"]*)"$', s)[0] if s.endswith('"') else s.split()[-1]
+                break
+    if not kutu:
+        kutu = "INBOX"
+    typ, _ = m.select(kutu, readonly=True)
+    if typ != "OK":
+        sys.exit("kutu acilamadi: %s" % kutu)
+    return kutu
+
+
+def coz(s):
+    return str(email.header.make_header(email.header.decode_header(s or ""))) if s else ""
+
+
+def ara(h, sorgu, n, kutu):
+    m = baglan(h)
+    kutu_sec(m, h, kutu)
+    if HESAP[h].get("gmail"):
+        typ, d = m.uid("SEARCH", "X-GM-RAW", '"%s"' % sorgu.replace('"', '\\"'))
+    else:
+        f = re.match(r"from:(\S+)$", sorgu.strip())
+        typ, d = m.uid("SEARCH", "CHARSET", "UTF-8", "FROM" if f else "TEXT", (f.group(1) if f else sorgu).encode())
+    uids = (d[0] or b"").split()[-n:][::-1]
+    for u in uids:
+        typ, x = m.uid("FETCH", u, "(BODY.PEEK[HEADER.FIELDS (FROM TO DATE SUBJECT)])")
+        hd = email.message_from_bytes(x[0][1])
+        print("%s | %s | %s | %s" % (u.decode(), (hd["Date"] or "")[:31], coz(hd["From"])[:60], coz(hd["Subject"])[:120]))
+    print("(%d sonuc gosterildi, toplam %d)" % (len(uids), len((d[0] or b"").split())))
+    m.logout()
+
+
+def govde(msg):
+    if msg.is_multipart():
+        part = msg.get_body(preferencelist=("plain", "html"))
+    else:
+        part = msg
+    if not part:
+        return ""
+    t = part.get_content()
+    if part.get_content_type() == "text/html":
+        t = re.sub(r"<(script|style)[\s\S]*?</\1>", "", t)
+        t = re.sub(r"<br\s*/?>|</p>|</div>", "\n", t)
+        t = re.sub(r"<[^>]+>", "", t)
+    return re.sub(r"\n{3,}", "\n\n", t).strip()
+
+
+def oku(h, uid, kutu):
+    m = baglan(h)
+    kutu_sec(m, h, kutu)
+    typ, x = m.uid("FETCH", uid, "(BODY.PEEK[])")
+    if not x or not x[0] or not isinstance(x[0], tuple):
+        sys.exit("mesaj yok: %s" % uid)
+    msg = email.message_from_bytes(x[0][1], policy=email.policy.default)
+    for k in ("From", "To", "Cc", "Date", "Subject", "Message-ID"):
+        if msg[k]:
+            print("%s: %s" % (k, msg[k]))
+    ekler = [p.get_filename() for p in msg.iter_attachments()] if msg.is_multipart() else []
+    if ekler:
+        print("Ekler: " + ", ".join(e or "(adsiz)" for e in ekler))
+    print("\n" + govde(msg))
+    m.logout()
+
+
+def gonder(h, kime, konu, govde_dosya, yanit_uid, kutu, bilgi):
+    c = HESAP[h]
+    msg = EmailMessage()
+    msg["From"], msg["To"], msg["Subject"] = c["adres"], kime, konu
+    if bilgi:
+        msg["Cc"] = bilgi
+    msg["Date"] = email.utils.formatdate(localtime=True)
+    msg["Message-ID"] = email.utils.make_msgid(domain=c["adres"].split("@")[1])
+    if yanit_uid:
+        m = baglan(h); kutu_sec(m, h, kutu)
+        typ, x = m.uid("FETCH", yanit_uid, "(BODY.PEEK[HEADER.FIELDS (MESSAGE-ID REFERENCES)])")
+        hd = email.message_from_bytes(x[0][1]); m.logout()
+        if hd["Message-ID"]:
+            msg["In-Reply-To"] = hd["Message-ID"]
+            msg["References"] = ((hd["References"] or "") + " " + hd["Message-ID"]).strip()
+    msg.set_content(open(govde_dosya, encoding="utf-8").read())
+    if c.get("bridge"):
+        ctx = ssl.create_default_context(); ctx.check_hostname = False; ctx.verify_mode = ssl.CERT_NONE
+        s = smtplib.SMTP(*c["smtp"]); s.starttls(context=ctx)
+    else:
+        s = smtplib.SMTP_SSL(*c["smtp"])
+    s.login(c["adres"], sifre(h))
+    s.send_message(msg)
+    s.quit()
+    if not c.get("gmail"):
+        # Gmail SMTP ile gideni Gonderilenler'e kendisi koyar; digerlerinde IMAP ile eklenir
+        try:
+            m = baglan(h)
+            for k in ("Sent", '"Sent Messages"', '"Sent Items"'):
+                if m.append(k, "\\Seen", imaplib.Time2Internaldate(time.time()), msg.as_bytes())[0] == "OK":
+                    break
+            m.logout()
+        except Exception as x:
+            print("uyari: Gonderilenler kutusuna eklenemedi: %s" % x)
+    print("gonderildi: %s -> %s | %s" % (c["adres"], kime, konu))
+
+
+def hesaplar():
+    for h, c in HESAP.items():
+        if not os.environ.get(c["anahtar"]):
+            print("%-7s %-22s sifre kasada yok (%s)" % (h, c["adres"], c["anahtar"]))
+            continue
+        try:
+            m = baglan(h); m.logout()
+            print("%-7s %-22s baglandi" % (h, c["adres"]))
+        except Exception as x:
+            print("%-7s %-22s HATA %s" % (h, c["adres"], str(x)[:120]))
+
+
+if __name__ == "__main__":
+    p = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+    s = p.add_subparsers(dest="k", required=True)
+    s.add_parser("hesaplar")
+    a = s.add_parser("ara"); a.add_argument("hesap", choices=HESAP); a.add_argument("sorgu"); a.add_argument("--n", type=int, default=20); a.add_argument("--kutu")
+    o = s.add_parser("oku"); o.add_argument("hesap", choices=HESAP); o.add_argument("uid"); o.add_argument("--kutu")
+    g = s.add_parser("gonder"); g.add_argument("hesap", choices=HESAP); g.add_argument("--kime", required=True); g.add_argument("--konu", required=True)
+    g.add_argument("--govde-dosya", required=True); g.add_argument("--yanit-uid"); g.add_argument("--kutu"); g.add_argument("--bilgi")
+    x = p.parse_args()
+    if x.k == "hesaplar":
+        hesaplar()
+    elif x.k == "ara":
+        ara(x.hesap, x.sorgu, x.n, x.kutu)
+    elif x.k == "oku":
+        oku(x.hesap, x.uid, x.kutu)
+    else:
+        gonder(x.hesap, x.kime, x.konu, x.govde_dosya, x.yanit_uid, x.kutu, x.bilgi)
