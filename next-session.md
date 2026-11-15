@@ -31,7 +31,6 @@
 - **Telefon betiği:** hesabın kendine attığı reellerin sohbetini gece turunda silme, yazılmadı.
 - **Onscript:** Türkçe ses için yeni remote config anahtar adı app-fabrikasi'den bekleniyor.
 - **iPhone 17 temizliği:** Fotoğraflar'da IMG_0108 ve IMG_0109, iCloud Downloads `elbise.jpg`, açık Safari sekmesi.
-- **Alt ajan brief kuralı:** "bekleme döngüsüne zaman aşımı koy" satırı (takılı döngüler kabuk sayacını şişiriyor); GAG `working-agreement.md` brief bölümüne eklenecek.
 - **n8n CV-Crafter carousel:** Gemini anahtarının projesi faturalamadan çıkarıldı (ücretsiz katman); limit hatası verirse anahtar başka projeye alınır.
 
 ## Kurucuya sorulacak (TODO dışı)
