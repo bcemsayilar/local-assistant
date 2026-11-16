@@ -14,7 +14,7 @@
 - **ig-otomasyon:** Motion kuralı (benburakcem) aktif. Başkasının yorumuna "gelmedi" diye cevap yazanlar tetiklemez, kendi yorumlarını yazmaları gerekir; kurucu elle DM gönderilmesini istemedi (2026-11-13 ensuysl).
 - **Air TikTok:** `watercleaner` Chrome profilinde (appclearwave) TikTok girişinin yapıldığı 2026-11-11'den beri doğrulanmadı, 01:10 ve 03:10 yayınları bu girişe bağlı.
 - **DM hunisi canlı (apple, hukuk):** bekçi Sonnet + Gemini (kendi projesi `gen-lang-client-0163841964`), Telegram'a olta, ciddi (kalıcı devir) ve sıcak (yalnız haber); tasarım `ig-otomasyon/docs/dm-ajani-tasarim.md`.
-- **İşbirlikleri:** takip yeri `parallax-content/apps/self-branding/isbirlikleri/` (`chatplace.md`, `eachlabs.md`). ChatPlace: sözleşme bilgileri ve yayın tarihi (16 Kasım) kurucu tarafından e-postayla verildi. each::labs: 18 Kasım ortaklık duyurusu, karşı tarafın dönüşü bekleniyor.
+- **İşbirlikleri:** takip yeri `parallax-content/apps/self-branding/isbirlikleri/` (`2026-11-10_chatplace/`, `2026-11-10_eachlabs/2026-11-10_teklif-ve-sartlar.md`). ChatPlace: self-branding devraldı (2026-11-16), e-posta gönderimi local-assistant üzerinden. each::labs: 18 Kasım ortaklık duyurusu, karşı tarafın dönüşü bekleniyor.
 
 - **Paywall standardı:** VidBerry ve Clear Wave kalıbı bütün uygulamalarda varsayılan (`GAG/design-language.md`), ortak bileşen parallax-kit `ParallaxPaywall`.
 - **Ekran kaydı ve görüntüsü Mac Air'de** (parallax-content `CLAUDE.md`, 2026-11-15).
@@ -24,7 +24,6 @@
 - **Gift Almanac ve Printmargin incelemede** (2026-11-15 21:15 UTC gönderildi, WAITING_FOR_REVIEW); sonuçtan sonra Beeward ve Solledge ikinci tur.
 - **VidBerry Vibedesign reeli v2:** ajan aşama 1'de (metin, ElevenLabs sesi, Focusee düzeni ve dokunuş yakınlaşmalı montaj kodu). Çekim için iki şart: kurucunun arka plan seçimi (16 Focusee arka planı, numarayla) ve vidberry oturumunun kıyafet giydirme özelliği. Ajana "çekime başla" mesajı local-assistant'tan gider.
 - **vidberry oturumu:** (1) kıyafet giydirme özelliği: kurucu tanımı "sahne ve poz verilir, referanstaki kıyafet o sahneye, poza ve mankene giydirilir; modelim var derse kendi modeli aktarılır". Önce mevcut akışlarda muadil taranacak (Virtual Model, On Model, choose-your-outfit), yeni şablon onun üstüne kurulacak; mağazaya (1.3.7) açma tarama sonucuna kadar bekliyor. Model Nano Banana 2 Lite (Google kendi API). (2) Gizlilik ve Şartlar sayfalarına Google Gemini ve Fal adıyla (uygulama içi onay ekranına dokunulmaz). (3) Ürünü 360 çevir: termos ya da parfüm şişesiyle kart görseli, PBR denemesi (fark yoksa kapalı, takıda açık, PBR'li kredi fiyatı yüksek), çeviriler, 1.3.8 build.
-- **ChatPlace:** Ecem'e yayın tarihini kaydırma e-postası gönderilmedi (16 Kasım verilmişti); sözleşme gelmedi; gelir payı 6 ay mı 12 ay mı; senaryo seçimi kurucuda (A kendi sayılarıyla kanıt önerildi).
 - **Maypop:** kit bağlantısıyla cevap gönderildi (2026-11-15 20:32 UTC, Air Chrome benburakcem), dönüş bekleniyor.
 - **gcloud kalıcı oturum:** kurucu 2026-11-16 istedi; Workspace "Google Cloud session control" yeniden doğrulama politikası ve otomasyon için claude-ops servis hesabı yolu (bu oturumda başlatıldı, durumu aşağıda).
 - **DM hunisi:** dışarıdan iş birliği ve satış teklifleri kuralda tanımsız (şimdilik ciddi sayılıp Telegram'a düşüyor), kurucu kararı yok; sıcak bildirimleri ilk günlerde elle oku.

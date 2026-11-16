@@ -1,0 +1,38 @@
+#!/bin/bash
+# Claude Code'u sabit bir yoldan calistirir (deneme, 2026-11-16).
+# Sorun: yerel kurulum her surumu ~/.local/share/claude/versions/<surum> yoluna koyar; macOS TCC terminal disi
+# (launchd, agentrun) calisan ikili dosyalarin iznini YOLA gore tutar, bu yuzden her guncelleme "2.1.311" adli yeni
+# bir uygulama gibi Masaustu, Belgeler, Tum Diskler, App Management izni yeniden sorar.
+# Cozum: en yeni surum ~/.local/share/claude/sabit/claude yoluna kopyalanir, ~/.local/bin/claude oraya baglanir.
+# Imza ayni (com.anthropic.claude-code, takim Q6L2SF6YDW) oldugu icin TCC izni ayni yolda guncellemeden sonra da gecerli.
+# Guncelleyici versions/ altina yeni surum indirip bagi oraya cevirirse bu betik (LaunchAgent, WatchPaths ve saatlik)
+# yeni surumu sabit yola kopyalar ve bagi geri cevirir. Kullanim: claude-sabit [--kontrol]
+set -euo pipefail
+V="$HOME/.local/share/claude/versions"
+S="$HOME/.local/share/claude/sabit"
+B="$HOME/.local/bin/claude"
+mkdir -p "$S"
+yeni=$(ls "$V" 2>/dev/null | grep -E '^[0-9]+\.[0-9]+\.[0-9]+$' | sort -t. -k1,1n -k2,2n -k3,3n | tail -1)
+[ -n "$yeni" ] || { echo "versions bos"; exit 1; }
+mevcut=$(cat "$S/SURUM" 2>/dev/null || true)
+if [ "${1:-}" = "--kontrol" ]; then
+  echo "en yeni: $yeni | sabit: ${mevcut:-yok} | bag: $(readlink "$B")"; exit 0
+fi
+if [ "$yeni" != "$mevcut" ] || [ ! -x "$S/claude" ]; then
+  # imza dogrulanmadan kopyalanmaz: yalniz Anthropic Developer ID imzali surum sabit yola girer
+  codesign --verify --strict "$V/$yeni" 2>/dev/null || { echo "imza dogrulanamadi: $yeni"; exit 1; }
+  codesign -d -r- "$V/$yeni" 2>&1 | grep -q 'com.anthropic.claude-code' || { echo "kimlik beklenen degil: $yeni"; exit 1; }
+  cp -p "$V/$yeni" "$S/claude.yeni"
+  mv -f "$S/claude.yeni" "$S/claude"
+  echo "$yeni" > "$S/SURUM"
+  echo "sabit yola kopyalandi: $yeni"
+fi
+if [ "$(readlink "$B")" != "$S/claude" ]; then
+  ln -sfn "$S/claude" "$B"
+  echo "bag sabit yola cevrildi"
+fi
+# Bag versions/ disinda oldugu icin kurucu kendi eski surum temizligini kapatir; en yeni iki surum disindakiler silinir
+# (calisan surec etkilenmez, dosya acik kaldikca disk alani surec bitince bosalir).
+ls "$V" | grep -E '^[0-9]+\.[0-9]+\.[0-9]+$' | sort -t. -k1,1n -k2,2n -k3,3n | sed '$d' | sed '$d' | while read -r eski; do
+  rm -f "$V/$eski" && echo "eski surum silindi: $eski"
+done
