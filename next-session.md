@@ -4,7 +4,7 @@
 
 ## Durum (2026-11-13 doğrulandı)
 
-- **Denetim defteri:** `docs/audit/ACIK-BULGULAR.md` boş. Ollama Air'de kurulu, modelsiz; kurucu Air'de bir model olmasını bekliyor, karar bekliyor. Doğrulamalar sırada: ig-otomasyon basış logu (S-06), cv-crafter blog workflow'u (aşağıda).
+- **Denetim defteri:** `docs/audit/ACIK-BULGULAR.md` 2026-11-16 gece denetimiyle dolu (S-38'den itibaren, elzem sıra ve kurucu soruları başında); kişisel hayat ve kariyer değerlendirmesi `~/ObsidianVault/Plan/2026-11-17_burakcem-plani.md` (git dışı). Ollama Air'de kurulu, modelsiz; kurucu Air'de bir model olmasını bekliyor, karar bekliyor. Doğrulamalar sırada: ig-otomasyon basış logu (S-06), cv-crafter blog workflow'u (aşağıda).
 - **Bildirim modu `evde`.** `engel` her modda Telegram'a gider.
 - **Mercury MCP** salt okuma, kullanıcı kapsamı. Güncel hesap Checking 5363 (Column N.A.); Wire Details PDF'i `~/Desktop/Parallax Technologies LLC/Finance/Mercury/` ("5363 YENİ"), eski 8385 ve 6712 kullanılmaz.
 - **E-posta:** kalıcı araç `bin/mail` (gmail, is, yahoo; Proton yok), `bin/secrets run mail -- bin/mail ...`; KISITLI erişim, yalnız local-assistant okur, gönderme kurucu onayıyla (`GAG/service-access.md` "E-posta").
@@ -21,7 +21,7 @@
 
 ## Yarım kalan, söylenip yapılmayan, başlanıp bitmeyen (2026-11-16)
 
-- **Gift Almanac ve Printmargin incelemede** (2026-11-15 21:15 UTC gönderildi, WAITING_FOR_REVIEW); sonuçtan sonra Beeward ve Solledge ikinci tur.
+- **App Store:** 2026-11-16 15:59'da Onscript, As Shot, Gift Almanac, Printmargin ve Pillowtale 4.3 Spam ile reddedildi; uygulamalar park, Onscript cevabı bekleniyor (TODO ilk maddeler). Beeward ve Solledge gönderilmez.
 - **VidBerry Vibedesign reeli v2:** ajan aşama 1'de (metin, ElevenLabs sesi, Focusee düzeni ve dokunuş yakınlaşmalı montaj kodu). Çekim için iki şart: kurucunun arka plan seçimi (16 Focusee arka planı, numarayla) ve vidberry oturumunun kıyafet giydirme özelliği. Ajana "çekime başla" mesajı local-assistant'tan gider.
 - **vidberry oturumu:** (1) kıyafet giydirme özelliği: kurucu tanımı "sahne ve poz verilir, referanstaki kıyafet o sahneye, poza ve mankene giydirilir; modelim var derse kendi modeli aktarılır". Önce mevcut akışlarda muadil taranacak (Virtual Model, On Model, choose-your-outfit), yeni şablon onun üstüne kurulacak; mağazaya (1.3.7) açma tarama sonucuna kadar bekliyor. Model Nano Banana 2 Lite (Google kendi API). (2) Gizlilik ve Şartlar sayfalarına Google Gemini ve Fal adıyla (uygulama içi onay ekranına dokunulmaz). (3) Ürünü 360 çevir: termos ya da parfüm şişesiyle kart görseli, PBR denemesi (fark yoksa kapalı, takıda açık, PBR'li kredi fiyatı yüksek), çeviriler, 1.3.8 build.
 - **Maypop:** kit bağlantısıyla cevap gönderildi (2026-11-15 20:32 UTC, Air Chrome benburakcem), dönüş bekleniyor.
