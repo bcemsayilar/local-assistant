@@ -10,13 +10,14 @@ Komutlar:
   hesaplar                                  hesaplari ve sifresi kasada olanlari listeler, her birine baglanmayi dener
   ara <hesap> <sorgu> [--n 20] [--kutu K]   Gmail'de Gmail arama dili (from:, newer_than:7d, subject:), digerlerinde metin ya da from:ADRES
   oku <hesap> <uid> [--kutu K]              mesaji duz metin olarak basar (ekler yalniz adlariyla)
-  gonder <hesap> --kime A --konu K --govde-dosya F [--yanit-uid U] [--kutu K] [--bilgi A]
+  gonder <hesap> --kime A --konu K --govde-dosya F [--yanit-uid U] [--kutu K] [--bilgi A] [--ek DOSYA ...]
                                             gonderir; --yanit-uid verilirse ayni konuya In-Reply-To ile cevap olur
 Hesap adlari: gmail (bcsayilar@gmail.com), is (me@cemsayilar.com), yahoo (bcsayilar@yahoo.com), proton (vidberry@proton.me, Air'deki Proton Bridge).
 KISITLI ERISIM (kurucu karari 2026-11-15): bu araci yalniz Mac Pro'daki local-assistant oturumu calistirir ve yalniz okur.
 Baska oturum, alt ajan, Air ya da bulut oturumu kurucunun dogrudan izni olmadan okuyamaz, islem yapamaz. Gonderme (gonder) local-assistant
 icin de yalniz kurucunun o e-posta icin onayiyla ya da "yaz gonder" demesiyle; --kurucu-onayi alanina kurucunun sozu yazilir.
 Kural kaynagi: GAG/service-access.md "E-posta". Silme, arsivleme, etiket gibi islemler aracta yoktur."""
+import mimetypes
 import argparse, socket, email, email.policy, email.utils, imaplib, os, re, smtplib, ssl, sys, time
 from email.message import EmailMessage
 
@@ -116,7 +117,7 @@ def oku(h, uid, kutu):
     m.logout()
 
 
-def gonder(h, kime, konu, govde_dosya, yanit_uid, kutu, bilgi):
+def gonder(h, kime, konu, govde_dosya, yanit_uid, kutu, bilgi, ekler=()):
     c = HESAP[h]
     msg = EmailMessage()
     msg["From"], msg["To"], msg["Subject"] = c["adres"], kime, konu
@@ -132,6 +133,12 @@ def gonder(h, kime, konu, govde_dosya, yanit_uid, kutu, bilgi):
             msg["In-Reply-To"] = hd["Message-ID"]
             msg["References"] = ((hd["References"] or "") + " " + hd["Message-ID"]).strip()
     msg.set_content(open(govde_dosya, encoding="utf-8").read())
+    for e in ekler or ():
+        # ek: tur uzantidan tahmin edilir, bilinmiyorsa octet-stream
+        tur = mimetypes.guess_type(e)[0] or "application/octet-stream"
+        ana, alt = tur.split("/", 1)
+        with open(e, "rb") as f:
+            msg.add_attachment(f.read(), maintype=ana, subtype=alt, filename=os.path.basename(e))
     if c.get("bridge"):
         ctx = ssl.create_default_context(); ctx.check_hostname = False; ctx.verify_mode = ssl.CERT_NONE
         s = smtplib.SMTP(*c["smtp"]); s.starttls(context=ctx)
@@ -174,7 +181,7 @@ if __name__ == "__main__":
     a = s.add_parser("ara"); a.add_argument("hesap", choices=HESAP); a.add_argument("sorgu"); a.add_argument("--n", type=int, default=20); a.add_argument("--kutu")
     o = s.add_parser("oku"); o.add_argument("hesap", choices=HESAP); o.add_argument("uid"); o.add_argument("--kutu")
     g = s.add_parser("gonder"); g.add_argument("hesap", choices=HESAP); g.add_argument("--kime", required=True); g.add_argument("--konu", required=True)
-    g.add_argument("--govde-dosya", required=True); g.add_argument("--yanit-uid"); g.add_argument("--kutu"); g.add_argument("--bilgi")
+    g.add_argument("--govde-dosya", required=True); g.add_argument("--yanit-uid"); g.add_argument("--kutu"); g.add_argument("--bilgi"); g.add_argument("--ek", action="append", default=[], help="eklenecek dosya, birden cok kez verilebilir")
     g.add_argument("--kurucu-onayi", required=True, help="kurucunun bu e-posta icin verdigi onay, sozu aynen")
     x = p.parse_args()
     if x.k == "hesaplar":
@@ -186,4 +193,4 @@ if __name__ == "__main__":
     else:
         if len(x.kurucu_onayi.strip()) < 3:
             sys.exit("gonderme icin kurucu onayi gerekli")
-        gonder(x.hesap, x.kime, x.konu, x.govde_dosya, x.yanit_uid, x.kutu, x.bilgi)
+        gonder(x.hesap, x.kime, x.konu, x.govde_dosya, x.yanit_uid, x.kutu, x.bilgi, x.ek)
