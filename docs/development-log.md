@@ -112,3 +112,20 @@ sudo pmset -a displaysleep 0       # ekran kapanmasin (son care)
 - 15 yeni screenshot kategorize edildi
 - 31 Twitter bookmark analiz edilip 17 tanesi dosyalara dagildi
 - Dosyalar Desktop/Data House/ altinda
+
+## 2026-11-16 ve 17 gece (kurucu uyurken, to-go modu; brief onaylari local-assistant)
+
+Kurucu istegi: gece iki gorev (portfoy verimlilik denetimi; kisisel ve profesyonel kariyer ve hayat plani), ayrica TikTok reddinin cozumu, VidBerry reelinin bitirilmesi, ChatPlace ekran kayitlari.
+
+### Baslatilan ajanlar (salt okuma, brief kurallari `ORTAK-KURALLAR` metniyle, local-assistant onayladi)
+- Denetim A parallax-content, B project-benburakcem-ai ve cevresi, C Mac Air, D mobil uygulama depolari, E AWS ve yonetim depolari (Sonnet); sayi toplama ajani (Opus): gelir, kullanici, Instagram, huni.
+- Diger oturumlara onaylanan brief'ler: self-branding arastirma A ve B, metin ve ses C, uretim D (uc dalga, taslak, yayin yok); dort reel kurgu brief'i (FreeLLMAPI icin uc guvenlik sarti); vidberry (Fal uzerinden grok, ABC kiyasi, reel v4); app-fabrikasi (as-shot ve onscript push, durum notlari).
+
+### Yapilanlar
+- Denetim sicili `docs/audit/ACIK-BULGULAR.md`: 34 acik bulgu (S-38 ile S-72), elzem sira ve kurucu sorulari basinda.
+- Hayat ve kariyer plani git disinda: `~/ObsidianVault/Plan/2026-11-17_burakcem-plani.md`, olculen sayilar `2026-11-16_sayilar.md`.
+- TikTok: ret notu okundu; `parallax-site` publisher sayfalarinda ikon, baslik ve kosul ile gizlilik linkleri basvuruyla eslestirildi (a74408e, canlida dogrulandi); kalan kurucunun elle cekecegi demo videosu ve portalda Web URL alani.
+- Air yedegi as-shot ve onscript git paketlerini aliyor (aa812ed); ig-otomasyon canli kurallari dosyaya dokuldu, PITR acildi, huni durumu belgede duzeltildi (ig-otomasyon 07de9c5).
+- Claude ikili dosyasi icin sabit yol betigi `bin/claude-sabit` ve Mac Pro LaunchAgent'i; Air tarafi air-orkestrator istegi 20261116-215146.
+- `bin/mail gonder` ek destegi (`--ek`); ChatPlace'e imzali W-8BEN ile cevap gonderildi (kurucu onayiyla).
+- App Store toplu 4.3 reddi: Onscript icin Apple'in dokuz sorusuna cevap gonderildi (ASC ic API, Safari oturumu).
