@@ -24,7 +24,7 @@ cd "$H" || exit 2
 find Projects/finance-tracker -type f -size -20000k -not -path "*/.venv/*" -not -path "*/__pycache__/*" -not -name "*.bak*" -not -name "dashboard.err" -not -name "dashboard.log" -not -name "finance.db" -not -name "finance.db-*" 2>/dev/null >> "$L"
 find Projects/marketing-agent -type f -size -20000k -not -path "*/.git/*" -not -path "*/node_modules/*" -not -path "*/.venv/*" 2>/dev/null >> "$L"
 ( cd Projects/app-fabrikasi && git status --porcelain 2>/dev/null | cut -c4- | while read -r f; do [ -f "$f" ] && [ "$(stat -f %z "$f")" -lt 20000000 ] && echo "Projects/app-fabrikasi/$f"; done ) >> "$L"
-find android-agent -type f -size -20000k -not -path "android-agent/web/media*" -not -path "android-agent/web/frames*" -not -path "android-agent/ytvenv/*" -not -path "*/WebDriverAgent*" -not -path "*/node_modules/*" -not -name "*.xapk" 2>/dev/null >> "$L"
+find android-agent -type f -size -20000k -not -path "android-agent/web/media*" -not -path "android-agent/web/frames*" -not -path "android-agent/ytvenv/*" -not -path "android-agent/ios/venv/*" -not -path "android-agent/ios/wda-build/*" -not -path "*/WebDriverAgent*" -not -path "*/node_modules/*" -not -name "*.xapk" 2>/dev/null >> "$L"
 find .config/parallax -type f -size -20000k -not -path "*/gemini-home/*" 2>/dev/null >> "$L"
 find Projects/local-assistant/data -type f 2>/dev/null >> "$L"
 # kisisel notlar (kurucu 2026-11-06): gunluk, ruya, terapi ve dijital gunluk notlari; Syncthing yedek degil (silme ve bozulma iki makineye de yayilir), bu yuzden bulutta sifreli ve surumlu da durur
@@ -41,7 +41,7 @@ upload "$W/part1.age" "air/$D/air-dosyalar.tar.gz.age" || ok=0
 upload "$W/part2-db.age" "air/$D/air-veritabanlari.tar.gz.age" || ok=0
 S1=$(stat -f %z "$W/part1.age"); S2=$(stat -f %z "$W/part2-db.age")
 # 4) git depolari: yalniz refler degistiyse paket yukle
-for r in app-fabrikasi marketing-agent; do
+for r in app-fabrikasi marketing-agent as-shot onscript; do
   P="$H/Projects/$r"; [ -d "$P/.git" ] || continue
   HASH=$(git -C "$P" for-each-ref | shasum | cut -c1-16); [ "$(cat "$CACHE/git-$r.hash" 2>/dev/null)" = "$HASH" ] && continue
   git -C "$P" bundle create "$W/$r.bundle" --all >/dev/null 2>&1 && age -r "$PUB" -o "$W/$r.bundle.age" "$W/$r.bundle" && rm -f "$W/$r.bundle" \
