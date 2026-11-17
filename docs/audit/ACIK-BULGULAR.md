@@ -33,7 +33,7 @@ Madde biçimi: başlık satırında numara, ciddiyet ve tür (yarım iş, kopya,
 8. S-54 ve S-64: ikilideki ve açıkta duran anahtarlar.
 9. S-67: dakikada bir tam tablo taraması.
 
-**Kurucu kararları (2026-11-17, cevapların tamamı `docs/audit/kurucu-sorulari-2026-11-17.txt`):**
+**Kurucu kararları (2026-11-17; soru dosyası cevaplar buraya işlenince silindi, tam metin git geçmişinde 699d853):**
 1. S-38: kapandı (2026-11-17): boş toplama geçersiz sayılıyor, hata air-orkestrator'a istek olarak düşüyor, kapılar yalnız değerlendirmesi olan klasörü tur sayıyor, VidBerry kapısı olgun reel ve bekleyen kuyruk yokken analiz ve durdurmayı atlıyor. Gerçek bir hata gecesiyle henüz sınanmadı.
 2. S-42: 29 GB üretim medyası incelensin, özellikle son bir ayda üretilenlerde yalnız final görsel, ses, video ve kapak kalsın, gerisi silinsin; kalan iCloud'a yedeklensin. İş içerik tarafının (self-branding).
 3. S-39: Pillowtale ses sunucusu şimdilik Air'de kalır, ek yatırım yok. Plansız yeniden başlamanın sebebi Air'e bağlanan power bank, kurucu bir daha bağlamayacak.
