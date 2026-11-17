@@ -35,21 +35,21 @@ Madde biçimi: başlık satırında numara, ciddiyet ve tür (yarım iş, kopya,
 9. S-67: dakikada bir tam tablo taraması.
 
 **Kurucu kararları (2026-11-17, cevapların tamamı `docs/audit/kurucu-sorulari-2026-11-17.txt`):**
-1. S-38: toplama hata verince analiz geçersiz sayılıyor (yapıldı). Kurucu ayrıca hatanın kendisini beklemeden çözülmesini istiyor: hata kurucuya değil air-orkestrator'a gitsin ve orada çözülsün (açık).
+1. S-38: toplama hata verince analiz geçersiz sayılıyor ve hata air-orkestrator'a istek olarak düşüyor (yapıldı 2026-11-17).
 2. S-42: 29 GB üretim medyası incelensin, özellikle son bir ayda üretilenlerde yalnız final görsel, ses, video ve kapak kalsın, gerisi silinsin; kalan iCloud'a yedeklensin. İş içerik tarafının (self-branding).
 3. S-39: Pillowtale ses sunucusu şimdilik Air'de kalır, ek yatırım yok. Plansız yeniden başlamanın sebebi Air'e bağlanan power bank, kurucu bir daha bağlamayacak.
 4. S-46: boşalt. 2026-11-17'de Çöp'teki 14 günden eski öğeler silindi (yaklaşık 12,5 GB; Çöp 75 GB'tan 63 GB'a indi, kalanı 14 günden yeni). Kök sahipli `OneDrive.app` silinemedi, duruyor.
 5. S-43, S-44: hayır, dosyalar küçültülmeyecek ve her seferinde okunacak. Yalnız birbiriyle çelişen ya da tekrar eden kurallar tekilleştirilsin.
 6. S-49: kurucu onayıyla iki n8n işi (Weekly LinkedIn AI Post, Twitter Bookmarks Weekly Digest) 2026-11-17'de pasifleştirildi; kalan yalnız belge düzeltmesi (README'ler, `home-server-servisler.md` aktif iş sayısı, `CLAUDE.md` Ollama satırı).
 7. S-54: aciliyeti yok, bekleyebilir (kurucu 2026-11-17).
-8. S-66: kurucu kapatılacaklar listesini istedi.
+8. S-66: needle, potty ve finance-agent 2026-11-17'de kapatıldı (silinmedi, `~/Mac-Projects/_arsiv/` altına taşındı; harita, app-registry ve OKU.txt güncellendi). Air'deki `~/Projects/finance-agent` ve `odysseus` klasörleri yerinde, silme kararı yok.
 9. S-72: AWS kredisinin bitişi Ağustos 2028 (kurucu beyanı); bakiye hâlâ kayıtlı değil.
 
 ## Bulgular
 
-### S-38 · yüksek · risk · Analiz kapısı: kalan iki iş
-- Durum: Clear Wave tarafı 2026-11-17'de çözüldü (`calistir.sh` boş ya da hatalı toplamayı `gecersiz-<tarih>-<saat>` klasörüne alıp çıkıyor; 14 Kasım kenara alındı, 17 Kasım analizi 12 reelle koştu).
-- Kalan: (1) VidBerry kapısı (`shared/analiz/kapi.py`) olgun reel sayısı eşiğin altındayken atlanmıyor; (2) kurucu kararı 2026-11-17: toplama hatası kurucuya bildirilip beklenmesin, air-orkestrator'a istek olarak düşsün ve orada çözülsün.
+### S-38 · orta · risk · Analiz kapısı: kalan tek iş
+- Durum: 2026-11-17'de iki koşucu da (`apps/clearwave/tools/analiz/calistir.sh`, `shared/analiz/gece.sh`) boş ya da hatalı toplamayı `gecersiz-<tarih>-<saat>` klasörüne alıyor ve hatayı kurucuya değil air-orkestrator istek kutusuna bırakıyor (kurucu kararı). Henüz gerçek bir hata gecesiyle sınanmadı.
+- Kalan: VidBerry kapısı (`shared/analiz/kapi.py`) olgun reel sayısı eşiğin altındayken atlanmıyor.
 - İlk görülme: 2026-11-16 gece denetimi (Air ve parallax-content ajanları).
 
 ### S-39 · yüksek · risk · Air plansız yeniden başladı, canlı servisler tek makinede
