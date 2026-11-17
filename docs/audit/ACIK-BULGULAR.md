@@ -40,8 +40,8 @@ Madde biçimi: başlık satırında numara, ciddiyet ve tür (yarım iş, kopya,
 3. S-39: Pillowtale ses sunucusu şimdilik Air'de kalır, ek yatırım yok. Plansız yeniden başlamanın sebebi Air'e bağlanan power bank, kurucu bir daha bağlamayacak.
 4. S-46: boşalt. 2026-11-17'de Çöp'teki 14 günden eski öğeler silindi (yaklaşık 12,5 GB; Çöp 75 GB'tan 63 GB'a indi, kalanı 14 günden yeni). Kök sahipli `OneDrive.app` silinemedi, duruyor.
 5. S-43, S-44: hayır, dosyalar küçültülmeyecek ve her seferinde okunacak. Yalnız birbiriyle çelişen ya da tekrar eden kurallar tekilleştirilsin.
-6. S-49: kurucu hangi işler olduğunu sordu, cevap bekleniyor.
-7. S-54: gerekiyorsa döndür.
+6. S-49: kurucu onayıyla iki n8n işi (Weekly LinkedIn AI Post, Twitter Bookmarks Weekly Digest) 2026-11-17'de pasifleştirildi; kalan yalnız belge düzeltmesi (README'ler, `home-server-servisler.md` aktif iş sayısı, `CLAUDE.md` Ollama satırı).
+7. S-54: aciliyeti yok, bekleyebilir (kurucu 2026-11-17).
 8. S-66: kurucu kapatılacaklar listesini istedi.
 9. S-72: AWS kredisinin bitişi Ağustos 2028 (kurucu beyanı); bakiye hâlâ kayıtlı değil.
 
