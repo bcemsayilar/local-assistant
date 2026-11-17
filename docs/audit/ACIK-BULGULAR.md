@@ -34,24 +34,22 @@ Madde biçimi: başlık satırında numara, ciddiyet ve tür (yarım iş, kopya,
 8. S-54 ve S-64: ikilideki ve açıkta duran anahtarlar.
 9. S-67: dakikada bir tam tablo taraması.
 
-**Kurucunun karar vermesi gereken sorular:**
-1. Analiz kapısı: toplama hata verdiğinde analiz geçersiz sayılsın mı; bu tur için kapı elle çözülsün mü (S-38)?
-2. Üretim medyası nereye yedeklenecek: harici disk, bulut, ya da Time Machine (S-42)?
-3. Air'in adaptörü, kablosu ve bataryası (838 döngü) kontrol edilecek mi; canlı Pillowtale ses sunucusu Air'de kalacak mı (S-39)?
-4. Çöp'teki 14 günden eski temizlik klasörleri boşaltılsın mı (S-46)?
-5. telefon-ajani.md ve reel sistemi okuma sırası küçültülsün mü: güncel kurallar kısa dosyada, tarihçe arşivde (S-43, S-44)?
-6. n8n'deki iki boşa çalışan iş kapatılsın mı (S-49)?
-7. Pillowtale TTS anahtarı döndürülsün mü (S-54)?
-8. Hangi durmuş depolar ve hesaplar resmen kapatılacak (S-66 ve hayat planı belgesindeki liste)?
-9. AWS kredisinin bakiyesi ve bitiş tarihi ne; Billing sayfasından bakılıp belgelensin mi (S-72)?
+**Kurucu kararları (2026-11-17, cevapların tamamı `docs/audit/kurucu-sorulari-2026-11-17.txt`):**
+1. S-38: toplama hata verince analiz geçersiz sayılıyor (yapıldı). Kurucu ayrıca hatanın kendisini beklemeden çözülmesini istiyor: hata kurucuya değil air-orkestrator'a gitsin ve orada çözülsün (açık).
+2. S-42: 29 GB üretim medyası incelensin, özellikle son bir ayda üretilenlerde yalnız final görsel, ses, video ve kapak kalsın, gerisi silinsin; kalan iCloud'a yedeklensin. İş içerik tarafının (self-branding).
+3. S-39: Pillowtale ses sunucusu şimdilik Air'de kalır, ek yatırım yok. Plansız yeniden başlamanın sebebi Air'e bağlanan power bank, kurucu bir daha bağlamayacak.
+4. S-46: boşalt. 2026-11-17'de Çöp'teki 14 günden eski öğeler silindi (yaklaşık 12,5 GB; Çöp 75 GB'tan 63 GB'a indi, kalanı 14 günden yeni). Kök sahipli `OneDrive.app` silinemedi, duruyor.
+5. S-43, S-44: hayır, dosyalar küçültülmeyecek ve her seferinde okunacak. Yalnız birbiriyle çelişen ya da tekrar eden kurallar tekilleştirilsin.
+6. S-49: kurucu hangi işler olduğunu sordu, cevap bekleniyor.
+7. S-54: gerekiyorsa döndür.
+8. S-66: kurucu kapatılacaklar listesini istedi.
+9. S-72: AWS kredisinin bitişi Ağustos 2028 (kurucu beyanı); bakiye hâlâ kayıtlı değil.
 
 ## Bulgular
 
-### S-38 · yüksek · risk · Analiz kapısı boş analizle yayını durduracak
-- Kanıt: Air `parallax-content/apps/clearwave/analiz/2026-11-14/rapor.md` yalnız başlık satırları (veri satırı yok); `analiz.log` 2026-11-14 "RuntimeError: hesap appclearwave'e gecilemedi"; `tools/analiz/calistir.sh` toplamanın çıkış kodunu denetlemeden `degerlendir.py` çalıştırıyor; `kapi.py` yalnız klasörün ve `uygulama.md`'nin varlığına bakıyor; 2026-11-16 logu "BEKLE ... 2 gün kaldı (uygulama.md yok)"; kuyrukta 23 reel. VidBerry kapısı (`shared/analiz/kapi.py`) aynı güne doluyor: 2026-11-14 değerlendirmesi 2 reelle "hüküm yok" diyor, kuyrukta bekleyen 0, üç reelde ekran verisi alınamamış. Ölçüm 2026-11-16, local-assistant rapor.md'yi kendisi okudu.
-- Etki: Clear Wave'in Instagram ve TikTok yayını, hiç ölçülmemiş bir analizin önerileri uygulanmadı diye 2026-11-18 02:00'de durur; VidBerry tarafında boş kuyruk için kurucuya karar bildirimi gider ve her gece iPhone kilitlenir.
-- Öneri: toplama hata verirse o günün klasörü analiz sayılmasın (calistir.sh çıkış kodu denetimi); bu tur için 2026-11-14 klasörü geçersiz sayılıp analiz yeniden koşsun; VidBerry kapısı olgun reel sayısı eşiğin altındayken atlansın.
-- Kurucu kararı: evet (kapı kuralı kurucu kararı 2026-11-07).
+### S-38 · yüksek · risk · Analiz kapısı: kalan iki iş
+- Durum: Clear Wave tarafı 2026-11-17'de çözüldü (`calistir.sh` boş ya da hatalı toplamayı `gecersiz-<tarih>-<saat>` klasörüne alıp çıkıyor; 14 Kasım kenara alındı, 17 Kasım analizi 12 reelle koştu).
+- Kalan: (1) VidBerry kapısı (`shared/analiz/kapi.py`) olgun reel sayısı eşiğin altındayken atlanmıyor; (2) kurucu kararı 2026-11-17: toplama hatası kurucuya bildirilip beklenmesin, air-orkestrator'a istek olarak düşsün ve orada çözülsün.
 - İlk görülme: 2026-11-16 gece denetimi (Air ve parallax-content ajanları).
 
 ### S-39 · yüksek · risk · Air plansız yeniden başladı, canlı servisler tek makinede
