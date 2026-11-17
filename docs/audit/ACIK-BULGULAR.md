@@ -21,10 +21,9 @@ Madde biçimi: başlık satırında numara, ciddiyet ve tür (yarım iş, kopya,
 
 **Bu gece kapatılanlar (sicile girmedi):** as-shot ve onscript push edildi, notları ve STATUS güncellendi (app-fabrikasi, local-assistant kararı); gece yedeği artık as-shot ve onscript git paketlerini alıyor, yeniden kurulabilir ios venv ve wda-build yedekten çıktı (local-assistant aa812ed); ev sunucusu belgesine VNC için SSH tüneli yolu yazıldı (80fdbba); ig-otomasyon'un yalnız DynamoDB'de duran 35 canlı kuralı dosyaya döküldü, git dışındaki beş kural dosyası commit'lendi, tabloda zaman içi kurtarma (PITR) açıldı, huni durumu iki belgede canlıya göre düzeltildi (ig-otomasyon 07de9c5); local-assistant TODO ve next-session'daki "incelemede" satırları düzeltildi.
 
-**Sayılar (2026-11-17).** 34 açık bulgu: 7 yüksek (S-38, S-39, S-41, S-42, S-43, S-67, S-68), 25 orta (S-44 ile S-64, S-69 ile S-72), 2 düşük toplu (S-65, S-66). Kritik yok. S-40 numarası gece içinde açılıp kapanan bir bulguya aitti (as-shot ve onscript yedeği), yeniden kullanılmaz.
+**Sayılar (2026-11-17).** 33 açık bulgu: 6 yüksek (S-39, S-41, S-42, S-43, S-67, S-68), 25 orta (S-44 ile S-64, S-69 ile S-72), 2 düşük toplu (S-65, S-66). Kritik yok. S-40 numarası gece içinde açılıp kapanan bir bulguya aitti (as-shot ve onscript yedeği), yeniden kullanılmaz.
 
 **Elzem sıralama (etkiye göre):**
-1. S-38: Clear Wave ve VidBerry analiz kapısı, 18 Kasım 02:00'den önce.
 2. S-42: üretim medyasının yedeği.
 3. S-39: Air'in güç ve batarya kontrolü.
 4. S-41: reddedilen uygulamaların depo notları.
@@ -35,22 +34,17 @@ Madde biçimi: başlık satırında numara, ciddiyet ve tür (yarım iş, kopya,
 9. S-67: dakikada bir tam tablo taraması.
 
 **Kurucu kararları (2026-11-17, cevapların tamamı `docs/audit/kurucu-sorulari-2026-11-17.txt`):**
-1. S-38: toplama hata verince analiz geçersiz sayılıyor ve hata air-orkestrator'a istek olarak düşüyor (yapıldı 2026-11-17).
+1. S-38: kapandı (2026-11-17): boş toplama geçersiz sayılıyor, hata air-orkestrator'a istek olarak düşüyor, kapılar yalnız değerlendirmesi olan klasörü tur sayıyor, VidBerry kapısı olgun reel ve bekleyen kuyruk yokken analiz ve durdurmayı atlıyor. Gerçek bir hata gecesiyle henüz sınanmadı.
 2. S-42: 29 GB üretim medyası incelensin, özellikle son bir ayda üretilenlerde yalnız final görsel, ses, video ve kapak kalsın, gerisi silinsin; kalan iCloud'a yedeklensin. İş içerik tarafının (self-branding).
 3. S-39: Pillowtale ses sunucusu şimdilik Air'de kalır, ek yatırım yok. Plansız yeniden başlamanın sebebi Air'e bağlanan power bank, kurucu bir daha bağlamayacak.
 4. S-46: boşalt. 2026-11-17'de Çöp'teki 14 günden eski öğeler silindi (yaklaşık 12,5 GB; Çöp 75 GB'tan 63 GB'a indi, kalanı 14 günden yeni). Kök sahipli `OneDrive.app` silinemedi, duruyor.
-5. S-43, S-44: hayır, dosyalar küçültülmeyecek ve her seferinde okunacak. Yalnız birbiriyle çelişen ya da tekrar eden kurallar tekilleştirilsin.
+5. S-43, S-44: hayır, dosyalar küçültülmeyecek ve her seferinde okunacak. Yalnız birbiriyle çelişen ya da tekrar eden kurallar tekilleştirilsin. `telefon-ajani.md` 2026-11-17'de baştan sona okundu, çelişen satırlar güncel durumla işaretlendi (kural silinmedi, `.bak` kopyası Çöp'e); reel tarafı (S-44) self-branding'e devredildi.
 6. S-49: kurucu onayıyla iki n8n işi (Weekly LinkedIn AI Post, Twitter Bookmarks Weekly Digest) 2026-11-17'de pasifleştirildi; kalan yalnız belge düzeltmesi (README'ler, `home-server-servisler.md` aktif iş sayısı, `CLAUDE.md` Ollama satırı).
 7. S-54: aciliyeti yok, bekleyebilir (kurucu 2026-11-17).
 8. S-66: needle, potty ve finance-agent 2026-11-17'de kapatıldı (silinmedi, `~/Mac-Projects/_arsiv/` altına taşındı; harita, app-registry ve OKU.txt güncellendi). Air'deki `~/Projects/finance-agent` ve `odysseus` klasörleri yerinde, silme kararı yok.
 9. S-72: AWS kredisinin bitişi Ağustos 2028 (kurucu beyanı); bakiye hâlâ kayıtlı değil.
 
 ## Bulgular
-
-### S-38 · orta · risk · Analiz kapısı: kalan tek iş
-- Durum: 2026-11-17'de iki koşucu da (`apps/clearwave/tools/analiz/calistir.sh`, `shared/analiz/gece.sh`) boş ya da hatalı toplamayı `gecersiz-<tarih>-<saat>` klasörüne alıyor ve hatayı kurucuya değil air-orkestrator istek kutusuna bırakıyor (kurucu kararı). Henüz gerçek bir hata gecesiyle sınanmadı.
-- Kalan: VidBerry kapısı (`shared/analiz/kapi.py`) olgun reel sayısı eşiğin altındayken atlanmıyor.
-- İlk görülme: 2026-11-16 gece denetimi (Air ve parallax-content ajanları).
 
 ### S-39 · yüksek · risk · Air plansız yeniden başladı, canlı servisler tek makinede
 - Kanıt: Air `/Library/Logs/DiagnosticReports/ResetCounter-2026-11-16-012214.diag` "Boot faults: rst uv,vdd_boost_uvlo timeout"; batarya 838 döngü, yüzde 82; 01:10 TikTok yayın koşusu loga hiç düşmedi; 27 zamanlayıcı otomatik girişle geri geldi. Aynı gün pil yüzde 9'a kadar düşmüştü (local-assistant oturum kaydı, şarj izleme).
