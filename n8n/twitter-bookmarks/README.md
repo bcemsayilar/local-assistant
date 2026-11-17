@@ -2,7 +2,7 @@
 
 Twitter/X bookmark'larindan haftalik kategorize ozet email'i olusturan n8n workflow'u.
 
-**Durum (2026-10-02 olcum):** workflow aktif ve her Pazar "basarili" kosuyor, ama fiilen bos donuyor: Air'deki `bookmarks.json` 2026-02-28'den beri guncellenmedi, ve workflow'un kullandigi `qwen3:4b` Air'de artik yuklu degil (yuklu: qwen3.5:9b, lfm2.5:8b). Yeni bookmark gelirse Ollama adimi hata verir. Acik is `TODO.md`'de.
+**Durum (2026-11-18 olcum):** workflow PASIF (kurucu onayiyla 2026-11-17, Air n8n veritabaninda `active` 0). Pasiflestirmeden once her Pazar "basarili" kosup bos donuyordu: `bookmarks.json` 2026-02-28'den beri guncellenmedi ve `qwen3:4b` Air'de yok (Air'de 2026-11-11'den beri hic Ollama modeli yok). Dikkat: zamanlayici dugumu (`scheduleTrigger`) hala acik; LinkedIn isinde n8n acilista isi yeniden etkinlestirdigi icin o isin zamanlayici dugumu 2026-11-18'de kapatildi, ayni kapatma burada da yapilmali (denetim S-49, Air'de n8n degisikligi). X kaydedilenlerinin guncel hasadi n8n degil, `parallax-content/shared/harvest/twitter/` (Air `com.parallax.twitter-hasat`).
 
 ## Workflow ID
 `gDUBYcStVPkPni3C` (workflow_id.txt dosyasinda da saklanir)
@@ -64,7 +64,7 @@ n8n `$getWorkflowStaticData('global')` kullanilir:
 ## Ollama Entegrasyonu
 
 - Endpoint: `POST http://localhost:11434/api/generate`
-- Model: qwen3:4b (2026-10-02'de Air'de yuklu degil, bkz Durum)
+- Model: qwen3:4b (Air'de yok, 2026-11-11'den beri hic Ollama modeli yok, bkz Durum)
 - stream: false (tek JSON response)
 - Timeout: 180 saniye
 - Prompt sonunda `/no_think` - qwen3 thinking modunu kapatir

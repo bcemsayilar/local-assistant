@@ -2,6 +2,8 @@
 
 Haftalik AI newsletter'larini ceken ve ozetleyen n8n workflow'u. Ilk tasarimda LinkedIn postunu da yazip mail atiyordu; 2026-10-02 itibariyla `LLM - Write LinkedIn Post`, `Format Email HTML` ve `Gmail - Send Post` node'lari DISABLED, yani workflow sadece veri + ozet uretir. Post uretimi `~/Mac-Projects/newsletter-project`'te, yazim kurallari `docs/linkedin-yazim-kurallari.md`.
 
+**Durum (2026-11-18 olcum):** workflow PASIF (kurucu onayiyla 2026-11-17; Air n8n veritabaninda `active` 0 ve `scheduleTrigger` dugumu `disabled`, yalniz `manualTrigger` acik). Zamanlayici dugumu self-branding tarafindan 2026-11-18'de kapatildi, cunku n8n her acilista isi yeniden etkinlestiriyordu. Asagidaki akis ve model sirasi pasiflestirmeden onceki halin kaydidir.
+
 ## Workflow ID
 `S0RDiop6EVTj33AX` - "Weekly LinkedIn AI Post"
 
