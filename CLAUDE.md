@@ -15,7 +15,7 @@ Portfoyun canli semasi https://claude.ai/artifact/7RwAweEfyNQutzLT785WHY, kaynag
 - **Ajan**: Air'de basliz ajan (`agentrun`: Claude, Codex ya da Gemini, limitte siradakine gecer), ayrinti "Claude kopru modu"
 - **File Sync**: Syncthing (ObsidianVault iki makinede)
 - **Dil**: Python; Air'deki bot venv'i 3.9.6, Mac Pro venv'i 3.13 (2026-11-10 olculdu). Kod 3.9 ile uyumlu kalmali
-- Ollama Air'de hala kurulu (qwen3.5:9b, lfm2.5:8b, nomic-embed-text) ama bot kullanmiyor; tek kullanicisi n8n Twitter Bookmarks (o da olu model `qwen3:4b`'ye bagli)
+- Ollama Air'de kurulu ama hic model yok (2026-11-18 olculdu), bot kullanmiyor; eski tek kullanicisi n8n Twitter Bookmarks isi 2026-11-17'den beri pasif
 
 ## LinkedIn Haftalik Post
 - Yazim kurallari tek kaynak: `n8n/linkedin-automation/docs/linkedin-yazim-kurallari.md` (burada tekrarlanmaz)
@@ -80,7 +80,11 @@ local-assistant/
 │   └── integrations/
 │       ├── telegram.py      # handler'lar
 │       └── claude_bridge.py # Air'deki Claude Code oturumu, whisper, sesli cevap
+├── agentrun/                # saglayici bagimsiz ajan calistirici
 ├── air-orkestrator/         # Air orkestratoru istek kutusu kodu
+├── bildirim/                # kurucuya bildirim kapisi (kurucuya_yaz.py)
+├── bin/                     # secrets, mail, agent, ig-token-yenile ve diger araclar
+├── tiktok-publisher/        # Parallax Publisher Lambda (TikTok Content Posting API)
 ├── aws/                     # supabase-keepalive Lambda
 ├── n8n/                     # LinkedIn ve Twitter bookmarks workflow dokumani
 ├── docs/                    # development-log.md
