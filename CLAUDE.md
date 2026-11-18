@@ -20,7 +20,7 @@ Portfoyun canli semasi https://claude.ai/artifact/7RwAweEfyNQutzLT785WHY, kaynag
 ## LinkedIn Haftalik Post
 - Yazim kurallari tek kaynak: `n8n/linkedin-automation/docs/linkedin-yazim-kurallari.md` (burada tekrarlanmaz)
 - Arsiv ve stil referansi: `~/Desktop/Self Branding/linkedin/linkedin-postlari.txt`
-- Uretim 2026-08'den beri `~/Mac-Projects/newsletter-project` (LinkedIn teaser, metni OpenAI yazar), detay o projenin `CLAUDE.md`'si
+- Uretim 2026-08'den beri `~/Mac-Projects/parallax-content/apps/self-branding/bulten` (LinkedIn teaser, metni OpenAI yazar), detay o klasorun `README.md` dosyasi
 
 ## Genel Kurallar
 - Commit ve branch kurallari (dil, yasak karakterler, deneme kelimesi, imza, co-author yasagi, medya yasagi) tek yerde: `~/Desktop/Parallax Technologies LLC/General App Guidlines/git-conventions.md`
