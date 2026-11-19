@@ -4,9 +4,9 @@
 
 ## Oturumun ilk işi
 
-1. **Oturum kapanış komutu:** kurucu 2026-11-19'da istedi, taslak sıra `TODO.md` "Oturum kapanış komutu" maddesinde. Kural metni `GAG/session-organization.md`'ye yazılır, global `CLAUDE.md`'ye yalnız "oraya bak" satırı girer.
-2. **Push:** 19 Kasım'da kurucu sözüyle dört depo ve `vidberry` development dalı push edildi; sonraki push yine kurucu sözüyle.
-3. **Fal bakiye uyarısı** yarım kaldı (TODO maddesi); VidBerry'nin bütün üretimi Fal bakiyesine bağlı.
+1. **Fal bakiye uyarısı:** betik hazır (`bin/fal-bakiye.py`), Air'de günlük zamanlayıcı isteği air-orkestrator'da; cevabına bak (TODO maddesi).
+2. **Push:** 19 Kasım'da kurucu sözüyle dört depo ve `vidberry` development dalı push edildi; sonraki commit'ler push bekliyor, push yine kurucu sözüyle.
+3. **20 Kasım:** ChatPlace collab daveti kabul edildi mi (Ecem: yayından bir gün sonra).
 
 ## Çalışma biçimi (kurucu düzeltmeleri, 2026-11-18 ve 19)
 
@@ -16,7 +16,7 @@
 
 ## Doğrulanmış durum (2026-11-19)
 
-- **ChatPlace:** reel yayında (https://www.instagram.com/reel/Df7AhUXEs7A/), otomasyon açık, test yorumunda yorum cevabı ve ilk DM geldi, ig-otomasyon çakışmadı, link Ecem'e gönderildi. ChatPlace araçları artık bağlayıcı olarak da var (`mcp__claude_ai_ChatPlace__*`).
+- **ChatPlace:** reel yayında (https://www.instagram.com/reel/Df7AhUXEs7A/), otomasyon açık, iki mesaj da gerçek kullanıcıyla doğrulandı (8 kişi ilk DM, 3 kişi ikinci mesaj, 2 link tıklaması), ig-otomasyon çakışmadı. ChatPlace araçları artık bağlayıcı olarak da var (`mcp__claude_ai_ChatPlace__*`).
 - **Eğitim sayfası ve site:** `cemsayilar.com/egitim`, `/merhaba`, `/tr` yayında; `/api/ilgi` e-postaları Cloudflare KV `ILGI` alanına yazar (`cemsayilar-site/README.md`). Deploy `npx wrangler deploy`, anahtar `cemsayilar-site/CLAUDE.md`'deki komutla.
 - **Stripe (Parallax):** tek etkin ürün atölye (`prod_VeNVz9TYYv1ezs`, 3.900 TL, ödeme linki `https://buy.stripe.com/eVqbJ2aSe0YuduAgTC5J606`), kapak ve marka ikonu yüklü, düğme siyah; altı CV Crafter ürünü arşivlendi. Hesap markalaması API'den değişmez, Air'deki admin Chrome profilinden (CDP 9306) yapıldı.
 - **@benburakcem biyografisi:** Instagram, TikTok, YouTube'da "Claude Code / Yapay zeka ajanları / Gerçek projeler / Eğitim ve tüm linkler"; Instagram linki `cemsayilar.com/merhaba`. TikTok'ta link alanı yok (kişisel hesap, 362 takipçi).
@@ -26,7 +26,8 @@
 - **Air ekran paylaşımı:** kalıcı SSH tüneli, `open vnc://elifberraksayilar@localhost:5901`.
 - **AWS:** Air'de sınırlı `parallax-air` anahtarı; yönetici anahtar ve Stripe anahtarı yalnız Mac Pro'da (`bin/secrets sync-air` ikisini dışarıda bırakır).
 - **E-posta:** `bin/secrets run mail -- bin/mail ...` (gmail, is, yahoo); gönderme `--kurucu-onayi` ile kurucunun sözü aynen. İş hesabı Gmail bağlayıcısından da okunur; ekli gönderimde `send_message` + `replyToMessageId` + `to`.
-- **Bildirim modu `evde`.** `engel` her modda Telegram'a gider.
+- **Oturum kapanışı:** kurucu "oturumu kapat" derse on adım `GAG/session-organization.md` "Closing a session".
+- **Bildirim modu:** 19 Kasım 17:00'de `to-go` yapıldı (kurucu spora gitti); kurucu Mac Pro'da yazınca `evde`. `engel` her modda Telegram'a gider.
 
 ## Kurucudan beklenen kararlar
 
