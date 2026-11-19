@@ -1,46 +1,60 @@
-# Next Session - Devir Notu (güncel: 2026-11-16 gece)
+# Next Session - Devir Notu (güncel: 2026-11-19 öğleden sonra)
 
-Önce `~/.claude/CLAUDE.md`, sonra `~/Desktop/Parallax Technologies LLC/General App Guidlines/session-organization.md`, `agent-portability.md` ve `home-server.md`; servise dokunmadan önce `service-access.md`. Sistem şeması https://claude.ai/artifact/7RwAweEfyNQutzLT785WHY (kaynak `docs/sistem-semasi.html`). Açık işler yalnız `TODO.md`'de; bu dosya yalnız devir ve doğrulanmış durum, madde listesi değil. Biten, doğrulanan ya da kurucunun kapattığı iş bu dosyadan ve TODO'dan sormadan kaldırılıp commit'lenir (global kural, kurucu kararı 2026-11-13).
+Önce `~/.claude/CLAUDE.md`, sonra `~/Desktop/Parallax Technologies LLC/General App Guidlines/session-organization.md`, `agent-portability.md` ve `home-server.md`; servise dokunmadan önce `service-access.md`. Sistem şeması https://claude.ai/artifact/7RwAweEfyNQutzLT785WHY (kaynak `docs/sistem-semasi.html`). Açık işler yalnız `TODO.md`'de; bu dosya devir ve doğrulanmış durumdur, madde listesi değil. Biten, doğrulanan ya da kurucunun kapattığı iş bu dosyadan ve TODO'dan sormadan kaldırılıp commit'lenir.
 
-## Durum (2026-11-13 doğrulandı)
+## Oturumun ilk işi
 
-- **Denetim defteri:** `docs/audit/ACIK-BULGULAR.md` 2026-11-16 gece denetimiyle dolu (S-38'den itibaren, elzem sıra ve kurucu soruları başında); kişisel hayat ve kariyer değerlendirmesi `~/ObsidianVault/Plan/2026-11-17_burakcem-plani.md` (git dışı). Ollama Air'de kurulu, modelsiz; kurucu Air'de bir model olmasını bekliyor, karar bekliyor. Doğrulamalar sırada: ig-otomasyon basış logu (S-06), cv-crafter blog workflow'u (aşağıda).
+1. **Oturum kapanış komutu:** kurucu 2026-11-19'da istedi, taslak sıra `TODO.md` "Oturum kapanış komutu" maddesinde. Kural metni `GAG/session-organization.md`'ye yazılır, global `CLAUDE.md`'ye yalnız "oraya bak" satırı girer.
+2. **Push bekleyen depolar (kurucu sözü yok, sor):** `local-assistant`, `cemsayilar-site`, `parallax-content`, `General App Guidlines`; `vidberry` development dalı da push'suz (vidberry oturumunun).
+3. **Fal bakiye uyarısı** yarım kaldı (TODO maddesi); VidBerry'nin bütün üretimi Fal bakiyesine bağlı.
+
+## Çalışma biçimi (kurucu düzeltmeleri, 2026-11-18 ve 19)
+
+- Kurucu hedefi ve vizyonu koyar; planı, iş bölümünü ve diğer oturumlara giden brief'i local-assistant kurar. Kurucunun cümlesini ajana aynen aktarmak ve kapsamı sorulmayan yöne açmak yok (hafıza: `hedefi-plana-cevir-aktarma`). Örnek hata: "presetlerimiz iyi mi" sorusu kapak yenileme işine çevrildi.
+- Cevaplar kısa; karar gerekmiyorsa sorma, sonuç getir. Kanıtsız iddia yok: bu oturumda üç iddia ölçümle düzeldi (VidBerry mağaza sürümü akışı, "kolye yok" bulgusu, manken kapakları).
+- 5 USD ve üstü harcama kurucunun kendi sözüyle; altı local-assistant kararı.
+
+## Doğrulanmış durum (2026-11-19)
+
+- **ChatPlace:** reel yayında (https://www.instagram.com/reel/Df7AhUXEs7A/), otomasyon açık, test yorumunda yorum cevabı ve ilk DM geldi, ig-otomasyon çakışmadı, link Ecem'e gönderildi. ChatPlace araçları artık bağlayıcı olarak da var (`mcp__claude_ai_ChatPlace__*`).
+- **Eğitim sayfası ve site:** `cemsayilar.com/egitim`, `/merhaba`, `/tr` yayında; `/api/ilgi` e-postaları Cloudflare KV `ILGI` alanına yazar (`cemsayilar-site/README.md`). Deploy `npx wrangler deploy`, anahtar `cemsayilar-site/CLAUDE.md`'deki komutla.
+- **Stripe (Parallax):** tek etkin ürün atölye (`prod_VeNVz9TYYv1ezs`, 3.900 TL, ödeme linki `https://buy.stripe.com/eVqbJ2aSe0YuduAgTC5J606`), kapak ve marka ikonu yüklü, düğme siyah; altı CV Crafter ürünü arşivlendi. Hesap markalaması API'den değişmez, Air'deki admin Chrome profilinden (CDP 9306) yapıldı.
+- **@benburakcem biyografisi:** Instagram, TikTok, YouTube'da "Claude Code / Yapay zeka ajanları / Gerçek projeler / Eğitim ve tüm linkler"; Instagram linki `cemsayilar.com/merhaba`. TikTok'ta link alanı yok (kişisel hesap, 362 takipçi).
+- **VidBerry (vidberry oturumu yürütüyor):** durum `TODO.md` "VidBerry son test" maddesinin sonunda. Özet: Google yolları Fal'da, 100 kredi kayıt hediyesi, iade döngüsü koruması, yeni raflar canlı; style-shot ve üç yeni araç gizli, kurucu kararı bekliyor. Fal bakiyesi 19 Kasım'da yaklaşık 55 USD.
+- **Google Gemini:** ön ödemeli bakiye bitti, bütün projeler 402; DM hunisi bekçisi Haiku yedeğinde. Kurucu kararı bekliyor (TODO maddesi).
+- **IG sohbet temizliği:** 19 Kasım 04:00 turu bütün sohbetleri boşalttı. Elle başlatma: Air'de `launchctl kickstart gui/$(id -u)/com.parallax.ig-temizlik`.
+- **Air ekran paylaşımı:** kalıcı SSH tüneli, `open vnc://elifberraksayilar@localhost:5901`.
+- **AWS:** Air'de sınırlı `parallax-air` anahtarı; yönetici anahtar ve Stripe anahtarı yalnız Mac Pro'da (`bin/secrets sync-air` ikisini dışarıda bırakır).
+- **E-posta:** `bin/secrets run mail -- bin/mail ...` (gmail, is, yahoo); gönderme `--kurucu-onayi` ile kurucunun sözü aynen. İş hesabı Gmail bağlayıcısından da okunur; ekli gönderimde `send_message` + `replyToMessageId` + `to`.
 - **Bildirim modu `evde`.** `engel` her modda Telegram'a gider.
-- **Mercury MCP** salt okuma, kullanıcı kapsamı. Güncel hesap Checking 5363 (Column N.A.); Wire Details PDF'i `~/Desktop/Parallax Technologies LLC/Finance/Mercury/` ("5363 YENİ"), eski 8385 ve 6712 kullanılmaz.
-- **E-posta:** kalıcı araç `bin/mail` (gmail, is, yahoo; Proton yok), `bin/secrets run mail -- bin/mail ...`; KISITLI erişim, yalnız local-assistant okur, gönderme kurucu onayıyla (`GAG/service-access.md` "E-posta").
-- **App Store:** As Shot (build 14) ve Onscript (build 8) 2026-11-13'te hâlâ Waiting for Review, inceleme notları "Hello, this is Burak..." biçiminde yüklü. Gönderim geri çekilirse abonelik ayrılır: grup sayfası Add for Review, abonelik sayfası Add for Review ve Draft Submission, sonra API ile sürümü ekle ve gönder. Header ve search videoları Asset Library'de hazır, 1.0 incelemeden geçince yerleştirilir. Pillowtale 2026-11-04'ten beri Waiting for Review (durum kontrol edilmedi). Dört yeni uygulama: TODO maddesi; TestFlight test ajanı 2026-11-13 akşam başladı, geçerse Gift Almanac ve Printmargin gönderilir.
-- **ASC ikonları:** dört yeni uygulamada bağlı build ikonu depodaki yeni ikonla birebir (2026-11-13 indirip karşılaştırıldı); ASC web'de eski görünürse önbellek.
-- **parallax-kit:** `ParallaxEyebrow` düz string literalini artık çevrilebilir anahtara gönderir (`@_disfavoredOverload`, 8286af5). Uygulamalardaki açık `LocalizedStringKey(...)` sarmalamaları zararsız, kaldırmak isteğe bağlı.
-- **ig-otomasyon:** Motion kuralı (benburakcem) aktif. Başkasının yorumuna "gelmedi" diye cevap yazanlar tetiklemez, kendi yorumlarını yazmaları gerekir; kurucu elle DM gönderilmesini istemedi (2026-11-13 ensuysl).
-- **Air TikTok:** `watercleaner` Chrome profilinde (appclearwave) TikTok girişinin yapıldığı 2026-11-11'den beri doğrulanmadı, 01:10 ve 03:10 yayınları bu girişe bağlı.
-- **DM hunisi canlı (apple, hukuk):** bekçi Sonnet + Gemini (kendi projesi `gen-lang-client-0163841964`), Telegram'a olta, ciddi (kalıcı devir) ve sıcak (yalnız haber); tasarım `ig-otomasyon/docs/dm-ajani-tasarim.md`.
-- **İşbirlikleri:** takip yeri `parallax-content/apps/self-branding/isbirlikleri/` (`2026-11-10_chatplace/`, `2026-11-10_eachlabs/2026-11-10_teklif-ve-sartlar.md`). ChatPlace: self-branding devraldı (2026-11-16), e-posta gönderimi local-assistant üzerinden. each::labs: 18 Kasım ortaklık duyurusu, karşı tarafın dönüşü bekleniyor.
 
-- **Paywall standardı:** VidBerry ve Clear Wave kalıbı bütün uygulamalarda varsayılan (`GAG/design-language.md`), ortak bileşen parallax-kit `ParallaxPaywall`.
-- **Ekran kaydı ve görüntüsü Mac Air'de** (parallax-content `CLAUDE.md`, 2026-11-15).
+## Kurucudan beklenen kararlar
 
-## Yarım kalan, söylenip yapılmayan, başlanıp bitmeyen (2026-11-16)
+Hepsi `TODO.md`'de ilgili maddenin içinde; burada yalnız başlıklar: style-shot'un 1.3.7'ye açılması; çok planlı video zinciri; reelde gerçek marka adı; atölyenin beş adımı ve 90 dakika; üstü çizili 8.000 TL; kurum şeridi aralığı; `cv-crafter.com` kartı; DM hunisi bekçisinin modeli ya da Google yüklemesi; TikTok'ta işletme hesabına geçiş; push; SGK için CİMER metni hazırlansın mı; "reel dolu" sohbet hangisi.
 
-- **App Store:** 2026-11-16 15:59'da Onscript, As Shot, Gift Almanac, Printmargin ve Pillowtale 4.3 Spam ile reddedildi; kurucu 2026-11-17'de Pillowtale, Gift Almanac, Beeward, Printmargin ve Solledge'i kapattı (depolar silinmez, durum notları denetim S-41 ile 2026-11-18'de düzeltildi); Onscript ve As Shot'ta yalnız inceleme sonucu izlenir, Onscript cevabı bekleniyor.
-- **VidBerry Vibedesign reeli v2:** ajan aşama 1'de (metin, ElevenLabs sesi, Focusee düzeni ve dokunuş yakınlaşmalı montaj kodu). Çekim için iki şart: kurucunun arka plan seçimi (16 Focusee arka planı, numarayla) ve vidberry oturumunun kıyafet giydirme özelliği. Ajana "çekime başla" mesajı local-assistant'tan gider.
-- **vidberry oturumu:** (1) kıyafet giydirme özelliği: kurucu tanımı "sahne ve poz verilir, referanstaki kıyafet o sahneye, poza ve mankene giydirilir; modelim var derse kendi modeli aktarılır". Önce mevcut akışlarda muadil taranacak (Virtual Model, On Model, choose-your-outfit), yeni şablon onun üstüne kurulacak; mağazaya (1.3.7) açma tarama sonucuna kadar bekliyor. Model Nano Banana 2 Lite (Google kendi API). (2) Gizlilik ve Şartlar sayfalarına Google Gemini ve Fal adıyla (uygulama içi onay ekranına dokunulmaz). (3) Ürünü 360 çevir: termos ya da parfüm şişesiyle kart görseli, PBR denemesi (fark yoksa kapalı, takıda açık, PBR'li kredi fiyatı yüksek), çeviriler, 1.3.8 build.
-- **Maypop:** kit bağlantısıyla cevap gönderildi (2026-11-15 20:32 UTC, Air Chrome benburakcem), dönüş bekleniyor.
-- **gcloud kalıcı oturum:** kurucu 2026-11-16 istedi; Workspace "Google Cloud session control" yeniden doğrulama politikası ve otomasyon için claude-ops servis hesabı yolu (bu oturumda başlatıldı, durumu aşağıda).
-- **DM hunisi:** dışarıdan iş birliği ve satış teklifleri kuralda tanımsız (şimdilik ciddi sayılıp Telegram'a düşüyor), kurucu kararı yok; sıcak bildirimleri ilk günlerde elle oku.
-- **Telefon betiği:** hesabın kendine attığı reellerin sohbetini gece turunda silme, yazılmadı.
-- **Onscript:** Türkçe ses için yeni remote config anahtar adı app-fabrikasi'den bekleniyor.
-- **iPhone 17 temizliği:** Fotoğraflar'da IMG_0108 ve IMG_0109, iCloud Downloads `elbise.jpg`, açık Safari sekmesi.
-- **n8n CV-Crafter carousel:** Gemini anahtarının projesi faturalamadan çıkarıldı (ücretsiz katman); limit hatası verirse anahtar başka projeye alınır.
+## Cevap bekleyenler
 
-## Kurucuya sorulacak (TODO dışı)
+Ecem (collab daveti teyidi, ödeme), Ömer (Firevibe: süre, tarih, brief), Maypop (fiyat teklifi), İspanya konsolosluğu vize şubesi, BLS ve SGK (19 Kasım hatırlatmaları), Anthropic destek (Max kredisi relink), Gökhan Sayılar (kurucu yazdı), each::labs, Meta App Review, TikTok Parallax Publisher, YouTube API denetimi, Onscript inceleme cevabı.
 
-- Masaüstündeki kalan gerçek dosyalar (metin dosyaları, ekran görüntüleri, `claude-basvuru/`): nereye.
-- Global GSD kurulumu kaldırılsın mı (`~/.claude/settings.json` durum çubuğu ve güncelleme hook'u).
-- Clear Wave CTA kararı; Air Chrome profilinde Coinbase ve Chrome Remote Desktop ne olacak.
-- Önerilen küçük düzeltme: `twitter/gorev.md` giriş duvarında son satır `TWITTER DURDU` desin (self-branding'in dosyası).
+## Diğer oturumlarda açık duranlar
+
+- **vidberry:** reel malzemesi self-branding'de; 1.3.8 işleri TODO'sunda; commit'ler development dalında, push yok.
+- **self-branding ("Reel 12 v2 sonnet güncelleme"):** ChatPlace reel dosyaları commit'siz (`project-benburakcem-ai`, dal `cloud/adilet-sov`); VidBerry'nin "kendi referansını yükle" yönündeki iki reel taslağı; atölye duyuru içeriği ve kod kelimesi DM metni.
+- **Başka oturumların commit'siz dosyaları:** `parallax-content` (`FORBIDDEN.md`, `coordinator.md`, telaffuz sözlüğü, Clear Wave rapor dosyaları), `cover-project/uretilen/2026-11-18_stripe-atolye/`.
+- **VidBerry yayın kuyruğu boş:** 19 Kasım 06:00 yayını yapılmadı; yeni içerik vibedesign reeliyle gelecek.
+
+## Önceki oturumlardan, bu oturumda doğrulanmadı
+
+- App Store: Onscript ve As Shot'ta yalnız inceleme sonucu izlenir; kapanan uygulamalar TODO "Portföy kapanışı".
+- Air TikTok: `watercleaner` profilinde `appclearwave` girişi kurucudan bekleniyor (Clear Wave kuyruğu maddesi).
+- n8n CV-Crafter iş akışları kapalı; GCP `resume-ai-project-460420` anahtarları ve iki GitHub deposu kapanış listesinde.
+- iPhone 17 temizliği: Fotoğraflar'da IMG_0108 ve IMG_0109, iCloud Downloads `elbise.jpg`, açık Safari sekmesi.
+- Kurucuya sorulacaklar: masaüstündeki kalan gerçek dosyalar nereye; global GSD kurulumu kaldırılsın mı; Clear Wave CTA; Air Chrome profilinde Coinbase ve Chrome Remote Desktop.
 
 ## Başvuru bilgisi
 
-- Air'de kurucu Chrome'unda (9223) ASC için yalnız ajanın kendi yeni sekmesi kullanılır (`home-server.md` istisnası); kurucu "Marka Chrome" klasörünü Dock'tan açıp girişleri kendisi yapar.
-- Şirket telefonu: ABD numarası ve kurucunun TR numarası `~/Desktop/Parallax Technologies LLC/Şirket Adresleri.txt` sonunda; Apple ve benzeri formlarda şirket adına ABD numarası kullanılır.
-- **n8n cv-crafter blog:** "CV-Crafter - Every 3 Days Blog Post Generator" (`zSJtI6YVAtveO3vF`) Groq düğümü 2026-11-11'de `contentType: raw` olarak düzeltildi. Doğrulama: `executions?workflowId=zSJtI6YVAtveO3vF` başarılı mı, Supabase'e yazdı mı. Aynı düğümde Groq anahtarı düz metin (kasaya ve n8n credential'ına taşınmalı, döndürme kurucu kararı). VidBerry Showcase workflow'ları 2026-11-09'dan beri kapalı, `home-server-servisler.md` satır 103 ve vidberry coordinator "ölü porta istek atıyor" notu bayat.
+- Mercury: salt okuma MCP; güncel hesap Checking 5363 (Column N.A.), Wire Details PDF'i `~/Desktop/Parallax Technologies LLC/Finance/Mercury/`.
+- Şirket telefonu ve adresler: `~/Desktop/Parallax Technologies LLC/Şirket Adresleri.txt`.
+- Air'de kurucu Chrome'unda (9223) yalnız ajanın kendi yeni sekmesi kullanılır; marka profilleri `~/android-agent/web/profil/profil.sh <ad> ac|kapat` (benburakcem 9302, vidberry 9304, admin 9306).
+- Instagram web'de yorum Enter ile gitmez, "Post" düğmesine basılır; şablon düğmeleri (ChatPlace "Gönder") web DM'de görünmez. TikTok uygulaması açıkken telefon sürücüsü zaman aşımına düşer.
+- SGK (İspanya işi): İstanbul Sosyal Güvenlik İl Müdürlüğü 0212 372 10 00; merkez Yurt Dışı İşlemleri Daire Başkanlığı 0312 458 77 99 (2020 tarihli genelgeden, güncelliği doğrulanmadı); ALO 170. Numaralar üçüncü taraf dizinlerinden.
