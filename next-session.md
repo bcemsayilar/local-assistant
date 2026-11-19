@@ -5,7 +5,7 @@
 ## Oturumun ilk işi
 
 1. **Oturum kapanış komutu:** kurucu 2026-11-19'da istedi, taslak sıra `TODO.md` "Oturum kapanış komutu" maddesinde. Kural metni `GAG/session-organization.md`'ye yazılır, global `CLAUDE.md`'ye yalnız "oraya bak" satırı girer.
-2. **Push bekleyen depolar (kurucu sözü yok, sor):** `local-assistant`, `cemsayilar-site`, `parallax-content`, `General App Guidlines`; `vidberry` development dalı da push'suz (vidberry oturumunun).
+2. **Push:** 19 Kasım'da kurucu sözüyle dört depo ve `vidberry` development dalı push edildi; sonraki push yine kurucu sözüyle.
 3. **Fal bakiye uyarısı** yarım kaldı (TODO maddesi); VidBerry'nin bütün üretimi Fal bakiyesine bağlı.
 
 ## Çalışma biçimi (kurucu düzeltmeleri, 2026-11-18 ve 19)
@@ -20,7 +20,7 @@
 - **Eğitim sayfası ve site:** `cemsayilar.com/egitim`, `/merhaba`, `/tr` yayında; `/api/ilgi` e-postaları Cloudflare KV `ILGI` alanına yazar (`cemsayilar-site/README.md`). Deploy `npx wrangler deploy`, anahtar `cemsayilar-site/CLAUDE.md`'deki komutla.
 - **Stripe (Parallax):** tek etkin ürün atölye (`prod_VeNVz9TYYv1ezs`, 3.900 TL, ödeme linki `https://buy.stripe.com/eVqbJ2aSe0YuduAgTC5J606`), kapak ve marka ikonu yüklü, düğme siyah; altı CV Crafter ürünü arşivlendi. Hesap markalaması API'den değişmez, Air'deki admin Chrome profilinden (CDP 9306) yapıldı.
 - **@benburakcem biyografisi:** Instagram, TikTok, YouTube'da "Claude Code / Yapay zeka ajanları / Gerçek projeler / Eğitim ve tüm linkler"; Instagram linki `cemsayilar.com/merhaba`. TikTok'ta link alanı yok (kişisel hesap, 362 takipçi).
-- **VidBerry (vidberry oturumu yürütüyor):** durum `TODO.md` "VidBerry son test" maddesinin sonunda. Özet: Google yolları Fal'da, 100 kredi kayıt hediyesi, iade döngüsü koruması, yeni raflar canlı; style-shot ve üç yeni araç gizli, kurucu kararı bekliyor. Fal bakiyesi 19 Kasım'da yaklaşık 55 USD.
+- **VidBerry (vidberry oturumu yürütüyor):** durum `TODO.md` "VidBerry son test" maddesinin sonunda. Özet: Google yolları Fal'da, 100 kredi kayıt hediyesi, iade döngüsü koruması, yeni raflar canlı; style-shot ("Senin Stilin, Senin Ürünün") 19 Kasım'da 1.3.7'ye açıldı ve denendi; üç yeni araç gizli. Fal bakiyesi 19 Kasım'da yaklaşık 55 USD.
 - **Google Gemini:** ön ödemeli bakiye bitti, bütün projeler 402; DM hunisi bekçisi Haiku yedeğinde. Kurucu kararı bekliyor (TODO maddesi).
 - **IG sohbet temizliği:** 19 Kasım 04:00 turu bütün sohbetleri boşalttı. Elle başlatma: Air'de `launchctl kickstart gui/$(id -u)/com.parallax.ig-temizlik`.
 - **Air ekran paylaşımı:** kalıcı SSH tüneli, `open vnc://elifberraksayilar@localhost:5901`.
@@ -30,7 +30,7 @@
 
 ## Kurucudan beklenen kararlar
 
-Hepsi `TODO.md`'de ilgili maddenin içinde; burada yalnız başlıklar: style-shot'un 1.3.7'ye açılması; çok planlı video zinciri; reelde gerçek marka adı; atölyenin beş adımı ve 90 dakika; üstü çizili 8.000 TL; kurum şeridi aralığı; `cv-crafter.com` kartı; DM hunisi bekçisinin modeli ya da Google yüklemesi; TikTok'ta işletme hesabına geçiş; push; SGK için CİMER metni hazırlansın mı; "reel dolu" sohbet hangisi.
+Hepsi `TODO.md`'de ilgili maddenin içinde; burada yalnız başlıklar: çok planlı video zinciri; reelde gerçek marka adı; atölyenin beş adımı ve 90 dakika; üstü çizili 8.000 TL; kurum şeridi aralığı; `cv-crafter.com` kartı; DM hunisi bekçisinin modeli ya da Google yüklemesi; TikTok'ta işletme hesabına geçiş; SGK için CİMER metni hazırlansın mı; "reel dolu" sohbet hangisi.
 
 ## Cevap bekleyenler
 
