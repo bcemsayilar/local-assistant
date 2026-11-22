@@ -130,8 +130,8 @@ def gonder(h, kime, konu, govde_dosya, yanit_uid, kutu, bilgi, ekler=()):
         typ, x = m.uid("FETCH", yanit_uid, "(BODY.PEEK[HEADER.FIELDS (MESSAGE-ID REFERENCES)])")
         hd = email.message_from_bytes(x[0][1]); m.logout()
         if hd["Message-ID"]:
-            msg["In-Reply-To"] = hd["Message-ID"]
-            msg["References"] = ((hd["References"] or "") + " " + hd["Message-ID"]).strip()
+            msg["In-Reply-To"] = " ".join(hd["Message-ID"].split())
+            msg["References"] = " ".join(((hd["References"] or "") + " " + hd["Message-ID"]).split())  # katlanmis baslikta satir sonu olur
     msg.set_content(open(govde_dosya, encoding="utf-8").read())
     for e in ekler or ():
         # ek: tur uzantidan tahmin edilir, bilinmiyorsa octet-stream
