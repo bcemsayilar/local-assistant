@@ -16,18 +16,9 @@ Başlangıç (2026-11-22 ölçümü, son 14 gün): 0 ödeme, 8 ödeme sayfası o
 
 ### 2026-11-22
 - Omurga günlüğü ve ayrı hedef listesi açıldı (kurucu kararı). TODO'daki "Omurga" bölümü buraya taşındı.
-- Hedef kondu: atölyenin dağıtımı. Kanal planı local-assistant önerisi olarak aşağıda "Dağıtım planı"nda, kurucu kararı bekliyor.
+- Hedef kondu: atölyenin dağıtımı. Kanallar kurucuyla tartışılacak, karar verilmedi.
 - Kurucu kararları: atölye beş adımı korur, YouTube'da olmayan kısımları ağırlıklı gösterir, kurulum ve hatalar rehberde; işveren görünürlüğü sorun değil; ücretsiz YouTube videosu atölyenin ön hazırlığı ve güven kanıtı olarak konumlanır (kurulum ve ilk uygulama, sonunda atölye linki).
 - Ölçüm: yukarıdaki başlangıç sayıları; DM hunisi son 3,4 günde yaklaşık 190 kişiye açılış mesajı attı (günde yaklaşık 55; en çok `hukuk` 68, `motion` 39, `yeni` 24).
-
-## Dağıtım planı (öneri, kurucu kararı bekliyor)
-
-1. Duyuru reeli: metin hazır (`project-benburakcem-ai/posts/2026-11-19_benburakcem-atolye-duyuru/`), kod kelimesi `UYGULAMA` kuralı hazır ve kapalı. Tek karar: kurucu kendisi mi çeker, klon ses mi.
-2. Sıcak DM, mevcut huninin içinden: her aktif kuralın rehber teslim mesajına tek satır atölye notu ve link (günde yaklaşık 55 kişi, ek mesaj yok, 24 saat penceresi içinde). DM huni ajanı (`apple`, `hukuk`) uygun konuşmada atölyeyi anabilir.
-3. Story dizisi: soru kutusu ("Claude Code'da en çok nerede takılıyorsun?"), 12 Aralık geri sayım çıkartması, `/egitim` link çıkartması.
-4. Kişisel mesaj: birebir eğitim soran kişilere (Özlem, Deniz Kahveci gibi) kurucunun kendi yazdığı tek mesaj.
-5. Soğuk kanal: Instagram'da tanımadığı kişiye toplu DM yok (kural ve hesap riski); LinkedIn'de bir duyuru gönderisi ve bülten (blog.cemsayilar.com) sayısı.
-6. YouTube videosu: kurulum ve ilk uygulama, sonunda atölye linki; satış onu beklemez.
 
 ## Omurga işleri
 
