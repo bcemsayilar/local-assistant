@@ -3,8 +3,8 @@ ENV = {}
 # Ortam degiskeni varsa once o (secrets run apple-air -- ... dar rollu Air anahtari), yoksa asagidaki dosyalar
 for _k in ('ASC_KEY_ID','ASC_ISSUER_ID','ASC_PRIVATE_KEY_PATH'):
     if os.environ.get(_k): ENV[_k] = os.environ[_k]
-# Once kasa (secrets-management.md), yoksa eski yer vidberry/.env
-for _f in ('~/.config/parallax/secrets/apple.env', '~/Mac-Projects/vidberry/.env'):
+# Yalniz kasa (secrets-management.md); eski vidberry/.env yedegi 2026-11-22'de kaldirildi
+for _f in ('~/.config/parallax/secrets/apple.env',):
     if not os.path.isfile(os.path.expanduser(_f)): continue
     for l in open(os.path.expanduser(_f)):
         m = re.match(r'^(ASC_[A-Z_]+)=(.*)$', l.strip())
