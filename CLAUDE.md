@@ -9,6 +9,9 @@ Bu klasorde acilan oturum Mac Pro'daki iki yonetim oturumundan biridir: icerik d
 ## Sistem semasi (ZORUNLU, kurucu karari 2026-10-23)
 Portfoyun canli semasi https://claude.ai/artifact/7RwAweEfyNQutzLT785WHY, kaynagi `docs/sistem-semasi.html`. Semadaki ana parcalardan biri degisince (yonetim oturumlari ve rolleri, Air servisleri ve zamanlayicilar, telefon erisim kurali, bot akisi, bulut servisleri, senkron klasorleri) ayni isin parcasi olarak guncellenir: once `docs/sistem-semasi.html` duzenlenir, sonra Artifact tool ile `url` bu adres verilip yayinlanir (once `action: read`), commit edilir. Ust satirdaki tarih ve kirmizi "bu gece degisti" noktalari her guncellemede yeni degisikliklere gore yeniden konur. Cizim kurali: kutular alt alta dizilmez, baglantilar gercek cizgiyle cizilir, cizgi etiketi dugume binmez. Self-branding de icerik tarafinda degisiklik yaparsa local-assistant'a haber verir.
 
+## Omurga ve TODO (kurucu karari 2026-11-22)
+`TODO.md` yapilacaklar, `OMURGA.md` nihai hedef: su anki tek hedef, olcusu ve tarihli gunluk (en yeni en ustte). Omurgaya bagli is `OMURGA.md`'ye yazilir, TODO'ya kopyalanmaz.
+
 ## Teknoloji Yigini
 - **Telegram**: python-telegram-bot v21+ (job-queue, ruya mesajlari 5 dk sonra silinir)
 - **Notlar**: `assistant/notes.py`, ObsidianVault'a dogrudan dosya yazar (`gunluk/YYYY/` gun dosyalari, `spor/Program N*.md` tablosu)
