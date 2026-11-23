@@ -5,7 +5,7 @@
 ## Oturumun ilk işi
 
 1. **Hasat:** kurucu, 22 ve 23 Kasım hasat oturumunu Fable'a analiz ettirecek; girdi `~/Mac-Projects/parallax-content/shared/harvest/oturum-analizi-2026-11-23/README.md` (15 bulgu, 15 açık sorun, loglar). Önce 23 Kasım 20:00 turunun ve 24 Kasım 04:00 turunun sonucunu `~/android-agent/web/ig-temizlik.log`'dan (Air) oku: tur sonu kilit bırakma (300 sn), kalan huni kartları (`ig-temizlik/huni_durum.py`), takipten çıkma satırları.
-2. **ChatPlace karoseli maili:** self-branding, kurucunun "karoseli local assistanta salla, Ecem'e cevap olarak göndersin" kararını iletti (thread "Re: ChatPlace x Burak Cem – iş birliği detayları", ecem@chatplace.io, 23 Kasım 10:41 UTC; ek `parallax-content/apps/self-branding/isbirlikleri/2026-11-10_chatplace/karosel_taslak/karosel1/01.png` ile `08.png`; gövde taslağı self-branding'in 23 Kasım mesajında). Gönderme onayı başka oturumdan aktarıldığı için gönderilmedi; kurucu doğrudan "gönder" derse `bin/mail gonder` ile cevap olarak gider, sonra self-branding'e tek satır yazılır.
+2. **ChatPlace karoseli:** taslak mail kurucunun onayıyla 23 Kasım akşamı gitti (me@cemsayilar.com, aynı thread, 8 kare ekli). Ecem'in cevabı (kod kelime, takipli link, tarih) gelince self-branding'e iletilir.
 
 ## Doğrulanmış durum (2026-11-23)
 
