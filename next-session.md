@@ -22,7 +22,7 @@
 
 ## Cevap beklenenler
 
-UGE (movilidad.internacional@inclusion.gob.es, girişimci izni ve mali kaynak), Sezen Türkkanlar (LinkedIn, iki soru), Pomerol (ödeme sonrası randevu), Başkonsolosluk, BLS, SGK; kurucudan kabul edilmiş TÜBİTAK 1512 başvurusunun formatı (ENISA formu o format ve araştırma ayrıntısıyla hazırlanacak).
+Nodisea (15 dk ücretsiz ön görüşme slotu, 23 Kasım istendi; İngilizce), UGE (23 Kasım acil hatırlatma gitti), Gökhan abi (kurucu 23 Kasım'da yazdı, Why Anthropic metni ekli). Sezen Türkkanlar'ın info@ adresi yok (iki kez geri döndü), yalnız LinkedIn. UGE (movilidad.internacional@inclusion.gob.es, girişimci izni ve mali kaynak), Sezen Türkkanlar (LinkedIn, iki soru), Pomerol (ödeme sonrası randevu), Başkonsolosluk, BLS, SGK; kurucudan kabul edilmiş TÜBİTAK 1512 başvurusunun formatı (ENISA formu o format ve araştırma ayrıntısıyla hazırlanacak).
 
 ## Diğer oturumlarda
 
