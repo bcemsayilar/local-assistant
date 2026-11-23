@@ -17,7 +17,7 @@
 ## Kurucu kararı bekleyenler
 
 - Yoklayıcıya huni kartı tetiklemesi (kart gelince kısa tur).
-- Konuşma bitiminden 16-20 saat sonra "en çok nerede zorlanıyorsun" takip mesajı, cevaplar Telegram'dan kurucuya.
+- "En çok nerede zorlanıyorsun" takip mesajı: Instagram, kişinin son mesajından 24 saat sonra mesaja izin vermiyor, "1 gün sonra" bu yüzden olmaz. Seçenekler: konuşma bitiminden yaklaşık 2 saat sonra (kurucunun ilk örneği) ya da 16-20 saat sonra (local-assistant önerisi, akşam biten sohbete ertesi sabah). Süre ve cevapların Telegram'dan kurucuya düşmesi kurucu kararında.
 - Analiz broşürünün ücreti; Instagram iki adımlı doğrulamanın doğrulama uygulamasına çevrilmesi (oturum düşerse kod yalnız kurucunun telefonunda); iPhone 13 kablosu; Pomerol ödemesi.
 
 ## Cevap beklenenler
