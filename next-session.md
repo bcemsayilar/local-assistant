@@ -1,61 +1,30 @@
-# Next Session - Devir Notu (güncel: 2026-11-19 öğleden sonra)
+# Next Session - Devir Notu (güncel: 2026-11-23 akşam)
 
-Önce `~/.claude/CLAUDE.md`, sonra `~/Desktop/Parallax Technologies LLC/General App Guidlines/session-organization.md`, `agent-portability.md` ve `home-server.md`; servise dokunmadan önce `service-access.md`. Sistem şeması https://claude.ai/artifact/7RwAweEfyNQutzLT785WHY (kaynak `docs/sistem-semasi.html`). Açık işler yalnız `TODO.md`'de; bu dosya devir ve doğrulanmış durumdur, madde listesi değil. Biten, doğrulanan ya da kurucunun kapattığı iş bu dosyadan ve TODO'dan sormadan kaldırılıp commit'lenir.
+Önce `~/.claude/CLAUDE.md`, sonra `~/Desktop/Parallax Technologies LLC/General App Guidlines/session-organization.md`; servise dokunmadan önce `service-access.md`. Açık işler `TODO.md`'de, nihai hedef ve omurga günlüğü `OMURGA.md`'de; bu dosya devir ve doğrulanmış durumdur, madde listesi değil.
 
 ## Oturumun ilk işi
 
-1. **VidBerry sayımı:** style-shot açıldıktan sonra gerçek kullanıcı üretimi 19 Kasım'da 0'dı, Mixpanel'de o gün olay yoktu; vidberry aynı sorguyla yeniden baksın. Üç günde 1.3.7'de toplam 6 kullanıcı: sorun ürün değil trafik.
-2. **Push:** 19 Kasım'da kurucu sözüyle dört depo ve `vidberry` development dalı push edildi; sonraki commit'ler push bekliyor, push yine kurucu sözüyle.
-3. **20 Kasım:** ChatPlace collab daveti kabul edildi mi (Ecem: yayından bir gün sonra).
+1. **Hasat:** kurucu, 22 ve 23 Kasım hasat oturumunu Fable'a analiz ettirecek; girdi `~/Mac-Projects/parallax-content/shared/harvest/oturum-analizi-2026-11-23/README.md` (15 bulgu, 15 açık sorun, loglar). Önce 23 Kasım 20:00 turunun ve 24 Kasım 04:00 turunun sonucunu `~/android-agent/web/ig-temizlik.log`'dan (Air) oku: tur sonu kilit bırakma (300 sn), kalan huni kartları (`ig-temizlik/huni_durum.py`), takipten çıkma satırları.
+2. **ChatPlace karoseli maili:** self-branding, kurucunun "karoseli local assistanta salla, Ecem'e cevap olarak göndersin" kararını iletti (thread "Re: ChatPlace x Burak Cem – iş birliği detayları", ecem@chatplace.io, 23 Kasım 10:41 UTC; ek `parallax-content/apps/self-branding/isbirlikleri/2026-11-10_chatplace/karosel_taslak/karosel1/01.png` ile `08.png`; gövde taslağı self-branding'in 23 Kasım mesajında). Gönderme onayı başka oturumdan aktarıldığı için gönderilmedi; kurucu doğrudan "gönder" derse `bin/mail gonder` ile cevap olarak gider, sonra self-branding'e tek satır yazılır.
 
-## Çalışma biçimi (kurucu düzeltmeleri, 2026-11-18 ve 19)
+## Doğrulanmış durum (2026-11-23)
 
-- Kurucu hedefi ve vizyonu koyar; planı, iş bölümünü ve diğer oturumlara giden brief'i local-assistant kurar. Kurucunun cümlesini ajana aynen aktarmak ve kapsamı sorulmayan yöne açmak yok (hafıza: `hedefi-plana-cevir-aktarma`). Örnek hata: "presetlerimiz iyi mi" sorusu kapak yenileme işine çevrildi.
-- Cevaplar kısa; karar gerekmiyorsa sorma, sonuç getir. Kanıtsız iddia yok: bu oturumda üç iddia ölçümle düzeldi (VidBerry mağaza sürümü akışı, "kolye yok" bulgusu, manken kapakları).
-- 5 USD ve üstü harcama kurucunun kendi sözüyle; altı local-assistant kararı.
+- **Hasat:** hesaplar arası DM kutuları API'ye göre boş (23 Kasım 17:05). Tetik yorumları iPhone'dan `trigger.sh` ile ve ekranda doğrulanarak atılıyor; Chrome yorum ucu 404 (kök neden bilinmiyor). vid.berry günlük hasattan duraklatıldı, cemworking2 adımı kalktı. Air'de git dışı değişen dosyalar (yedekleri `.bak-2026-11-23`): `~/android-agent/ios/sw-acc.sh`, `tx-unsend-bc.py`, `tx-unsend.py`, `kilit.py`.
+- **ig-otomasyon:** rehber tesliminden sonra atölye ek kartı açık (DynamoDB `ACC#17841477970360687`/`EK`, son gün 9 Aralık, kişi başına bir kez), tıklaması `/go?r=EK` ile sayılıyor, rapor `tools/ek_rapor.py`. Huni ajanı vedadan sonraki teşekküre kalp bırakıyor, Telegram bildirimi tek satır. MASRAF kuralı reel DgFhuJBjp1T'ye bağlı ve açık.
+- **Eğitim:** `~/Mac-Projects/egitim/` (Freelance Projects'ten taşındı); beş broşür, beşincisi "Yayın öncesi teknik analiz" (60 dk, ücret 150 USD varsayım). Ümid Filiz (@umidfilizz) bu ürünün ilk adayı, cevabı kurucu yazacak.
+- **İspanya:** 23 Kasım 09:09'da konsolosluk, BLS ve SGK mailleri gitti. ENISA (visados@enisa.es) cevap verdi: rapor yalnız UGE isteyince, form İngilizce olabilir, bordrolu işe devam ilke olarak engel değil. Mali kaynak sorusunun cevabı yok (ENISA'nın alanı değil); UGE'ye 22 Kasım'da soruldu. Pomerol ödeme bağlantısı mailde, ödeme kurucuda (150 EUR).
 
-## Doğrulanmış durum (2026-11-19)
+## Kurucu kararı bekleyenler
 
-- **ChatPlace:** reel yayında (https://www.instagram.com/reel/Df7AhUXEs7A/), otomasyon açık, iki mesaj da gerçek kullanıcıyla doğrulandı (8 kişi ilk DM, 3 kişi ikinci mesaj, 2 link tıklaması), ig-otomasyon çakışmadı. ChatPlace araçları artık bağlayıcı olarak da var (`mcp__claude_ai_ChatPlace__*`).
-- **Eğitim sayfası ve site:** `cemsayilar.com/egitim`, `/merhaba`, `/tr` yayında; `/api/ilgi` e-postaları Cloudflare KV `ILGI` alanına yazar (`cemsayilar-site/README.md`). Deploy `npx wrangler deploy`, anahtar `cemsayilar-site/CLAUDE.md`'deki komutla.
-- **Stripe (Parallax):** tek etkin ürün atölye (`prod_VeNVz9TYYv1ezs`, 3.900 TL, ödeme linki `https://buy.stripe.com/eVqbJ2aSe0YuduAgTC5J606`), kapak ve marka ikonu yüklü, düğme siyah; altı CV Crafter ürünü arşivlendi. Hesap markalaması API'den değişmez, Air'deki admin Chrome profilinden (CDP 9306) yapıldı.
-- **@benburakcem biyografisi:** Instagram, TikTok, YouTube'da "Claude Code / Yapay zeka ajanları / Gerçek projeler / Eğitim ve tüm linkler"; Instagram linki `cemsayilar.com/merhaba`. TikTok'ta link alanı yok (kişisel hesap, 362 takipçi).
-- **VidBerry (vidberry oturumu yürütüyor):** durum `TODO.md` "VidBerry son test" maddesinin sonunda. Özet: Google yolları Fal'da, 100 kredi kayıt hediyesi, iade döngüsü koruması, yeni raflar canlı; style-shot ("Senin Stilin, Senin Ürünün") 19 Kasım'da 1.3.7'ye açıldı ve denendi; üç yeni araç gizli. Fal bakiyesi 19 Kasım'da 57,93 USD; Air'de `com.parallax.fal-bakiye` her gün 10:00'da okur, 5 USD altında `engel` yollar (log `~/Library/Logs/fal-bakiye.log`).
-- **Google Gemini:** ön ödemeli bakiye bitti, bütün projeler 402; DM hunisi bekçisi Haiku yedeğinde. Kurucu kararı bekliyor (TODO maddesi).
-- **IG sohbet temizliği:** 19 Kasım 04:00 turu bütün sohbetleri boşalttı. Elle başlatma: Air'de `launchctl kickstart gui/$(id -u)/com.parallax.ig-temizlik`.
-- **Air ekran paylaşımı:** kalıcı SSH tüneli, `open vnc://elifberraksayilar@localhost:5901`.
-- **AWS:** Air'de sınırlı `parallax-air` anahtarı; yönetici anahtar ve Stripe anahtarı yalnız Mac Pro'da (`bin/secrets sync-air` ikisini dışarıda bırakır).
-- **E-posta:** `bin/secrets run mail -- bin/mail ...` (gmail, is, yahoo); gönderme `--kurucu-onayi` ile kurucunun sözü aynen. İş hesabı Gmail bağlayıcısından da okunur; ekli gönderimde `send_message` + `replyToMessageId` + `to`.
-- **Oturum kapanışı:** kurucu "oturumu kapat" derse on adım `GAG/session-organization.md` "Closing a session".
-- **Bildirim modu:** 19 Kasım 17:00'de `to-go` yapıldı (kurucu spora gitti); kurucu Mac Pro'da yazınca `evde`. `engel` her modda Telegram'a gider.
+- Yoklayıcıya huni kartı tetiklemesi (kart gelince kısa tur).
+- Konuşma bitiminden 16-20 saat sonra "en çok nerede zorlanıyorsun" takip mesajı, cevaplar Telegram'dan kurucuya.
+- Analiz broşürünün ücreti; Instagram iki adımlı doğrulamanın doğrulama uygulamasına çevrilmesi (oturum düşerse kod yalnız kurucunun telefonunda); iPhone 13 kablosu; Pomerol ödemesi.
 
-## Kurucudan beklenen kararlar
+## Cevap beklenenler
 
-Hepsi `TODO.md`'de ilgili maddenin içinde; burada yalnız başlıklar: çok planlı video zinciri; reelde gerçek marka adı; atölyenin beş adımı ve 90 dakika; üstü çizili 8.000 TL; kurum şeridi aralığı; `cv-crafter.com` kartı; DM hunisi bekçisinin modeli ya da Google yüklemesi; TikTok'ta işletme hesabına geçiş; SGK için CİMER metni hazırlansın mı; "reel dolu" sohbet hangisi.
+UGE (movilidad.internacional@inclusion.gob.es, girişimci izni ve mali kaynak), Sezen Türkkanlar (LinkedIn, iki soru), Pomerol (ödeme sonrası randevu), Başkonsolosluk, BLS, SGK; kurucudan kabul edilmiş TÜBİTAK 1512 başvurusunun formatı (ENISA formu o format ve araştırma ayrıntısıyla hazırlanacak).
 
-## Cevap bekleyenler
+## Diğer oturumlarda
 
-Ecem (collab daveti teyidi, ödeme), Ömer (Firevibe: süre, tarih, brief), Maypop (fiyat teklifi), İspanya konsolosluğu vize şubesi, BLS ve SGK (19 Kasım hatırlatmaları), Anthropic destek (Max kredisi relink), Gökhan Sayılar (kurucu yazdı), each::labs, Meta App Review, TikTok Parallax Publisher, YouTube API denetimi, Onscript inceleme cevabı.
-
-## Diğer oturumlarda açık duranlar
-
-- **vidberry:** reel malzemesi self-branding'de; 1.3.8 işleri TODO'sunda; commit'ler development dalında, push yok.
-- **self-branding ("Reel 12 v2 sonnet güncelleme"):** ChatPlace reel dosyaları commit'siz (`project-benburakcem-ai`, dal `cloud/adilet-sov`); VidBerry'nin "kendi referansını yükle" yönündeki iki reel taslağı; atölye duyuru içeriği ve kod kelimesi DM metni.
-- **Başka oturumların commit'siz dosyaları:** `parallax-content` (`FORBIDDEN.md`, `coordinator.md`, telaffuz sözlüğü, Clear Wave rapor dosyaları), `cover-project/uretilen/2026-11-18_stripe-atolye/`.
-- **VidBerry yayın kuyruğu boş:** 19 Kasım 06:00 yayını yapılmadı; yeni içerik vibedesign reeliyle gelecek.
-
-## Önceki oturumlardan, bu oturumda doğrulanmadı
-
-- App Store: Onscript ve As Shot'ta yalnız inceleme sonucu izlenir; kapanan uygulamalar TODO "Portföy kapanışı".
-- Air TikTok: `watercleaner` profilinde `appclearwave` girişi kurucudan bekleniyor (Clear Wave kuyruğu maddesi).
-- n8n CV-Crafter iş akışları kapalı; GCP `resume-ai-project-460420` anahtarları ve iki GitHub deposu kapanış listesinde.
-- iPhone 17 temizliği: Fotoğraflar'da IMG_0108 ve IMG_0109, iCloud Downloads `elbise.jpg`, açık Safari sekmesi.
-- Kurucuya sorulacaklar: masaüstündeki kalan gerçek dosyalar nereye; global GSD kurulumu kaldırılsın mı; Clear Wave CTA; Air Chrome profilinde Coinbase ve Chrome Remote Desktop.
-
-## Başvuru bilgisi
-
-- Mercury: salt okuma MCP; güncel hesap Checking 5363 (Column N.A.), Wire Details PDF'i `~/Desktop/Parallax Technologies LLC/Finance/Mercury/`.
-- Şirket telefonu ve adresler: `~/Desktop/Parallax Technologies LLC/Şirket Adresleri.txt`.
-- Air'de kurucu Chrome'unda (9223) yalnız ajanın kendi yeni sekmesi kullanılır; marka profilleri `~/android-agent/web/profil/profil.sh <ad> ac|kapat` (benburakcem 9302, vidberry 9304, admin 9306).
-- Instagram web'de yorum Enter ile gitmez, "Post" düğmesine basılır; şablon düğmeleri (ChatPlace "Gönder") web DM'de görünmez. TikTok uygulaması açıkken telefon sürücüsü zaman aşımına düşer.
-- SGK (İspanya işi): İstanbul Sosyal Güvenlik İl Müdürlüğü 0212 372 10 00; merkez Yurt Dışı İşlemleri Daire Başkanlığı 0312 458 77 99 (2020 tarihli genelgeden, güncelliği doğrulanmadı); ALO 170. Numaralar üçüncü taraf dizinlerinden.
+- self-branding: atölye duyuru reeli ve story dizisi kendi TODO'sunda (kurucu "önce ötekileri halledelim"); ChatPlace karoseli mailini bekliyor (yukarıda).
+- vidberry: César Álvarez yapay zeka UGC reklam yöntemi kendi TODO'sunda (`vidberry/docs/TODO.md` 0.12).
