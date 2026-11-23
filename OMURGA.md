@@ -15,6 +15,8 @@ Başlangıç (2026-11-22 ölçümü, son 14 gün): 0 ödeme, 8 ödeme sayfası o
 ## Günlük
 
 ### 2026-11-23
+- Ek kart AÇILDI (kurucu onayı self-branding üzerinden: "DM'e kartımızı ekle"). Metin: "Rehberin elinde, kolay gelsin. Bir not bırakayım: 12 Aralık Cumartesi 90 dakikalık canlı bir atölye yapıyorum, en fazla 20 kişi. Kod bilmeden bir uygulama fikrini girişten ödemeye ve yayına kadar birlikte götürüyoruz. Son kayıt 9 Aralık." Buton "Atölyeye göz at", link `/egitim`, son gün 9 Aralık, kişi başına bir kez. Olay adı `ek_kart` (`oto.py log benburakcem`).
+- Duyuru reeli ve story dizisi: kurucu "önce ötekileri halledelim" dedi, self-branding TODO'sunda (`project-benburakcem-ai/docs/TODO.md`). Açık kararlar kurucuda: kendisi mi çeker, klon ses mi; 6. cümlenin revizyonu. Değer reeli metni yazılmadı.
 - Kurucu kararı: dağıtımda üç kanal. (1) Duyuru reeli ve (3) story dizisi self-branding'e brief'le gitti (reel için tek açık karar kurucuda: kendisi mi çeker, klon ses mi). (2) Sıcak DM mevcut huninin içinden: @benburakcem'in her rehber tesliminden sonra kişi başına bir kez ve 9 Aralık'a kadar tek ek kart; mekanizma `ig-otomasyon` 974dcd9 ile canlıda ve kapalı, metni self-branding yazıp kurucu onaylayınca açılır (DynamoDB `ACC#<hesap>` / `EK`). Soğuk Instagram DM'i yapılmayacak.
 
 ### 2026-11-22
