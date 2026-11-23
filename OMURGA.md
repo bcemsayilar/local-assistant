@@ -14,6 +14,9 @@ Başlangıç (2026-11-22 ölçümü, son 14 gün): 0 ödeme, 8 ödeme sayfası o
 
 ## Günlük
 
+### 2026-11-23
+- Kurucu kararı: dağıtımda üç kanal. (1) Duyuru reeli ve (3) story dizisi self-branding'e brief'le gitti (reel için tek açık karar kurucuda: kendisi mi çeker, klon ses mi). (2) Sıcak DM mevcut huninin içinden: @benburakcem'in her rehber tesliminden sonra kişi başına bir kez ve 9 Aralık'a kadar tek ek kart; mekanizma `ig-otomasyon` 974dcd9 ile canlıda ve kapalı, metni self-branding yazıp kurucu onaylayınca açılır (DynamoDB `ACC#<hesap>` / `EK`). Soğuk Instagram DM'i yapılmayacak.
+
 ### 2026-11-22
 - Omurga günlüğü ve ayrı hedef listesi açıldı (kurucu kararı). TODO'daki "Omurga" bölümü buraya taşındı.
 - Hedef kondu: atölyenin dağıtımı. Kanallar kurucuyla tartışılacak, karar verilmedi.
