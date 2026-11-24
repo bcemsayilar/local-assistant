@@ -14,6 +14,12 @@ Başlangıç (2026-11-22 ölçümü, son 14 gün): 0 ödeme, 8 ödeme sayfası o
 
 ## Günlük
 
+### 2026-11-24
+- Atölye sayfası ölçümü ve takip mesajı CANLI (kurucu kararı): ek karttaki link kişiye özel rastgele kodla (`?z=`) `/egitim`'e gider; sayfa süre, kaydırma, görülen bölüm ve tıklamayı yazar (cemsayilar-site 60bf26d, `/api/z` ile ig-otomasyon'a). Sayfada 45 saniye kalan ve ödeme butonuna basmayan kişiye 30 dakika sonra, son 15 mesajı okuyan karar katmanı uygun görürse tek mesaj: "Merhaba 🙋🏻‍♂️ Atölye sayfasını inceleyebildiniz mi? Aklınıza takılan bir soru ya da size uymayan bir nokta varsa yazın, birlikte bakalım." (ig-otomasyon 491d794, `lambda/huni.py` SAYFA_*). Cevap Telegram'a düşer. Rapor `tools/ek_rapor.py` kişi başına sayfa süresini gösterir. Aydınlatma metni `cemsayilar.com/gizlilik/`. Ölçüm bu tarihten sonraki tıklamalar için; önceki 14 tıklayanın sayfa verisi yok.
+- Ölçüm (24 Kasım): ek kart 71 kişiye gitti, 14'ü tıkladı (yüzde 20), kimse yazmadı; Stripe'ta 0 ödeme, 8 ödeme oturumu (hepsi 18-19 Kasım, süresi dolmuş), 19 Kasım'dan beri ödeme sayfası açılmadı.
+- Soğuk kanal (kurucu, self-branding üzerinden): Instagram soğuk DM'i yine yok; e-posta toplama ya da LinkedIn. LinkedIn'de küçük başlandı (şu an Microsoft içeriği); bu hafta Instagram'daki gibi bir Claude içeriği denenecek. Kanal ve sayı kararı kurucuda.
+- YouTube 1. ve 2. bölüm hazır (self-branding, `project-benburakcem-ai/posts/2026-11-24_benburakcem-youtube-bolum-1-2/`), "-yoz" düzeltmesi ve render sonrası 9 Aralık öncesi yayın; tek çağrı `/egitim` (local-assistant omurga cevabı).
+
 ### 2026-11-23
 - Birebir eğitim broşürleri `~/Mac-Projects/egitim/` altına taşındı (kurucu: freelance değil, omurga). Beşinci broşür "Yayın öncesi teknik analiz" (60 dakika; ücret 150 USD varsayıldı, kurucu teyidi bekliyor). İlk aday: Ümid Filiz (@umidfilizz, 23 Kasım DM: beş aylık uygulamasını yayına almak üzere, yardım istiyor); cevabı kurucu yazacak, taslak verildi.
 - Ek kart tıklaması kişi kimliğiyle sayılıyor (`ig-otomasyon/tools/ek_rapor.py`); 23 Kasım 16:22'den önceki 16 kartın tıklaması sayılmadı. Birkaç gün sonra tıklayanların özeti çıkarılacak.
