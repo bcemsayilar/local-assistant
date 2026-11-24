@@ -22,6 +22,10 @@
 - Gemini: 1.000 TL'yi VidBerry'nin 16-19 Kasım görsel üretimi bitirdi (132 GenerateContent, Monitoring); kurucu 250 TL yükledi, VidBerry tavanı 100 TL'ye indi. Huni yoklayıcı tetiklemesi eklenmeyecek (kurucu kararı).
 - Hasat: Opus analizi `parallax-content` 9f6aeba; ikinci tur (huni sohbetini silme, Chrome yorum ucu ya da kalıcı telefon, 50 eski kaydı kapatma) Opus'ta sürüyor, sonucu `opus-analiz-2026-11-24.md` sonunda. İlk doğrulama 25 Kasım 04:00 turu.
 
+- ChatPlace karusel (yayın 27 Kasım): ChatPlace'te "CHATPLACE karusel 27 Kasım" otomasyonu duraklatılmış hazır (takip kontrolü, 5 soru, Ecem linki utm 2711). Yayın günü: kısa kodla yenisini karusele bağla ve aç, eski "«CHATPLACE» to Direct or Comment"i (bütün gönderiler ve DM) yalnız Df7AhUXEs7A'ya bağla. Kurucu karusel onayı gelince Ecem'e son hal ve otomasyon ekran görüntüsü local-assistant'tan gider. Ecem'e W-8BEN hatırlatması 24 Kasım'da gitti (Brex W-9 istiyordu, doldurulmadı).
+- Hasat: Opus tam tur testi `parallax-content` a350100 (üç tur, dokuz düzeltme, son tur hatasız). 25 Kasım 04:00 turu logdan okunacak.
+- self-branding devri (24 Kasım kapanış): YouTube bölüm 1 ve 2 hazır, ses metninde "-yoz" düzeltmesi ve render bekliyor; üç Drive rehberi kurucu Air'de giriş yapınca güncellenecek; cemsayilar-site'ta iki yerel commit push bekliyor (c38d0e0, 8f6d4df). Ayrıntı `project-benburakcem-ai/docs/NEXT-SESSION.md`.
+
 ## Kurucu kararı bekleyenler
 
 - Pomerol ödemesi (Sezen cevabına bağlı). Analiz broşürü 150 USD (kurucu 24 Kasım); Instagram iki adımlı doğrulama WhatsApp'ta kalıyor (kurucu: yapacak bir şey yok); iPhone 13 USB sorunu iOS aksesuar ayarıydı, çözüldü.
