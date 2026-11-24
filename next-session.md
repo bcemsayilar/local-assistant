@@ -7,7 +7,7 @@
 1. **25 Kasım 04:00 gece turu:** Air `~/android-agent/web/ig-temizlik.log`. Bakılacaklar: `CHROME OTURUM` satırı (ilk kez çalışan otomatik giriş kontrolü), Opus düzeltmelerinin canlı ilk gecesi (tetik kuyruğu, karanlık ekran uyandırma, Unsend, huni sohbeti silme, iki tur eşiği), tur sonu kilit ve özet sayıları. Hata varsa `opus-analiz-2026-11-24.md` raporu bağlamdır.
 2. **Avukat:** kurucu Sezen Türkkanlar'a LinkedIn'den yeniden yazdı; 25 Kasım sonuna kadar cevap yoksa Pomerol (150 EUR, ödeme bağlantısı mailde) ile devam.
 3. **Karta tıklayanlara elle mesaj (kurucu isteği, 25 Kasım):** sohbet geçmişi okunarak kişiye özel 8 mesaj Lambda kuyruğunda (kind `metin`, ig-otomasyon 4d338be): efraim_erten ve tkoken 08:05, semadanmesaj, ozarslancem, burakozcelik1, mkubi99, ekremrcsevinc, eliff_ayteknn 10:00. Gönderim anında 24 saat penceresi yeniden denetlenir, cevap Telegram'a düşer. Kontrol: `oto.py log benburakcem` içinde `elle_mesaj` ya da `elle_skip`. Penceresi kapalı olduğu için yazılamayanlar: captainsert, emirhanengin1302, 5it_797, azimov.rashad1, hakanuenver, mhtkemeriz (mhtkemeriz huni sohbetinde aktif, penceresi 25 Kasım 00:51'de gece kapandı).
-4. **UGE:** üçüncü mail 25 Kasım gece gitti (aynı thread); ENISA 23 Kasım'da cevap vermişti, UGE hiç vermedi.
+4. **UGE:** 25 Kasım gece iki mail daha gitti (aynı thread: üçüncü hatırlatma ve kurucunun isteğiyle "URGENTE E IMPORTANTE"); ENISA 23 Kasım'da cevap vermişti, UGE hiç vermedi. Cevap gelene kadar UGE'ye yeni mail yok; gelmezse avukat üzerinden.
 5. **İbrahim abi:** kurucu 25 Kasım akşamı LinkedIn'den yazacak (ABD saati).
 
 ## Doğrulanmış durum (2026-11-24)
