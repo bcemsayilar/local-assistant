@@ -14,11 +14,17 @@
 - **Eğitim:** `~/Mac-Projects/egitim/` (Freelance Projects'ten taşındı); beş broşür, beşincisi "Yayın öncesi teknik analiz" (60 dk, ücret 150 USD varsayım). Ümid Filiz (@umidfilizz) bu ürünün ilk adayı, cevabı kurucu yazacak.
 - **İspanya:** 23 Kasım 09:09'da konsolosluk, BLS ve SGK mailleri gitti. ENISA (visados@enisa.es) cevap verdi: rapor yalnız UGE isteyince, form İngilizce olabilir, bordrolu işe devam ilke olarak engel değil. Mali kaynak sorusunun cevabı yok (ENISA'nın alanı değil); UGE'ye 22 Kasım'da soruldu. Pomerol ödeme bağlantısı mailde, ödeme kurucuda (150 EUR).
 
+## 24 Kasım kararları ve durum
+
+- Avukat: kurucu Sezen Türkkanlar'a LinkedIn'den yeniden yazdı (24 Kasım). 25 Kasım sonuna kadar cevap yoksa Pomerol (150 EUR, ödeme bağlantısı mailde) ile devam.
+- Huni zorlanma sorusu canlı (ig-otomasyon 860b695): gündüz biten sohbete 2 saat sonra (22'yi geçerse sabah 10), gece bitene 12 saat sonra; göndermeden önce son 15 mesaj Gemini Decision ile okunur, olmazsa Sonnet. Cevap Telegram'a düşer. İlk gerçek gönderim gözlenmedi.
+- ÖLÇÜM kuralı canlı (DgHoHkekpsH). Air agent anahtarı yenilendi (`agentrun-air-personal-2`, süresiz, Individual Org), kasadaki `anthropic` da.
+- Gemini: 1.000 TL'yi VidBerry'nin 16-19 Kasım görsel üretimi bitirdi (132 GenerateContent, Monitoring); kurucu 250 TL yükledi, VidBerry tavanı 100 TL'ye indi. Huni yoklayıcı tetiklemesi eklenmeyecek (kurucu kararı).
+- Hasat: Opus analizi `parallax-content` 9f6aeba; ikinci tur (huni sohbetini silme, Chrome yorum ucu ya da kalıcı telefon, 50 eski kaydı kapatma) Opus'ta sürüyor, sonucu `opus-analiz-2026-11-24.md` sonunda. İlk doğrulama 25 Kasım 04:00 turu.
+
 ## Kurucu kararı bekleyenler
 
-- Yoklayıcıya huni kartı tetiklemesi (kart gelince kısa tur).
-- "En çok nerede zorlanıyorsun" takip mesajı: Instagram, kişinin son mesajından 24 saat sonra mesaja izin vermiyor, "1 gün sonra" bu yüzden olmaz. Seçenekler: konuşma bitiminden yaklaşık 2 saat sonra (kurucunun ilk örneği) ya da 16-20 saat sonra (local-assistant önerisi, akşam biten sohbete ertesi sabah). Süre ve cevapların Telegram'dan kurucuya düşmesi kurucu kararında.
-- Analiz broşürünün ücreti; Instagram iki adımlı doğrulamanın doğrulama uygulamasına çevrilmesi (oturum düşerse kod yalnız kurucunun telefonunda); iPhone 13 kablosu; Pomerol ödemesi.
+- Pomerol ödemesi (Sezen cevabına bağlı). Analiz broşürü 150 USD (kurucu 24 Kasım); Instagram iki adımlı doğrulama WhatsApp'ta kalıyor (kurucu: yapacak bir şey yok); iPhone 13 USB sorunu iOS aksesuar ayarıydı, çözüldü.
 
 ## Cevap beklenenler
 
