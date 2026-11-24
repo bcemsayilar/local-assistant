@@ -10,7 +10,7 @@ Biçim: "Şu anki hedef" tek hedeftir ve ölçüsüyle yazılır; "Günlük" tar
 
 Ölçü sırası: ödeme (Stripe ödeme bağlantısı `plink_1Ud4kWJypd8gHtaed22wsRcm`), ödeme sayfası oturumu, `/egitim` ziyareti ve "Yerini ayır" tıklaması (`cemsayilar-site/tools/analitik.py`), DM'de atölye linkine tıklama.
 
-Başlangıç (2026-11-22 ölçümü, son 14 gün): 0 ödeme, 8 ödeme sayfası oturumu (hepsi süresi dolmuş, ödenmemiş), `/egitim` yaklaşık 20 görüntüleme, 3 "Yerini ayır" tıklaması, "yakında" eğitimlerine 1 e-posta kaydı. Atölye henüz hiçbir kanaldan duyurulmadı (duyuru reeli çekilmedi, kod kelimesi kuralı kapalı).
+Başlangıç (2026-11-22 ölçümü, son 14 gün): 0 ödeme, 8 ödeme sayfası oturumu (hepsi 18-19 Kasım kurulum günlerinde açılmış, e-posta ve telefon yok, yani gerçek alıcı değil; 24 Kasım itibarıyla ödeme sayfasına gelen gerçek kişi sıfır), `/egitim` yaklaşık 20 görüntüleme, 3 "Yerini ayır" tıklaması, "yakında" eğitimlerine 1 e-posta kaydı. Atölye henüz hiçbir kanaldan duyurulmadı (duyuru reeli çekilmedi, kod kelimesi kuralı kapalı).
 
 ## Günlük
 
