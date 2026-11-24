@@ -30,7 +30,7 @@ Madde biçimi: başlık satırında numara, ciddiyet ve tür (yarım iş, kopya,
 4. S-59: Air loglarında bot token'ı açık metin (mod 644).
 5. S-67: dakikada bir tam tablo taraması; düzeltme dev dalında, deploy bekliyor.
 6. S-64 ve S-54: açıkta duran ve ikilideki anahtarlar.
-7. S-60: Clear Wave TikTok girişi düşük, kuyruk duruyor.
+7. (S-60 watercleaner'a devredildi, 2026-11-25)
 8. S-46: Mac Pro diski ve Çöp.
 
 **Kurucu kararları (2026-11-17; soru dosyası cevaplar buraya işlenince silindi, tam metin git geçmişinde 699d853):**
@@ -109,13 +109,6 @@ Madde biçimi: başlık satırında numara, ciddiyet ve tür (yarım iş, kopya,
 - İlk görülme: 2026-11-16 gece denetimi (benburakcem-ai ajanı).
 - Durum 2026-11-18: değişmedi; dört yol da duruyor, `tools/instagram_karosel_yayinla.py` hâlâ git dışı, `instagram_karusel.py` ile birlikte `CLAUDE.md` ve `docs/FILES.md`'de anılmıyor. Hangisinin tek doğru yol olduğu kanıtla belirlenemedi, hiçbiri ölü kopya sayılmadı, taşıma yok. Takıldığı yer: self-branding (benburakcem-ai) tasarım kararı. Self-branding'e iletilecek: karusel için tek betik seçilsin, diğeri ona bağlansın ya da kaldırılsın, seçilen yol `CLAUDE.md`'ye yazılsın.
 
-### S-51 · orta · kopya · Clear Wave analizi iki ayrışmış canlı kopya
-- Kanıt: `apps/clearwave/tools/analiz/` ile `shared/analiz/` arasında `degerlendir.py` 7.358 ve 5.220 bayt, `kapi.py` 6.129 ve 4.831 bayt, 139 satır fark; iki ayrı zamanlayıcı (`clearwave-analiz` 02:00, `reel-analiz` 02:45).
-- Etki: düzeltme yalnız bir kopyada kalıyor (S-38'in düzeltmesi iki yere yazılmak zorunda).
-- Öneri: Clear Wave ortak servise geçsin ya da kopya resmen dondurulsun.
-- Kurucu kararı: evet (watercleaner oturumu).
-- İlk görülme: 2026-11-16 gece denetimi (parallax-content ajanı).
-- Durum 2026-11-18: iki kopya da canlı (Air'de `com.parallax.clearwave-analiz` ve `com.parallax.reel-analiz` yüklü), `degerlendir.py` ve `kapi.py` arasında 227 satır fark; `shared/analiz/applar.json` notu Clear Wave ortak servise geçince kopyanın kaldırılacağını yazıyor. Ölü kopya yok, taşıma yapılmadı. Takıldığı yer: watercleaner oturumu ve Clear Wave'in bakım moduna geçişi. Sonraki adım: local-assistant Clear Wave'in son hata düzeltmesiyle ortak servise geçip geçmeyeceğine karar verir; geçmeyecekse `clearwave-analiz` kopyası resmen dondurulur.
 
 ### S-52 · orta · kopya · Uygulamalar arası elle tutulan kopya katmanlar
 - Kanıt: gift, beeward, printmargin `web/*-terms.html` ile yayındaki site arasında 4 satır fark, dört uygulamanın `web/*-config-v1.json` dosyasında 18 satır eksik (paywall bloğu); altı uygulama ParallaxKit'e yerel yoldan bağlı, kit HEAD 0.1.1 etiketinin 5 commit ilerisinde ve etiketsiz, as-shot ve onscript 0.1.0'da; as-shot ve onscript'te 7 özdeş Swift dosyası, kaynak `app-fabrikasi/arastirma/asama3/ortak` ayrışmış; `asc_setup.py` dört depoda ayrı (105 ile 189 satır); paywall dört uygulamada kit'ten, yedisinde ayrı yazılmış; vidberry'de 25 üçüncü taraf `asc-*` skill ve brew `asc` (ikinci ASC zinciri).
@@ -173,13 +166,6 @@ Madde biçimi: başlık satırında numara, ciddiyet ve tür (yarım iş, kopya,
 - İlk görülme: 2026-11-16 gece denetimi (Air ajanı).
 - Durum 2026-11-18: `home-server-guvenlik.md` düzeltildi (VNC LAN durumu, iproxy artık yalnız `127.0.0.1:18100` ve `:18101`, newsyslog dosyası kalkmış ve `com.apple.newsyslog` son çıkış 0; GAG ef4487b); `home-server.md` VNC bölümü SSH tünelini zaten yazıyor, `:111` `android-backup/` bir S3 öneki, ölü atıf değil. Açık kalan: Air `~/Projects/local-assistant/logs/bot.log` (1,35 MB, token desenli 9.230 satır) ve `assistant.log` (78 satır) mod 644 duruyor; `/usr/local/bin/logkick-*` üç betik duruyor ve hiçbir plist ya da newsyslog dosyası atıf vermiyor; `local-assistant/CLAUDE.md`'deki "log boşaltıldı" yalnız `bot-stderr.log` için doğru. Takıldığı yer: Air değişikliği. Sonraki adım: air-orkestrator iki eski logu siler ve `sudo rm /usr/local/bin/logkick-*` çalıştırır. Güncelleme 2026-11-18 öğle: air-orkestrator `bot.log` ve `assistant.log` dosyalarını boşaltıp 600 yaptı; logkick betiklerini hiçbir yer çağırmıyor, silmek sudo istiyor (kurucu).
 
-### S-60 · orta · yarım iş · Clear Wave TikTok oturumu düşüyor
-- Kanıt: Air `tiktok.log` 2026-11-12 01:10 ve 2026-11-16 03:10 "yükleme sayfası açılmadı ya da giriş yok"; zamanlayıcının son çıkış kodu 2; kuyrukta 4 bekleyen.
-- Etki: TikTok kuyruğu sessizce geride kalıyor.
-- Öneri: `watercleaner` Chrome profilinde giriş doğrulansın; giriş düşünce bildirim.
-- Kurucu kararı: evet (giriş kurucunun).
-- İlk görülme: 2026-11-16 gece denetimi (Air ve parallax-content ajanları).
-- Durum 2026-11-18: hâlâ düşük; Air `tiktok.log` 2026-11-16 03:10, 2026-11-17 01:10 ve 03:10 aynı hata (giriş sayfasına yönleniyor, `2026-11-10_kombin-24-kova` bekliyor), zamanlayıcının son çıkış kodu 2. GAG `home-server.md`'deki commit edilmemiş 2026-11-17 notu SSH'tan başlatılan Chrome'un profil çerezlerini boşalttığını yazıyor, sebep bu olabilir (doğrulanmadı). Takıldığı yer: TikTok girişi kurucunun. Sonraki adım: kurucu Dock'taki watercleaner Chrome'unda TikTok `appclearwave` girişini yeniden yapar. Güncelleme 2026-11-18 öğle: son başarılı yayın 2026-11-15 03:10, oturum 2026-11-16'da düştü; 2026-11-18'den beri kuyruk ayrıca analiz kapısında duruyor ("uygulama.md yok"). Clear Wave bakıma alındığı için kurucuya yeniden giriş yerine zamanlayıcıyı kapatma soruldu.
 
 ### S-61 · orta · yarım iş · POST.md'siz ve haftalardır "onay bekliyor" klasörler
 - Kanıt: `project-benburakcem-ai/posts/2026-11-11_benburakcem-fable-5-2` (1,08 GB, karusel yayınlanmış, kayıt yok), `2026-11-14_benburakcem-youtube-sirket-sistemi` (1,09 GB), `2026-11-06_motion-referans`, `2026-11-12_reelMotion-16-nvl72`; vidberry postlarında `2026-08-22_one-selfie-five-looks`, `2026-10-04_appstore-v6, v7, v8`, `2026-10-09_reel-01, reel-02`, `2026-10-25_kanca-testi`; pillowtale `2026-11-03_kanca-testi` (output boş); clearwave `2026-09-27_water-eject-15s`.
