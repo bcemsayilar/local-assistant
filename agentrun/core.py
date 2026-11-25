@@ -475,7 +475,7 @@ def run(prompt: str, *, provider=None, providers=None, cwd=None, tier="default",
                 tried.append((name, "parked")); continue
             if not find_bin({"qwen": "claude"}.get(name, name), env0):  # qwen adaptoru Claude Code CLI ile calisir
                 tried.append((name, "missing")); continue
-            mdl = model or (conf["models"].get(name) or {}).get(tier)
+            mdl = model or os.environ.get("AGENT_MODEL_" + name.upper()) or (conf["models"].get(name) or {}).get(tier)  # AGENT_MODEL_CLAUDE=sonnet gibi, cagiran is basina model secer
             sid = session_id.get(name) if isinstance(session_id, dict) else (session_id if i == 0 else None)
             cmd, parse, env = ADAPTERS[name](prompt, sid, mdl, conf, env0, cwd, tmp)
             rc, out, err, why = _exec(cmd, env, cwd, timeout, idle_s, idle_tool_s)
